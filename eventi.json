@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "titolo": "Concerto di Fine Anno",
+    "data": "2025-12-20",
+    "ora": "20:30",
+    "luogo": "Teatro Comunale, Via Roma 1",
+    "categoria": "Concerto",
+    "descrizione": "Il tradizionale concerto di fine anno dell'associazione MusicArte. Tutti gli allievi si esibiranno sul palco in un programma variegato che spazia dal classico al contemporaneo. Un'occasione unica per celebrare i progressi compiuti durante l'anno e condividere la passione per la musica con amici e familiari.",
+    "immagine": "",
+    "link_biglietti": "",
+    "ingresso": "Libero"
+  },
+  {
+    "id": 2,
+    "titolo": "Workshop di Musica d'Insieme",
+    "data": "2025-11-08",
+    "ora": "15:00",
+    "luogo": "Sede MusicArte, Via della Musica 12",
+    "categoria": "Workshop",
+    "descrizione": "Un pomeriggio dedicato alla pratica della musica d'insieme, rivolto a tutti gli allievi dei corsi. I partecipanti avranno l'opportunità di sperimentare l'ascolto reciproco, il ritmo condiviso e la gioia del fare musica in gruppo sotto la guida dei nostri insegnanti.",
+    "immagine": "",
+    "link_biglietti": "",
+    "ingresso": "Gratuito per i soci"
+  },
+  {
+    "id": 3,
+    "titolo": "Serata Jazz — Open Stage",
+    "data": "2025-10-17",
+    "ora": "21:00",
+    "luogo": "Cortile Interno, Via della Musica 12",
+    "categoria": "Concerto",
+    "descrizione": "Una serata a microfono aperto dedicata al jazz e all'improvvisazione. Musicisti di ogni livello sono invitati a salire sul palco e condividere la loro arte in un'atmosfera informale e accogliente. La serata sarà introdotta da un breve set del Trio MusicArte.",
+    "immagine": "",
+    "link_biglietti": "",
+    "ingresso": "5€ (offerta libera per i soci)"
+  },
+  {
+    "id": 4,
+    "titolo": "Masterclass di Chitarra con Marco Neri",
+    "data": "2025-09-27",
+    "ora": "10:00",
+    "luogo": "Sala Prove A, Via della Musica 12",
+    "categoria": "Masterclass",
+    "descrizione": "Un'esclusiva masterclass di chitarra classica e fingerpicking con il chitarrista e compositore Marco Neri. L'incontro è aperto a chitarristi di livello intermedio e avanzato. I posti sono limitati: è richiesta la prenotazione entro il 20 settembre.",
+    "immagine": "",
+    "link_biglietti": "mailto:info@musicarte.aps.it",
+    "ingresso": "15€ (10€ per i soci)"
+  },
+  {
+    "id": 5,
+    "titolo": "Saggio di Primavera",
+    "data": "2026-05-30",
+    "ora": "18:00",
+    "luogo": "Auditorium Parrocchiale, Piazza Don Bosco",
+    "categoria": "Saggio",
+    "descrizione": "Il saggio semestrale degli allievi MusicArte. Un pomeriggio di musica per celebrare i progressi di bambini, ragazzi e adulti che hanno intrapreso il percorso musicale con noi. Ingresso libero per tutti.",
+    "immagine": "",
+    "link_biglietti": "",
+    "ingresso": "Libero"
+  },
+  {
+    "id": 6,
+    "titolo": "Corso Intensivo Estivo di Canto",
+    "data": "2026-07-07",
+    "ora": "09:00",
+    "luogo": "Sede MusicArte, Via della Musica 12",
+    "categoria": "Corso",
+    "descrizione": "Una settimana intensiva dedicata alla tecnica vocale, all'interpretazione e alla performance. Il corso è adatto a cantanti di ogni genere musicale, dal pop al classico. Al termine della settimana è previsto un piccolo concerto conclusivo aperto al pubblico.",
+    "immagine": "",
+    "link_biglietti": "mailto:info@musicarte.aps.it",
+    "ingresso": "80€ a settimana (soci 60€)"
+  }
+]

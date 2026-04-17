@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MusicArte A.P.S. — Associazione di Promozione Sociale dedicata alla cultura musicale. Corsi, eventi e molto altro." />
+  <title>MusicArte A.P.S. — Home</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 60%, rgba(155, 58, 26, 0.45) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 20%, rgba(200, 147, 58, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(90, 107, 82, 0.2) 0%, transparent 40%);
+    }
+
+    .hero-decoration {
+      position: absolute;
+      top: 15%;
+      right: 8%;
+      width: 320px;
+      height: 320px;
+      border: 1px solid rgba(200,147,58,0.15);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-decoration::before {
+      content: '';
+      position: absolute;
+      inset: 24px;
+      border: 1px solid rgba(200,147,58,0.1);
+      border-radius: 50%;
+    }
+    .hero-decoration::after {
+      content: '♩';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      font-size: 6rem;
+      color: rgba(200,147,58,0.08);
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 820px;
+      margin: 0 auto;
+      width: 100%;
+      padding-top: var(--nav-h);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 300;
+      color: var(--parchment);
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.7s ease 0.15s both;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero-desc {
+      color: var(--warm-mid);
+      font-size: 1rem;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      opacity: 0.85;
+      animation: fadeUp 0.7s ease 0.3s both;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s ease 0.45s both;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(200,147,58,0.5);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: fadeIn 1s ease 1s both;
+    }
+
+    .hero-scroll::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(200,147,58,0.5), transparent);
+      animation: scrollLine 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scrollLine {
+      0%, 100% { transform: scaleY(1); opacity: 1; }
+      50% { transform: scaleY(0.6); opacity: 0.4; }
+    }
+
+    /* ===== INSTAGRAM WINDOW ===== */
+    .insta-section {
+      background: var(--parchment);
+      padding: 5rem 0;
+      border-top: 1px solid var(--warm-mid);
+    }
+
+    .insta-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .insta-frame {
+      position: relative;
+      aspect-ratio: 1;
+      max-width: 420px;
+      background: white;
+      border: 1px solid var(--warm-mid);
+      box-shadow: 8px 8px 0 var(--warm-mid);
+      overflow: hidden;
+    }
+
+    .insta-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--warm-mid);
+      background: white;
+    }
+
+    .insta-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rust), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: var(--font-display);
+    }
+
+    .insta-handle {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: 0.05em;
+    }
+
+    .insta-handle span {
+      display: block;
+      font-weight: 300;
+      font-size: 0.7rem;
+      color: var(--ink);
+      opacity: 0.5;
+    }
+
+    .insta-img-wrapper {
+      width: 100%;
+      aspect-ratio: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* L'immagine Instagram si aggiorna manualmente qui */
+    .insta-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      /* Sostituisci src con l'ultima foto Instagram */
+    }
+
+    .insta-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--warm-mid) 0%, var(--parchment) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--rust);
+    }
+
+    .insta-placeholder-icon { font-size: 3rem; opacity: 0.4; }
+    .insta-placeholder-text { font-size: 0.8rem; opacity: 0.6; letter-spacing: 0.1em; text-align: center; padding: 0 1rem; }
+
+    .insta-footer-bar {
+      padding: 0.7rem 1rem;
+      border-top: 1px solid var(--warm-mid);
+      background: white;
+    }
+
+    .insta-footer-bar p { font-size: 0.72rem; color: var(--ink); opacity: 0.6; }
+
+    /* ===== ABOUT STRIP ===== */
+    .about-strip {
+      background: var(--rust);
+      color: var(--parchment);
+      padding: 4rem 0;
+    }
+
+    .about-strip-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-strip h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-strip p { opacity: 0.85; font-size: 0.93rem; line-height: 1.8; margin-bottom: 0.75rem; }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .stat {
+      border-left: 2px solid rgba(255,255,255,0.3);
+      padding-left: 1.25rem;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+
+    .stat-label { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-top: 0.25rem; }
+
+    /* ===== COURSES PREVIEW ===== */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .course-card {
+      background: white;
+      border: 1px solid var(--warm-mid);
+      padding: 2rem 1.75rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--rust);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition);
+    }
+
+    .course-card:hover { box-shadow: 0 12px 40px var(--shadow); transform: translateY(-4px); }
+    .course-card:hover::after { transform: scaleX(1); }
+
+    .course-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+
+    .course-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      color: var(--rust);
+      margin-bottom: 0.5rem;
+    }
+
+    .course-card p { font-size: 0.85rem; opacity: 0.75; margin-bottom: 1.25rem; }
+
+    .course-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sage);
+      border: 1px solid var(--sage);
+      padding: 0.2rem 0.6rem;
+      display: inline-block;
+    }
+
+    /* ===== EVENTS PREVIEW ===== */
+    .events-preview { background: var(--ink); padding: 5rem 0; }
+    .events-preview .section-title { color: var(--gold-light); }
+    .events-preview .section-subtitle { color: var(--gold); }
+    .events-preview .section-desc { color: var(--warm-mid); }
+
+    .event-list-preview { list-style: none; }
+
+    .event-item-preview {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      color: var(--warm-mid);
+      transition: var(--transition);
+    }
+
+    .event-item-preview:hover { padding-left: 0.5rem; }
+
+    .event-date-box {
+      background: rgba(155,58,26,0.3);
+      border: 1px solid rgba(155,58,26,0.5);
+      text-align: center;
+      padding: 0.6rem;
+    }
+
+    .event-date-day { font-family: var(--font-display); font-size: 2rem; color: var(--gold-light); line-height: 1; }
+    .event-date-mon { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+
+    .event-title { font-family: var(--font-heading); font-size: 1rem; color: var(--parchment); margin-bottom: 0.25rem; }
+    .event-meta { font-size: 0.78rem; opacity: 0.6; }
+
+    .event-badge {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid rgba(200,147,58,0.3);
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .insta-layout, .about-strip-inner { grid-template-columns: 1fr; }
+      .courses-grid { grid-template-columns: 1fr 1fr; }
+      .insta-frame { max-width: 100%; }
+    }
+
+    @media (max-width: 600px) {
+      .courses-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .event-item-preview { grid-template-columns: 70px 1fr; }
+      .event-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <main class="main">
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Benvenuto in MusicArte">
+      <div class="hero-decoration" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <p class="hero-eyebrow">Associazione di Promozione Sociale</p>
+        <h1 class="hero-title">La musica<br />è per <em>tutti</em>.</h1>
+        <p class="hero-desc">
+          MusicArte nasce dalla passione condivisa per la musica. 
+          Offriamo corsi, eventi e una comunità vibrante per chiunque voglia 
+          esprimere sé stesso attraverso il suono.
+        </p>
+        <div class="hero-cta">
+          <a href="corsi.html" class="btn btn-primary">Scopri i corsi</a>
+          <a href="eventi.html" class="btn btn-ghost">Prossimi eventi</a>
+        </div>
+      </div>
+      <div class="hero-scroll" aria-hidden="true">Scorri</div>
+    </section>
+
+    <!-- INSTAGRAM WINDOW -->
+    <section class="insta-section" aria-label="Ultime dal nostro Instagram">
+      <div class="container">
+        <div class="insta-layout">
+          <div class="insta-frame animate">
+            <div class="insta-header">
+              <div class="insta-avatar" aria-hidden="true">M</div>
+              <div>
+                <div class="insta-handle">@musicarte.aps
+                  <span>Segui il nostro profilo Instagram</span>
+                </div>
+              </div>
+            </div>
+            <div class="insta-img-wrapper">
+              <!--
+                ══════════════════════════════════════════
+                AGGIORNAMENTO MANUALE IMMAGINE INSTAGRAM
+                ──────────────────────────────────────────
+                Sostituisci il contenuto sotto con:
+                  <img src="img/instagram/ultima.jpg" alt="Descrizione post" />
+                oppure aggiorna il file img/instagram/ultima.jpg
+                ══════════════════════════════════════════
+              -->
+              <div class="insta-placeholder" role="img" aria-label="Ultima foto dal profilo Instagram di MusicArte">
+                <span class="insta-placeholder-icon" aria-hidden="true">📸</span>
+                <p class="insta-placeholder-text">
+                  Inserisci qui l'ultima immagine Instagram<br />
+                  <code style="font-size:0.65rem;opacity:0.7;">img/instagram/ultima.jpg</code>
+                </p>
+              </div>
+            </div>
+            <div class="insta-footer-bar">
+              <p>Ultima pubblicazione — <a href="https://instagram.com/musicarte" target="_blank" rel="noopener noreferrer" style="color:var(--rust);text-decoration:none;">Vedi su Instagram ↗</a></p>
+            </div>
+          </div>
+
+          <div class="animate animate-delay-1">
+            <p class="section-subtitle">Social & Community</p>
+            <h2 class="section-title">Siamo anche<br />su Instagram</h2>
+            <div class="divider"></div>
+            <p class="section-desc">
+              Seguici su Instagram per restare aggiornato sugli eventi, 
+              i backstage delle lezioni, i saggi e tutta la vita dell'associazione. 
+              Ogni giorno nuovi contenuti dalla nostra comunità musicale.
+            </p>
+            <a href="https://instagram.com/musicarte" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+              Seguici su Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT STRIP -->
+    <section class="about-strip" aria-label="Chi siamo">
+      <div class="container">
+        <div class="about-strip-inner">
+          <div>
+            <p style="font-size:0.72rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:1rem;">Chi siamo</p>
+            <h2>Una comunità<br />che suona insieme.</h2>
+            <p>
+              MusicArte è un'associazione di promozione sociale nata per portare la musica 
+              a tutti, senza distinzione di età o provenienza. Siamo convinti che la pratica 
+              musicale arricchisca la vita e rafforzi i legami sociali.
+            </p>
+            <p>
+              Fondata nel 2018 da un gruppo di musicisti e appassionati, l'associazione 
+              conta oggi decine di soci attivi, collaborazioni con scuole del territorio 
+              e una programmazione culturale ricca tutto l'anno.
+            </p>
+            <a href="statuto.html" class="btn" style="background:rgba(255,255,255,0.12);color:var(--parchment);border:1px solid rgba(255,255,255,0.25);margin-top:0.5rem;">
+              Leggi lo statuto
+            </a>
+          </div>
+          <div class="about-stats">
+            <div class="stat animate">
+              <div class="stat-number">5</div>
+              <div class="stat-label">Discipline insegnate</div>
+            </div>
+            <div class="stat animate animate-delay-1">
+              <div class="stat-number">80+</div>
+              <div class="stat-label">Allievi attivi</div>
+            </div>
+            <div class="stat animate animate-delay-2">
+              <div class="stat-number">6+</div>
+              <div class="stat-label">Anni di attività</div>
+            </div>
+            <div class="stat animate animate-delay-3">
+              <div class="stat-number">20+</div>
+              <div class="stat-label">Eventi all'anno</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSES PREVIEW -->
+    <section class="section" aria-label="I nostri corsi">
+      <div class="container">
+        <p class="section-subtitle animate">Formazione musicale</p>
+        <h2 class="section-title animate animate-delay-1">I nostri corsi</h2>
+        <div class="divider animate animate-delay-1"></div>
+        <p class="section-desc animate animate-delay-2">
+          Percorsi didattici per ogni livello, dall'assoluto principiante al musicista esperto. 
+          Lezioni individuali e di gruppo, con insegnanti qualificati e appassionati.
+        </p>
+
+        <div class="courses-grid">
+          <div class="course-card animate">
+            <span class="course-icon" aria-hidden="true">🎸</span>
+            <h3>Chitarra</h3>
+            <p>Classica, acustica ed elettrica. Dalle prime note alla tecnica avanzata, per bambini e adulti.</p>
+            <span class="course-tag">Tutti i livelli</span>
+          </div>
+          <div class="course-card animate animate-delay-1">
+            <span class="course-icon" aria-hidden="true">🎤</span>
+            <h3>Canto</h3>
+            <p>Tecnica vocale, intonazione e interpretazione. Lezioni individuali con approccio personalizzato.</p>
+            <span class="course-tag">Tutti i livelli</span>
+          </div>
+          <div class="course-card animate animate-delay-2">
+            <span class="course-icon" aria-hidden="true">🎸</span>
+            <h3>Basso</h3>
+            <p>Fondamenta ritmiche e armoniche, dalla teoria al groove. Metodo moderno e coinvolgente.</p>
+            <span class="course-tag">Dal principiante</span>
+          </div>
+          <div class="course-card animate animate-delay-3">
+            <span class="course-icon" aria-hidden="true">🥁</span>
+            <h3>Batteria</h3>
+            <p>Ritmo, coordinazione e stile. Studiamo tutti i generi, dal rock al jazz, con grande attenzione al tempo.</p>
+            <span class="course-tag">Tutti i livelli</span>
+          </div>
+          <div class="course-card animate animate-delay-4">
+            <span class="course-icon" aria-hidden="true">🎹</span>
+            <h3>Pianoforte</h3>
+            <p>Classico e moderno. Solfeggio, lettura e improvvisazione per un approccio completo allo strumento.</p>
+            <span class="course-tag">Tutti i livelli</span>
+          </div>
+          <div class="course-card animate animate-delay-4" style="background: var(--rust); border-color: var(--rust); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+            <span style="font-family:var(--font-display);font-size:2rem;color:var(--parchment);margin-bottom:0.75rem;">Scopri di più</span>
+            <p style="color:rgba(245,237,224,0.8); font-size:0.85rem; margin-bottom:1.5rem;">Programmi completi, orari e prezzi su misura per te.</p>
+            <a href="corsi.html" class="btn" style="background:white;color:var(--rust);">Tutti i corsi →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENTS PREVIEW -->
+    <section class="events-preview" aria-label="Prossimi eventi">
+      <div class="container">
+        <p class="section-subtitle">Agenda</p>
+        <h2 class="section-title">Prossimi eventi</h2>
+        <div class="divider"></div>
+        <p class="section-desc">Concerti, workshop, saggi e masterclass. Unisciti a noi.</p>
+        <ul class="event-list-preview" id="eventsPreview" aria-label="Lista eventi in arrivo"></ul>
+        <br />
+        <a href="eventi.html" class="btn btn-ghost">Tutti gli eventi →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="js/components.js"></script>
+  <script>
+    initNav('index.html');
+
+    // Load events preview
+    fetch('js/eventi.json')
+      .then(r => r.json())
+      .then(events => {
+        const today = new Date();
+        const upcoming = events
+          .filter(e => new Date(e.data) >= today)
+          .sort((a, b) => new Date(a.data) - new Date(b.data))
+          .slice(0, 3);
+
+        const container = document.getElementById('eventsPreview');
+
+        if (upcoming.length === 0) {
+          container.innerHTML = '<li style="color:var(--warm-mid);opacity:0.6;padding:1.5rem 0;">Nessun evento in programma al momento.</li>';
+          return;
+        }
+
+        upcoming.forEach(ev => {
+          const d = new Date(ev.data);
+          const day = d.getDate();
+          const mon = d.toLocaleString('it-IT', { month: 'short' }).toUpperCase();
+          container.innerHTML += `
+            <li class="event-item-preview">
+              <div class="event-date-box" aria-label="${d.toLocaleDateString('it-IT')}">
+                <div class="event-date-day">${day}</div>
+                <div class="event-date-mon">${mon}</div>
+              </div>
+              <div>
+                <div class="event-title">${ev.titolo}</div>
+                <div class="event-meta">⏰ ${ev.ora} &nbsp;·&nbsp; 📍 ${ev.luogo}</div>
+              </div>
+              <span class="event-badge">${ev.categoria}</span>
+            </li>
+          `;
+        });
+      })
+      .catch(() => {
+        document.getElementById('eventsPreview').innerHTML =
+          '<li style="color:var(--warm-mid);opacity:0.6;padding:1.5rem 0;">Impossibile caricare gli eventi.</li>';
+      });
+
+    // Intersection Observer for animations
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = 'running'; });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate').forEach(el => {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
