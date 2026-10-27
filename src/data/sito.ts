@@ -5,6 +5,8 @@ export const sito = {
   sottotitolo: 'Scuola di musica, arte e spettacolo',
   citta: 'Merate',
   indirizzo: 'Via Statale 5/7',
+  cap: '23807',
+  provincia: 'LC',
   codiceFiscale: '03855330134',
   email: 'info@musicartelab.it',
   whatsapp: '340 9595064',
@@ -18,6 +20,8 @@ export const sito = {
   // Riquadro "sorprese" che chiude gli eventi futuri
   sorprese: 'Un sacco di nuove ed emozionanti sorprese vi attendono: concerti, masterclass e serate da non perdere. Seguici sui social per scoprirle per primo.',
   statutoPdf: '', // es. '/statuto.pdf' dopo averlo messo in public/
+  // Codice di verifica di Google Search Console (solo la parte dentro content="…").
+  googleVerifica: '',
 };
 
 export const menu = [

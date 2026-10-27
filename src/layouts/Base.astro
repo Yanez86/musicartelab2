@@ -23,11 +23,14 @@ interface Props {
 }
 const {
   title,
-  description = `${sito.nome} ${sito.forma}: corsi ed eventi di musica pop e rock a ${sito.citta}.`,
+  description = `Scuola di musica pop e rock a ${sito.citta}: corsi di canto, chitarra, basso, batteria, pianoforte e coro per bambini, ragazzi e adulti, concerti ed eventi dal vivo.`,
   current = '',
   overlayHeader = false,
 } = Astro.props;
 const fullTitle = title ? `${title} · ${sito.nome}` : `${sito.nome} · ${sito.sottotitolo} a ${sito.citta}`;
+// Indirizzo ufficiale della pagina, per i motori di ricerca e le anteprime dei link
+// (sempre con la barra finale, come nella mappa del sito).
+const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), Astro.site);
 ---
 <!doctype html>
 <html lang="it">
@@ -36,10 +39,19 @@ const fullTitle = title ? `${title} · ${sito.nome}` : `${sito.nome} · ${sito.s
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href={u('sitemap-index.xml')} />
+    {sito.googleVerifica && <meta name="google-site-verification" content={sito.googleVerifica} />}
     <link rel="icon" href={u('img/logo.jpg')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={`${sito.nome} ${sito.forma}`} />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(u('img/splash.jpg'), Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <slot name="head" />
   </head>
   <body>
     <Header current={current} overlay={overlayHeader} />

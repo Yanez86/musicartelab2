@@ -7,7 +7,7 @@ import Nome from '../components/Nome.astro';
 
 const nn = (i: number) => String(i + 1).padStart(2, '0');
 ---
-<Base title="Statuto" current="statuto/">
+<Base title="Statuto" current="statuto/" description={`Lo statuto di ${sito.nome} ${sito.forma}, associazione di promozione sociale di ${sito.citta}: chi siamo, cosa facciamo e come funziona l’associazione.`}>
   <div class="wrap page-head">
     <div class="head-txt">
       <h1 class="display display-xl">Statuto<span class="dot">.</span></h1>

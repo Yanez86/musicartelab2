@@ -22,7 +22,7 @@ const filtri = [
   { id: 'adulti', label: 'Adulti' },
 ];
 ---
-<Base title="Corsi" current="corsi/">
+<Base title={`Corsi di musica a ${sito.citta}`} current="corsi/" description={`Corsi di canto, chitarra, basso, batteria, pianoforte, ukulele e coro rock a ${sito.citta} per bambini, ragazzi e adulti. Lezioni individuali e di gruppo ${sito.periodoCorsi}.`}>
   <section class="corsi-hero" style={`background-image: url(${u('img/concerto.jpg')})`}>
     <div class="shade"></div>
     <div class="wrap page-head">
