@@ -18,8 +18,8 @@ export const sito = {
 
 export const menu = [
   { href: 'corsi/', label: 'Corsi' },
-  { href: 'insegnanti/', label: 'Insegnanti' },
   { href: 'eventi/', label: 'Eventi' },
+  { href: 'insegnanti/', label: 'Insegnanti' },
   { href: 'statuto/', label: 'Statuto' },
   { href: 'sostienici/', label: 'Sostienici' },
 ];
