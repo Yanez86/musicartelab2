@@ -1,73 +1,72 @@
 ---
-import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { eventiDivisi } from '../lib/eventi';
 import { u, giorno, meseBreve, dataBreve } from '../lib/url';
 import { sito } from '../data/sito';
-import Nome from '../components/Nome.astro';
 import Testo from '../components/Testo.astro';
+import EventoTop from '../components/EventoTop.astro';
 
-const { tutti, recenti, archivio } = await eventiDivisi();
-const top = recenti[0];
-const topFuturo = top ? top.data.data >= new Date(new Date().toDateString()) : false;
-const altriRecenti = recenti.slice(1);
-const TopDesc = top ? (await render(top)).Content : null;
+const { tutti, recenti, archivio, futuri, principale: top, principaleFuturo: topFuturo } = await eventiDivisi();
+const oggi = new Date();
+oggi.setHours(0, 0, 0, 0);
+const gruppi = [
+  {
+    id: 'futuri',
+    titolo: 'Eventi futuri',
+    lista: futuri.filter((e) => e.id !== top?.id),
+    vuoto: 'Per ora nessun altro evento in programma: torna a trovarci presto.',
+  },
+  {
+    id: 'passati',
+    titolo: 'Eventi passati',
+    lista: recenti.filter((e) => e.data.data < oggi && e.id !== top?.id),
+    vuoto: 'Nessun evento di questo tipo negli ultimi dodici mesi.',
+  },
+];
 const tipi = ['Tutti', ...new Set(tutti.map((e) => e.data.tipo))];
 const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 ---
 <Base title="Eventi" current="eventi/">
   <div class="wrap page-head">
     <h1 class="display display-xl">Eventi<span class="dot">.</span></h1>
-    <p class="lead">Masterclass, contest, feste e concerti organizzati da <Nome /> a {sito.citta}.</p>
   </div>
 
-  {top && TopDesc && (
-    <section class="wrap" aria-label={topFuturo ? 'Prossimo evento' : 'Il più recente'}>
-      <article class="top">
-        <div class="top-img"><img src={img(top.data.locandina)} alt={`Locandina: ${top.data.titolo}`} /></div>
-        <div class="top-txt">
-          <span class="top-tag">{topFuturo ? 'Prossimo evento' : 'Il più recente'} · {top.data.tipo}</span>
-          <h2 class="display top-title">{top.data.titolo}{top.data.sottotitolo && <><br /><span><Testo t={top.data.sottotitolo} /></span></>}</h2>
-          <dl class="top-dati">
-            <div><dt>Quando</dt><dd>{top.data.quando}</dd></div>
-            <div><dt>Dove</dt><dd><Testo t={top.data.luogo} /></dd></div>
-            {top.data.quota && <div><dt>Quota</dt><dd><Testo t={top.data.quota} /></dd></div>}
-          </dl>
-          <div class="top-desc"><TopDesc /></div>
-          <div class="btn-row">
-            {top.data.link && <a href={top.data.link} class="btn btn-dark">Iscriviti</a>}
-            <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
-          </div>
-        </div>
-      </article>
+  {top && (
+    <section class="wrap" style="margin-bottom: 72px;" aria-label={topFuturo ? 'Prossimo evento' : 'Il più recente'}>
+      <EventoTop evento={top} futuro={topFuturo} />
     </section>
   )}
 
-  <section class="wrap filtri-head">
-    <h2 class="display">Eventi recenti</h2>
+  <div class="wrap filtri-bar">
+    <span class="filtri-label">Filtra per tipo</span>
     <div class="filters" role="group" aria-label="Filtra gli eventi per tipo" data-filtri="eventi">
       {tipi.map((t, i) => <button type="button" class="filter" data-filtro={t} aria-pressed={i === 0 ? 'true' : 'false'}>{t}</button>)}
     </div>
-  </section>
+  </div>
 
-  <p class="wrap vuoto" data-vuoto="recenti" hidden={altriRecenti.length > 0}>Nessun altro evento di questo tipo nell’ultimo anno. Guarda l’archivio qui sotto.</p>
-  <section class="wrap griglia" data-lista="recenti">
-    {altriRecenti.map((e) => (
-      <article class="ev" data-tipo={e.data.tipo}>
-        <div class="ev-img">
-          <img src={img(e.data.locandina)} alt={`Locandina: ${e.data.titolo}`} loading="lazy" />
-          <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
-        </div>
-        <div class="ev-txt">
-          <span class="tag">{e.data.tipo}</span>
-          <h3 class="display">{e.data.titolo}{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</h3>
-          <span class="ev-quando">{e.data.quando}</span>
-          <span class="ev-luogo"><Testo t={e.data.luogo} /></span>
-          {e.data.info.length > 0 && <ul>{e.data.info.map((r) => <li><Testo t={r} /></li>)}</ul>}
-        </div>
-      </article>
-    ))}
-  </section>
+  {gruppi.map((g) => (
+    <section class="wrap gruppo" aria-labelledby={`titolo-${g.id}`}>
+      <h2 id={`titolo-${g.id}`} class="display gruppo-titolo">{g.titolo}</h2>
+      <p class="vuoto" data-vuoto={g.id} hidden={g.lista.length > 0}>{g.vuoto}</p>
+      <div class="griglia" data-lista={g.id}>
+        {g.lista.map((e) => (
+          <article class="ev" data-tipo={e.data.tipo}>
+            <div class="ev-img">
+              <img src={img(e.data.locandina)} alt={`Locandina: ${e.data.titolo}`} loading="lazy" />
+              <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
+            </div>
+            <div class="ev-txt">
+              <span class="tag">{e.data.tipo}</span>
+              <h3 class="display">{e.data.titolo}{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</h3>
+              <span class="ev-quando">{e.data.quando}</span>
+              <span class="ev-luogo"><Testo t={e.data.luogo} /></span>
+              {e.data.info.length > 0 && <ul>{e.data.info.map((r) => <li><Testo t={r} /></li>)}</ul>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  ))}
 
   <section class="wrap archivio" aria-labelledby="archivio">
     <div class="arch-head">
@@ -106,7 +105,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
       b.addEventListener('click', () => {
         const t = b.dataset.filtro!;
         bottoni.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-        ['recenti', 'archivio'].forEach((nome) => {
+        ['futuri', 'passati', 'archivio'].forEach((nome) => {
           const voci = document.querySelectorAll<HTMLElement>(`[data-lista="${nome}"] [data-tipo]`);
           let visibili = 0;
           voci.forEach((v) => {
@@ -122,22 +121,13 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 </script>
 
 <style>
-  .top { background: var(--cream); color: var(--ink); border-radius: 28px; overflow: hidden; display: flex; flex-wrap: wrap; margin-bottom: 80px; }
-  .top-img { flex: 1 1 340px; min-height: 420px; background: var(--card); display: flex; }
-  .top-img img { width: 100%; height: 100%; max-height: 640px; object-fit: cover; object-position: center top; }
-  .top-txt { flex: 999 1 420px; min-width: 0; padding: clamp(24px, 5vw, 56px); display: flex; flex-direction: column; gap: 20px; }
-  .top-tag { align-self: flex-start; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; background: var(--red); color: #fff; padding: 8px 14px; border-radius: 999px; }
-  .top-title { font-size: clamp(44px, 6vw, 80px); line-height: 0.92; }
-  .top-title span { color: var(--red); }
-  .top-dati { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; font-size: 15px; }
-  .top-dati dt { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
-  .top-dati dd { margin: 4px 0 0; font-weight: 600; }
-  .top-desc :global(p) { margin: 0; font-size: 17px; line-height: 1.65; color: var(--on-cream); }
-  .top .btn-line { color: var(--ink); }
-  .filtri-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 32px; }
-  .filtri-head h2, .arch-head h2 { font-size: 48px; }
-  .vuoto { margin: 0 auto; padding-bottom: 60px; font-size: 17px; color: var(--muted); }
-  .griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 24px; padding-bottom: 100px; }
+  .filtri-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-bottom: 48px; }
+  .filtri-label { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .gruppo { padding-bottom: 90px; }
+  .gruppo-titolo { font-size: 48px; margin-bottom: 28px; }
+  .arch-head h2 { font-size: 48px; }
+  .vuoto { margin: 0; padding-bottom: 12px; font-size: 17px; color: var(--muted); }
+  .griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 24px; }
   .griglia:empty { display: none; }
   .ev { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s, border-color 0.3s; }
   .ev:hover { transform: translateY(-8px); border-color: var(--red); }

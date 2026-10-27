@@ -2,25 +2,24 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Camino from '../components/Camino.astro';
-import Ritratto from '../components/Ritratto.astro';
+import Libretto from '../components/Libretto.astro';
 import { eventiDivisi } from '../lib/eventi';
 import { u, giorno, meseBreve } from '../lib/url';
 import { sito } from '../data/sito';
 import Nome from '../components/Nome.astro';
 import Testo from '../components/Testo.astro';
+import EventoTop from '../components/EventoTop.astro';
 
 const corsi = (await getCollection('corsi')).sort((a, b) => a.data.ordine - b.data.ordine);
-const insegnanti = (await getCollection('insegnanti')).sort((a, b) => a.data.ordine - b.data.ordine).slice(0, 4);
-const { recenti } = await eventiDivisi();
-// In home: prima gli eventi in arrivo (dal più vicino), poi i più recenti già passati.
+const { recenti, futuri, principale, principaleFuturo } = await eventiDivisi();
+// In home: in grande l'evento principale (il più vicino a oggi), sotto i
+// successivi in arrivo e poi i più recenti già passati.
 const oggi = new Date();
 oggi.setHours(0, 0, 0, 0);
-const futuri = recenti.filter((e) => e.data.data >= oggi).sort((a, b) => a.data.data.getTime() - b.data.data.getTime());
 const passati = recenti.filter((e) => e.data.data < oggi);
-const ultimi = [...futuri, ...passati].slice(0, 3);
+const ultimi = [...futuri, ...passati].filter((e) => e.id !== principale?.id).slice(0, 3);
 const strumenti = ['Canto', 'Chitarra', 'Basso', 'Batteria', 'Pianoforte', 'Ukulele', 'Coro Rock', 'Musichello'];
 const giro = [...strumenti, ...strumenti];
-const rotazioni = [-3, 2, -2, 3];
 const prossimo = futuri[0];
 ---
 <Base overlayHeader>
@@ -47,12 +46,13 @@ const prossimo = futuri[0];
     </div>
   </section>
 
-  {ultimi.length > 0 && (
+  {principale && (
     <section class="wrap eventi-home">
       <div class="sec-head">
         <h2 class="display display-l">{futuri.length > 0 ? 'Prossimi' : 'Ultimi'}<br />eventi</h2>
         <a href={u('eventi/')} class="cream-text strong">Tutti gli eventi →</a>
       </div>
+      {principale && <EventoTop evento={principale} futuro={principaleFuturo} dettagli={u('eventi/')} />}
       <div class="ev-grid">
         {ultimi.map((e) => (
           <a href={u('eventi/')} class="ev-mini">
@@ -70,7 +70,7 @@ const prossimo = futuri[0];
 
   <section class="wrap corsi-home">
     <div class="sec-head">
-      <h2 class="display display-l">I corsi</h2>
+      <h2 class="display display-l">Corsi</h2>
       <p class="lead">Lezioni individuali e di gruppo sul repertorio pop rock, {sito.periodoCorsi}, nella sede di {sito.citta}.</p>
     </div>
     <div class="rows">
@@ -127,20 +127,13 @@ const prossimo = futuri[0];
     </div>
   </section>
 
-  <section class="cream insegnanti-home">
+  <section class="insegnanti-home">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="display display-l">Gli insegnanti</h2>
+        <h2 class="display display-l">Insegnanti</h2>
+        <p class="lead">Sfoglia il booklet: ogni insegnante è una traccia.</p>
       </div>
-      <div class="polaroids">
-        {insegnanti.map((d, i) => (
-          <a href={u(`insegnanti/#${d.id}`)} class="polaroid" style={`--rot: ${rotazioni[i % 4]}deg`}>
-            {d.data.foto ? <img src={u(`img/insegnanti/${d.data.foto}`)} alt={d.data.nome} loading="lazy" /> : <Ritratto variante={d.data.ritratto} />}
-            <span class="nome">{d.data.nome}</span>
-            <span class="strumento">{d.data.strumento}</span>
-          </a>
-        ))}
-      </div>
+      <Libretto />
     </div>
   </section>
 
@@ -217,12 +210,11 @@ const prossimo = futuri[0];
   .band-foto span { position: absolute; left: -12px; bottom: 32px; background: var(--ink); color: var(--cream); padding: 14px 20px; border-radius: 14px; transform: rotate(-3deg); font-size: 26px; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
 
   /* Insegnanti */
-  .insegnanti-home { padding: 110px 0 130px; }
-  .polaroids { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 32px; }
+  .insegnanti-home { padding: 110px 0 120px; background: radial-gradient(ellipse at 50% 45%, #3a2328 0%, var(--ink) 65%); }
 
   /* Eventi */
   .eventi-home { padding-top: 110px; }
-  .ev-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
+  .ev-grid { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
   .ev-mini { display: flex; gap: 22px; align-items: flex-start; padding: 28px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; text-decoration: none; transition: transform 0.3s; }
   .ev-mini:hover { transform: translateY(-8px); color: #fff; }
   .ev-date { display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: 14px; padding: 12px 16px; min-width: 56px; }
