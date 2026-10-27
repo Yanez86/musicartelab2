@@ -1,5 +1,6 @@
 ---
 // Riquadro grande dell'evento principale: usato in home e nella pagina Eventi.
+// In home (breve) mostra solo le informazioni principali, la prenotazione e il link alla pagina dell'evento.
 import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
 import Testo from './Testo.astro';
@@ -7,8 +8,8 @@ import { u } from '../lib/url';
 import { linkEvento } from '../lib/eventi';
 import { sito } from '../data/sito';
 
-interface Props { evento: CollectionEntry<'eventi'>; futuro: boolean; dettagli?: string }
-const { evento: top, futuro: topFuturo, dettagli } = Astro.props;
+interface Props { evento: CollectionEntry<'eventi'>; futuro: boolean; breve?: boolean }
+const { evento: top, futuro: topFuturo, breve = false } = Astro.props;
 const { Content: TopDesc } = await render(top);
 const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 ---
@@ -22,12 +23,20 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
       <div><dt>Dove</dt><dd><Testo t={top.data.luogo} /></dd></div>
       {top.data.quota && <div><dt>Quota</dt><dd><Testo t={top.data.quota} /></dd></div>}
     </dl>
-    <div class="top-desc"><TopDesc /></div>
-    <div class="btn-row">
-      {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-dark" target="_blank" rel="noopener">{top.data.bottone}</a>}
-      <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
-      {dettagli && <a href={dettagli} class="btn btn-line">Tutti gli eventi</a>}
-    </div>
+    {breve ? (
+      <div class="btn-row">
+        {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{top.data.bottone}</a>}
+        <a href={linkEvento(top)} class="btn btn-dark">Vai alla pagina dell’evento</a>
+      </div>
+    ) : (
+      <>
+        <div class="top-desc"><TopDesc /></div>
+        <div class="btn-row">
+          {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-dark" target="_blank" rel="noopener">{top.data.bottone}</a>}
+          <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
+        </div>
+      </>
+    )}
   </div>
 </article>
 
