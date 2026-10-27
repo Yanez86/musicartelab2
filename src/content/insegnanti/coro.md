@@ -1,6 +1,6 @@
 ---
 nome: "[Nome Cognome]"
-strumento: Coro
+strumento: Coro Rock
 ordine: 6
 ritratto: 5
 ---

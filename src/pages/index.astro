@@ -16,7 +16,7 @@ oggi.setHours(0, 0, 0, 0);
 const futuri = recenti.filter((e) => e.data.data >= oggi).sort((a, b) => a.data.data.getTime() - b.data.data.getTime());
 const passati = recenti.filter((e) => e.data.data < oggi);
 const ultimi = [...futuri, ...passati].slice(0, 3);
-const strumenti = ['Pianoforte', 'Chitarra', 'Basso', 'Canto', 'Batteria', 'Coro', 'Propedeutica'];
+const strumenti = ['Canto', 'Chitarra', 'Basso', 'Batteria', 'Pianoforte', 'Ukulele', 'Coro Rock', 'Musichello'];
 const giro = [...strumenti, ...strumenti];
 const rotazioni = [-3, 2, -2, 3];
 const prossimo = futuri[0];
@@ -93,7 +93,8 @@ const prossimo = futuri[0];
     </div>
     <div class="sede-testo">
       <h2 class="display display-m">Una casa<br />per la musica<br /><span class="dot">a Merate</span></h2>
-      <p>Musicarte-lab è un’associazione di promozione sociale: qui si studia, si prova, si suona insieme e si sale sul palco per i concerti di fine anno.</p>
+      <p>Fondata nel {sito.fondazione}, ma con molta strada già percorsa nel mondo dell’insegnamento musicale, Musicarte-lab nasce dal desiderio di creare uno spazio dove imparare a suonare e cantare, ma anche un luogo da condividere, dove le diverse sensibilità musicali possano crescere e incontrarsi.</p>
+      <p>Da settembre a giugno gli allievi vengono seguiti da insegnanti attenti ai punti di forza di ognuno. E l’obiettivo è sempre lo stesso: <strong class="cream-text">il palco.</strong></p>
       <div class="btn-row">
         <a href={u('statuto/')} class="btn btn-line cream-text">Leggi lo statuto</a>
       </div>
@@ -104,13 +105,13 @@ const prossimo = futuri[0];
     <div class="band-bg" aria-hidden="true">Band</div>
     <div class="wrap band-grid">
       <div class="band-testo">
-        <p class="kicker">Il gruppo ufficiale dell’associazione</p>
+        <p class="kicker">Noi miriamo sempre al palco</p>
         <h2 id="band-title" class="display band-title">Musicarte<span class="script cream-text">Band</span></h2>
-        <p class="band-lead">Allievi e insegnanti sullo stesso palco per un viaggio nella musica pop rock. La MusicarteBand porta dal vivo il repertorio che si studia nei corsi e suona alle feste e agli eventi della zona.</p>
+        <p class="band-lead">Il gruppo ufficiale dell’associazione: allievi e docenti sullo stesso palco per un viaggio nella musica pop rock. La MusicarteBand si esibisce a feste, sagre ed eventi della zona e dal vivo ospita spesso altri “colleghi”.</p>
         <dl class="band-info">
-          <div><dt>Formazione</dt><dd>[voce, chitarre, basso, tastiere, batteria]</dd></div>
+          <div><dt>Formazione</dt><dd>Chitarre, basso, batteria, tastiera e voci</dd></div>
           {prossimo && <div><dt>Prossima data</dt><dd><a href={u('eventi/')}>{prossimo.data.titolo} · {giorno(prossimo.data.data)} {meseBreve(prossimo.data.data)}</a></dd></div>}
-          <div><dt>Come entrare</dt><dd>[Aperta agli allievi dei corsi]</dd></div>
+          <div><dt>Chi suona</dt><dd>Allievi e docenti, con ospiti dal vivo</dd></div>
         </dl>
         <div class="btn-row">
           <a href={`mailto:${sito.email}?subject=MusicarteBand`} class="btn btn-cream">Suona con la band</a>
