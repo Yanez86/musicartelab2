@@ -1,5 +1,6 @@
 ---
-nome: "[Nome Cognome]"
+nome: Tobias
+foto: tobias.jpg
 strumento: Chitarra
 ordine: 2
 ritratto: 1
