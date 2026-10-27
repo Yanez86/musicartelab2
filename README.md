@@ -44,7 +44,7 @@ Descrizione dell’evento, anche su più paragrafi.
 3. Fate commit e push: in un paio di minuti il sito si aggiorna da solo.
 
 L’evento più recente finisce in evidenza in cima alla pagina Eventi, gli altri sotto in ordine di data,
-e quelli più vecchi di un anno passano in **Archivio**. Il sito si ricostruisce da solo ogni lunedì,
+e quelli più vecchi di un anno passano in **Archivio**. Il sito si ricostruisce da solo ogni notte,
 quindi l’archivio resta aggiornato anche se non si pubblica nulla.
 
 ### Aggiungere la foto di un insegnante

@@ -8,15 +8,16 @@ import { u, giorno, meseBreve } from '../lib/url';
 import { sito } from '../data/sito';
 import Nome from '../components/Nome.astro';
 import Testo from '../components/Testo.astro';
+import EventoTop from '../components/EventoTop.astro';
 
 const corsi = (await getCollection('corsi')).sort((a, b) => a.data.ordine - b.data.ordine);
-const { recenti } = await eventiDivisi();
-// In home: prima gli eventi in arrivo (dal più vicino), poi i più recenti già passati.
+const { recenti, futuri, principale, principaleFuturo } = await eventiDivisi();
+// In home: in grande l'evento principale (il più vicino a oggi), sotto i
+// successivi in arrivo e poi i più recenti già passati.
 const oggi = new Date();
 oggi.setHours(0, 0, 0, 0);
-const futuri = recenti.filter((e) => e.data.data >= oggi).sort((a, b) => a.data.data.getTime() - b.data.data.getTime());
 const passati = recenti.filter((e) => e.data.data < oggi);
-const ultimi = [...futuri, ...passati].slice(0, 3);
+const ultimi = [...futuri, ...passati].filter((e) => e.id !== principale?.id).slice(0, 3);
 const strumenti = ['Canto', 'Chitarra', 'Basso', 'Batteria', 'Pianoforte', 'Ukulele', 'Coro Rock', 'Musichello'];
 const giro = [...strumenti, ...strumenti];
 const prossimo = futuri[0];
@@ -45,12 +46,13 @@ const prossimo = futuri[0];
     </div>
   </section>
 
-  {ultimi.length > 0 && (
+  {principale && (
     <section class="wrap eventi-home">
       <div class="sec-head">
         <h2 class="display display-l">{futuri.length > 0 ? 'Prossimi' : 'Ultimi'}<br />eventi</h2>
         <a href={u('eventi/')} class="cream-text strong">Tutti gli eventi →</a>
       </div>
+      {principale && <EventoTop evento={principale} futuro={principaleFuturo} dettagli={u('eventi/')} />}
       <div class="ev-grid">
         {ultimi.map((e) => (
           <a href={u('eventi/')} class="ev-mini">
@@ -212,7 +214,7 @@ const prossimo = futuri[0];
 
   /* Eventi */
   .eventi-home { padding-top: 110px; }
-  .ev-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
+  .ev-grid { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
   .ev-mini { display: flex; gap: 22px; align-items: flex-start; padding: 28px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; text-decoration: none; transition: transform 0.3s; }
   .ev-mini:hover { transform: translateY(-8px); color: #fff; }
   .ev-date { display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: 14px; padding: 12px 16px; min-width: 56px; }

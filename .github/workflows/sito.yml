@@ -4,10 +4,10 @@ on:
   push:
     branches: [master]
   pull_request:
-  # Ricostruisce il sito ogni lunedì mattina, così gli eventi più vecchi
-  # di un anno passano da soli in archivio.
+  # Ricostruisce il sito ogni notte: così l'evento in evidenza passa al
+  # successivo il giorno dopo e quelli di oltre un anno vanno in archivio.
   schedule:
-    - cron: '0 5 * * 1'
+    - cron: '0 3 * * *'
   workflow_dispatch:
 
 permissions:
