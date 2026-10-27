@@ -43,6 +43,9 @@ const insegnanti = defineCollection({
     ordine: z.number(),
     foto: z.string().optional(), // nome file in public/img/insegnanti/
     ritratto: z.number().default(0), // illustrazione segnaposto se manca la foto
+    ruolo: z.string().optional(), // riga in corsivo sotto il nome, es. "voce"
+    insegna: z.string().optional(), // corsi tenuti; se manca si usa lo strumento
+    ascolta: z.string().default('[brani o band preferite]'),
   }),
 });
 

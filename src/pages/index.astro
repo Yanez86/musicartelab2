@@ -132,7 +132,7 @@ const prossimo = futuri[0];
       </div>
       <div class="polaroids">
         {insegnanti.map((d, i) => (
-          <a href={u('insegnanti/')} class="polaroid" style={`--rot: ${rotazioni[i % 4]}deg`}>
+          <a href={u(`insegnanti/#${d.id}`)} class="polaroid" style={`--rot: ${rotazioni[i % 4]}deg`}>
             {d.data.foto ? <img src={u(`img/insegnanti/${d.data.foto}`)} alt={d.data.nome} loading="lazy" /> : <Ritratto variante={d.data.ritratto} />}
             <span class="nome">{d.data.nome}</span>
             <span class="strumento">{d.data.strumento}</span>
