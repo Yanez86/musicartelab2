@@ -13,6 +13,7 @@ Sito dell’associazione Musicarte-lab di Merate: corsi ed eventi di musica pop 
 | Un corso | `src/content/corsi/*.md` |
 | Un insegnante | `src/content/insegnanti/*.md` |
 | Il testo dello statuto | `src/data/statuto.ts` |
+| L’informativa privacy e cookie | `src/pages/privacy.astro` |
 | Foto e locandine | `public/img/` |
 | Grafica comune (colori, font, pulsanti) | `src/styles/global.css` |
 | Le pagine | `src/pages/*.astro` |
@@ -75,3 +76,8 @@ indirizzo e codice fiscale, quote dei corsi, nomi e bio degli insegnanti, testo 
 formazione della MusicarteBand.
 
 La foto del palco usata in apertura è firmata PuntoFoto: verificate il permesso d’uso e il credito.
+
+La pagina **Privacy** è una bozza da far rivedere a chi segue gli aspetti legali dell’associazione
+(compreso il tempo di conservazione dei messaggi, `[12 mesi]`). Il sito oggi non usa cookie né servizi
+esterni e i font sono caricati dal sito stesso: se aggiungete statistiche, mappe, video o post incorporati
+va aggiornata l’informativa e potrebbe servire il banner dei cookie.
