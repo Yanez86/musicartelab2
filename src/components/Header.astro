@@ -15,7 +15,6 @@ const { current = '', overlay = false } = Astro.props;
       {menu.map((m) => (
         <a href={u(m.href)} aria-current={current === m.href ? 'page' : undefined}>{m.label}</a>
       ))}
-      <a href={u('corsi/')} class="btn btn-cream">Iscriviti</a>
     </nav>
   </div>
 </header>
