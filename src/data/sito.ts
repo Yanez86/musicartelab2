@@ -9,6 +9,8 @@ export const sito = {
   email: 'info@musicartelab.it',
   whatsapp: '340 9595064',
   whatsappLink: 'https://wa.me/393409595064',
+  facebook: 'https://www.facebook.com/share/1FeQCNyUnE/',
+  instagram: 'https://www.instagram.com/musicartelab/',
   annoCorsi: '[2026/27]',
   periodoCorsi: 'da [ottobre] a [giugno]',
   statutoPdf: '', // es. '/statuto.pdf' dopo averlo messo in public/
