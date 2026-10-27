@@ -4,8 +4,8 @@ export const sito = {
   forma: 'APS',
   sottotitolo: 'Scuola di musica, arte e spettacolo',
   citta: 'Merate',
-  indirizzo: '[indirizzo sede]',
-  codiceFiscale: '[00000000000]',
+  indirizzo: 'Via Statale 7',
+  codiceFiscale: '03855330134',
   email: 'info@musicartelab.it',
   whatsapp: '340 9595064',
   whatsappLink: 'https://wa.me/393409595064',
@@ -19,4 +19,5 @@ export const menu = [
   { href: 'insegnanti/', label: 'Insegnanti' },
   { href: 'eventi/', label: 'Eventi' },
   { href: 'statuto/', label: 'Statuto' },
+  { href: 'sostienici/', label: 'Sostienici' },
 ];

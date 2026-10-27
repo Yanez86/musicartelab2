@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import { sito } from '../data/sito';
+import { u } from '../lib/url';
+
+const passi = [
+  { t: 'Prendi la dichiarazione', d: 'Modello 730, Redditi Persone Fisiche oppure la scheda allegata alla Certificazione Unica.' },
+  { t: 'Trova il riquadro del 5x1000', d: 'Scegli quello dedicato al sostegno degli enti del Terzo settore e metti la tua firma.' },
+  { t: 'Scrivi il nostro codice fiscale', d: `${sito.codiceFiscale}: ecco fatto, il tuo 5x1000 va a ${sito.nome}.` },
+];
+---
+<Base title="Sostienici" current="sostienici/" description={`Dona il 5x1000 a ${sito.nome}: codice fiscale ${sito.codiceFiscale}.`}>
+  <div class="wrap page-head">
+    <h1 class="display display-xl">Sostienici<span class="dot">.</span></h1>
+    <p class="lead">Corsi, concerti, feste e masterclass a {sito.citta} esistono grazie a chi crede nella musica dal vivo. Darci una mano non costa nulla.</p>
+  </div>
+
+  <section class="wrap cinque">
+    <div class="cinque-foto">
+      <img src={u('img/sostienici.jpg')} alt="Allievi e insegnanti di Musicarte-lab sul palco, una chitarra elettrica e un giovane batterista" />
+    </div>
+    <div class="cinque-testo">
+      <p class="kicker">Dona il 5x1000</p>
+      <h2 class="display display-m">Sostieni la musica<br /><span class="dot">e la cultura</span></h2>
+      <p>Con la tua firma una piccola parte delle tasse che paghi comunque arriva a {sito.nome}: per te non cambia nulla, per noi significa strumenti, eventi e nuovi progetti.</p>
+      <div class="cf">
+        <span class="cf-label">Codice fiscale</span>
+        <span class="cf-num" id="cf">{sito.codiceFiscale}</span>
+        <button type="button" class="btn btn-cream cf-copia" data-copia={sito.codiceFiscale}>Copia</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="cream come">
+    <div class="wrap">
+      <h2 class="display display-l">Come si fa</h2>
+      <ol class="passi">
+        {passi.map((p, i) => (
+          <li><span>{String(i + 1).padStart(2, '0')}</span><strong>{p.t}</strong><p>{p.d}</p></li>
+        ))}
+      </ol>
+      <p class="nota">Puoi firmare anche se non presenti la dichiarazione: basta consegnare la scheda per il 5x1000 a un CAF, a un ufficio postale o al tuo commercialista.</p>
+    </div>
+  </section>
+
+  <section class="wrap altri">
+    <h2 class="display display-m">Altri modi<br /><span class="dot">per darci una mano</span></h2>
+    <div class="cards">
+      <div class="card">
+        <strong class="display">Diventa socio</strong>
+        <p>Con la tessera annuale fai parte dell’associazione e paghi una quota ridotta per le masterclass.</p>
+        <a href={u('statuto/')}>Leggi lo statuto →</a>
+      </div>
+      <div class="card">
+        <strong class="display">Vieni agli eventi</strong>
+        <p>Concerti, feste e masterclass sono il modo più bello per sostenerci: porta amici e famiglia.</p>
+        <a href={u('eventi/')}>Vedi gli eventi →</a>
+      </div>
+      <div class="card">
+        <strong class="display">Passaparola</strong>
+        <p>Racconta di noi e condividi il nostro codice fiscale per il 5x1000 con chi conosci.</p>
+        <a href={sito.whatsappLink}>Scrivici su WhatsApp →</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copia]').forEach((b) =>
+    b.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(b.dataset.copia!);
+        b.textContent = 'Copiato!';
+        setTimeout(() => (b.textContent = 'Copia'), 2000);
+      } catch {
+        /* se la copia non è permessa, il codice resta comunque visibile */
+      }
+    }),
+  );
+</script>
+
+<style>
+  .cinque { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 56px; align-items: center; padding-bottom: 110px; }
+  .cinque-foto img { width: 100%; border-radius: 24px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45); transform: rotate(-1.5deg); }
+  .cinque-testo { display: flex; flex-direction: column; gap: 22px; }
+  .cinque-testo > p:not(.kicker) { margin: 0; font-size: 18px; line-height: 1.65; color: var(--text-2); }
+  .cf { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; background: var(--red); border-radius: 22px; padding: 22px 26px; }
+  .cf-label { width: 100%; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); }
+  .cf-num { font-family: var(--display); font-size: clamp(40px, 7vw, 64px); line-height: 1; letter-spacing: 0.04em; }
+  .come { padding: 100px 0 110px; }
+  .come h2 { margin-bottom: 48px; }
+  .passi { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
+  .passi li { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 20px; }
+  .passi span { font-family: var(--display); font-size: 72px; line-height: 1; color: var(--red); }
+  .passi strong { font-size: 20px; }
+  .passi p, .nota { margin: 0; font-size: 16px; line-height: 1.6; color: var(--on-cream); }
+  .nota { margin-top: 40px; max-width: 760px; }
+  .altri { padding-top: 110px; padding-bottom: 110px; }
+  .cards { margin-top: 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 30px; display: flex; flex-direction: column; gap: 14px; }
+  .card strong { font-size: 34px; }
+  .card p { margin: 0; font-size: 16px; line-height: 1.6; color: #d9cfc9; flex-grow: 1; }
+  .card a { color: var(--cream); font-weight: 700; }
+</style>
