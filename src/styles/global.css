@@ -64,6 +64,8 @@ button { font: inherit; }
   color: var(--cream);
 }
 .lead { margin: 0; font-size: 18px; line-height: 1.6; color: var(--text-2); max-width: 420px; }
+/* Paragrafo introduttivo sotto il titolo di ogni pagina */
+.lead.intro { max-width: 560px; }
 .tag {
   font-size: 12px;
   font-weight: 700;

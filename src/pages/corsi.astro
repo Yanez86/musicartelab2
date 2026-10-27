@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { u } from '../lib/url';
 import { sito } from '../data/sito';
+import Nome from '../components/Nome.astro';
 
 const corsi = (await getCollection('corsi')).sort((a, b) => a.data.ordine - b.data.ordine);
 const formato = ['Bambini, adolescenti e adulti', 'Individuali o piccoli gruppi', 'Orari mattutini, pomeridiani e serali', 'Anche online'];
@@ -27,7 +28,7 @@ const filtri = [
     <div class="shade"></div>
     <div class="wrap page-head">
       <h1 class="display display-xl">Corsi<span class="dot">.</span></h1>
-      <p class="lead">Tutti i corsi sono orientati al pop rock: si studiano e si suonano i brani di Red Hot Chili Peppers, Foo Fighters, Pink Floyd e tanti altri. Lezioni {sito.periodoCorsi} nella sede di {sito.citta}.</p>
+      <p class="lead intro">Qui trovi tutti i corsi di <Nome />: strumento, canto, coro e Musichello per i più piccoli, per bambini, ragazzi e adulti. Per ogni corso ci sono età, formula, insegnante e quota, e con i filtri vedi subito quelli adatti a te. Sono tutti orientati al pop rock, dai Red Hot Chili Peppers ai Foo Fighters ai Pink Floyd, con lezioni {sito.periodoCorsi} nella sede di {sito.citta}. Più in basso: le altre attività, i servizi fuori sede e come iscriversi.</p>
     </div>
     <ul class="wrap formato">
       {formato.map((f) => <li>{f}</li>)}
