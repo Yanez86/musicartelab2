@@ -17,7 +17,7 @@ const passi = [
 
   <section class="wrap cinque">
     <div class="cinque-foto">
-      <img src={u('img/sostienici.jpg')} alt="Allievi e insegnanti di Musicarte-lab sul palco, una chitarra elettrica e un giovane batterista" />
+      <img src={u('img/gruppo-1.jpg')} alt="Foto di gruppo di allievi e insegnanti di Musicarte-lab" />
     </div>
     <div class="cinque-testo">
       <p class="kicker">Dona il 5x1000</p>
@@ -42,6 +42,11 @@ const passi = [
       <p class="nota">Puoi firmare anche se non presenti la dichiarazione: basta consegnare la scheda per il 5x1000 a un CAF, a un ufficio postale o al tuo commercialista.</p>
     </div>
   </section>
+
+  <figure class="wrap foto-larga">
+    <img src={u('img/gruppo-2.jpg')} alt="Allievi e insegnanti di Musicarte-lab sul palco all’aperto" loading="lazy" />
+    <figcaption>Allievi, insegnanti e famiglie: questo è quello che sostieni.</figcaption>
+  </figure>
 
   <section class="wrap altri">
     <h2 class="display display-m">Altri modi<br /><span class="dot">per darci una mano</span></h2>
@@ -95,6 +100,9 @@ const passi = [
   .passi strong { font-size: 20px; }
   .passi p, .nota { margin: 0; font-size: 16px; line-height: 1.6; color: var(--on-cream); }
   .nota { margin-top: 40px; max-width: 760px; }
+  .foto-larga { margin-top: 110px; margin-bottom: 0; }
+  .foto-larga img { width: 100%; max-height: 640px; object-fit: cover; border-radius: 28px; }
+  .foto-larga figcaption { margin-top: 16px; font-family: var(--script); font-size: 26px; color: var(--cream); }
   .altri { padding-top: 110px; padding-bottom: 110px; }
   .cards { margin-top: 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 30px; display: flex; flex-direction: column; gap: 14px; }
