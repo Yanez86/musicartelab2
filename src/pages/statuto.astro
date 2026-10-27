@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import { articoli, approvazione } from '../data/statuto';
+import { sito } from '../data/sito';
+import { u } from '../lib/url';
+
+const nn = (i: number) => String(i + 1).padStart(2, '0');
+---
+<Base title="Statuto" current="statuto/">
+  <div class="wrap page-head">
+    <div class="head-txt">
+      <h1 class="display display-xl">Statuto<span class="dot">.</span></h1>
+      <p class="lead">{sito.nome} {sito.forma}. {approvazione}</p>
+    </div>
+    {sito.statutoPdf && (
+      <a href={u(sito.statutoPdf)} class="btn btn-red" download>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v11"></path><path d="M7 10l5 5 5-5"></path><path d="M5 20h14"></path></svg>
+        Scarica PDF
+      </a>
+    )}
+  </div>
+
+  <section class="cream corpo">
+    <div class="wrap layout">
+      <nav class="indice" aria-label="Indice dello statuto">
+        <span class="display">Indice</span>
+        <ol>
+          {articoli.map((a, i) => <li><a href={`#art-${i + 1}`}><b>{nn(i)}</b>{a.titolo}</a></li>)}
+        </ol>
+      </nav>
+      <article class="articoli">
+        {articoli.map((a, i) => (
+          <section id={`art-${i + 1}`}>
+            <span class="art-n">{nn(i)}</span>
+            <h2 class="display">{a.titolo}</h2>
+            {a.testo.split(/\n\n+/).map((p) => <p>{p}</p>)}
+          </section>
+        ))}
+      </article>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head-txt { display: flex; flex-direction: column; gap: 20px; }
+  .head-txt .lead { max-width: 520px; }
+  .corpo { padding: 90px 0 110px; }
+  .layout { display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start; }
+  .indice { flex: 1 1 280px; background: var(--ink); color: #fff; border-radius: 20px; padding: 28px; }
+  .indice > span { display: block; font-size: 30px; margin-bottom: 14px; }
+  .indice ol { margin: 0; padding: 0; list-style: none; }
+  .indice li { border-top: 1px solid var(--line); }
+  .indice a { display: flex; gap: 12px; padding: 11px 0; font-size: 15px; text-decoration: none; color: #fff; }
+  .indice a:hover { color: var(--red-light); }
+  .indice b { font-family: var(--display); font-weight: 400; color: var(--red-light); width: 28px; }
+  .articoli { flex: 999 1 560px; min-width: 0; max-width: 780px; display: flex; flex-direction: column; gap: 48px; }
+  .articoli section { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 22px; scroll-margin-top: 24px; }
+  .art-n { font-family: var(--display); font-size: 56px; line-height: 1; color: var(--red); }
+  .articoli h2 { font-size: 36px; }
+  .articoli p { margin: 0; font-size: 17px; line-height: 1.75; color: var(--on-cream); }
+</style>

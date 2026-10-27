@@ -1,0 +1,167 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { eventiDivisi } from '../lib/eventi';
+import { u, giorno, meseBreve, dataBreve } from '../lib/url';
+import { sito } from '../data/sito';
+
+const { tutti, recenti, archivio } = await eventiDivisi();
+const top = recenti[0];
+const altriRecenti = recenti.slice(1);
+const TopDesc = top ? (await render(top)).Content : null;
+const tipi = ['Tutti', ...new Set(tutti.map((e) => e.data.tipo))];
+const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
+---
+<Base title="Eventi" current="eventi/">
+  <div class="wrap page-head">
+    <h1 class="display display-xl">Eventi<span class="dot">.</span></h1>
+    <p class="lead">Masterclass, contest, feste e concerti organizzati da {sito.nome} a {sito.citta}.</p>
+  </div>
+
+  {top && TopDesc && (
+    <section class="wrap" aria-label="Il più recente">
+      <article class="top">
+        <div class="top-img"><img src={img(top.data.locandina)} alt={`Locandina: ${top.data.titolo}`} /></div>
+        <div class="top-txt">
+          <span class="top-tag">Il più recente · {top.data.tipo}</span>
+          <h2 class="display top-title">{top.data.titolo}{top.data.sottotitolo && <><br /><span>{top.data.sottotitolo}</span></>}</h2>
+          <dl class="top-dati">
+            <div><dt>Quando</dt><dd>{top.data.quando}</dd></div>
+            <div><dt>Dove</dt><dd>{top.data.luogo}</dd></div>
+            {top.data.quota && <div><dt>Quota</dt><dd>{top.data.quota}</dd></div>}
+          </dl>
+          <div class="top-desc"><TopDesc /></div>
+          <div class="btn-row">
+            {top.data.link && <a href={top.data.link} class="btn btn-dark">Iscriviti</a>}
+            <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  )}
+
+  <section class="wrap filtri-head">
+    <h2 class="display">Eventi recenti</h2>
+    <div class="filters" role="group" aria-label="Filtra gli eventi per tipo" data-filtri="eventi">
+      {tipi.map((t, i) => <button type="button" class="filter" data-filtro={t} aria-pressed={i === 0 ? 'true' : 'false'}>{t}</button>)}
+    </div>
+  </section>
+
+  <p class="wrap vuoto" data-vuoto="recenti" hidden={altriRecenti.length > 0}>Nessun altro evento di questo tipo nell’ultimo anno. Guarda l’archivio qui sotto.</p>
+  <section class="wrap griglia" data-lista="recenti">
+    {altriRecenti.map((e) => (
+      <article class="ev" data-tipo={e.data.tipo}>
+        <div class="ev-img">
+          <img src={img(e.data.locandina)} alt={`Locandina: ${e.data.titolo}`} loading="lazy" />
+          <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
+        </div>
+        <div class="ev-txt">
+          <span class="tag">{e.data.tipo}</span>
+          <h3 class="display">{e.data.titolo}{e.data.sottotitolo ? ` · ${e.data.sottotitolo}` : ''}</h3>
+          <span class="ev-quando">{e.data.quando}</span>
+          <span class="ev-luogo">{e.data.luogo}</span>
+          {e.data.info.length > 0 && <ul>{e.data.info.map((r) => <li>{r}</li>)}</ul>}
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <section class="wrap archivio" aria-labelledby="archivio">
+    <div class="arch-head">
+      <h2 id="archivio" class="display">Archivio</h2>
+      <span>Eventi di oltre un anno fa</span>
+    </div>
+    <p class="vuoto" data-vuoto="archivio" hidden={archivio.length > 0}>Nessun evento in archivio per questo filtro.</p>
+    <div data-lista="archivio">
+      {archivio.map((e) => (
+        <div class="arch-row" data-tipo={e.data.tipo}>
+          <img src={img(e.data.locandina)} alt="" loading="lazy" />
+          <span class="arch-data">{dataBreve(e.data.data)}</span>
+          <span class="arch-txt"><span class="tag">{e.data.tipo}</span><span class="display">{e.data.titolo}</span></span>
+          <span class="arch-luogo">{e.data.luogo}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="cream news">
+    <div class="wrap news-in">
+      <h2 class="display display-m">Non perderti<br /><span class="rosso">il prossimo evento</span></h2>
+      <div class="btn-row">
+        <a href={sito.whatsappLink} class="btn btn-red">Scrivici su WhatsApp</a>
+        <a href={`mailto:${sito.email}`} class="btn btn-line">{sito.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const gruppo = document.querySelector<HTMLElement>('[data-filtri="eventi"]');
+  if (gruppo) {
+    const bottoni = gruppo.querySelectorAll<HTMLButtonElement>('[data-filtro]');
+    bottoni.forEach((b) =>
+      b.addEventListener('click', () => {
+        const t = b.dataset.filtro!;
+        bottoni.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        ['recenti', 'archivio'].forEach((nome) => {
+          const voci = document.querySelectorAll<HTMLElement>(`[data-lista="${nome}"] [data-tipo]`);
+          let visibili = 0;
+          voci.forEach((v) => {
+            v.hidden = t !== 'Tutti' && v.dataset.tipo !== t;
+            if (!v.hidden) visibili++;
+          });
+          const vuoto = document.querySelector<HTMLElement>(`[data-vuoto="${nome}"]`);
+          if (vuoto) vuoto.hidden = visibili > 0;
+        });
+      }),
+    );
+  }
+</script>
+
+<style>
+  .top { background: var(--cream); color: var(--ink); border-radius: 28px; overflow: hidden; display: flex; flex-wrap: wrap; margin-bottom: 80px; }
+  .top-img { flex: 1 1 340px; min-height: 420px; background: var(--card); display: flex; }
+  .top-img img { width: 100%; height: 100%; max-height: 640px; object-fit: cover; object-position: center top; }
+  .top-txt { flex: 999 1 420px; min-width: 0; padding: clamp(24px, 5vw, 56px); display: flex; flex-direction: column; gap: 20px; }
+  .top-tag { align-self: flex-start; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; background: var(--red); color: #fff; padding: 8px 14px; border-radius: 999px; }
+  .top-title { font-size: clamp(44px, 6vw, 80px); line-height: 0.92; }
+  .top-title span { color: var(--red); }
+  .top-dati { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; font-size: 15px; }
+  .top-dati dt { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
+  .top-dati dd { margin: 4px 0 0; font-weight: 600; }
+  .top-desc :global(p) { margin: 0; font-size: 17px; line-height: 1.65; color: var(--on-cream); }
+  .top .btn-line { color: var(--ink); }
+  .filtri-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 32px; }
+  .filtri-head h2, .arch-head h2 { font-size: 48px; }
+  .vuoto { margin: 0 auto; padding-bottom: 60px; font-size: 17px; color: var(--muted); }
+  .griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 24px; padding-bottom: 100px; }
+  .griglia:empty { display: none; }
+  .ev { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s, border-color 0.3s; }
+  .ev:hover { transform: translateY(-8px); border-color: var(--red); }
+  .ev-img { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--card-hover); }
+  .ev-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform 0.5s; }
+  .ev:hover .ev-img img { transform: scale(1.04); }
+  .ev-date { position: absolute; left: 14px; top: 14px; display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: 14px; padding: 10px 14px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
+  .ev-date b { font-family: var(--display); font-weight: 400; font-size: 36px; line-height: 1; }
+  .ev-date small { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
+  .ev-txt { padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .ev-txt h3 { font-size: 30px; line-height: 1.02; }
+  .ev-quando { font-size: 14px; color: var(--text-2); }
+  .ev-luogo { font-size: 14px; color: var(--muted); }
+  .ev-txt ul { margin: 4px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.45; color: #d9cfc9; }
+  .ev-txt li::marker { color: var(--red-light); }
+  .archivio { padding-bottom: 110px; }
+  .arch-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; border-bottom: 1px solid var(--line); padding-bottom: 18px; margin-bottom: 8px; }
+  .arch-head h2 { color: var(--muted); }
+  .arch-head span { font-size: 14px; color: var(--muted); }
+  .archivio .vuoto { padding: 24px 0; }
+  .arch-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .arch-row img { width: 64px; height: 80px; object-fit: cover; object-position: center top; border-radius: 8px; filter: grayscale(0.6); }
+  .arch-data { font-size: 15px; font-weight: 700; color: var(--text-2); width: 110px; }
+  .arch-txt { display: flex; flex-direction: column; gap: 4px; flex: 1 1 280px; }
+  .arch-txt .display { font-size: 28px; line-height: 1.05; }
+  .arch-luogo { font-size: 14px; color: var(--muted); flex: 0 1 300px; }
+  .news-in { padding-top: 90px; padding-bottom: 90px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between; }
+  .rosso { color: var(--red); }
+  .news .btn-line { color: var(--ink); }
+</style>
