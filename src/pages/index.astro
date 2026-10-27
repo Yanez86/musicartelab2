@@ -10,11 +10,16 @@ import { sito } from '../data/sito';
 const corsi = (await getCollection('corsi')).sort((a, b) => a.data.ordine - b.data.ordine);
 const insegnanti = (await getCollection('insegnanti')).sort((a, b) => a.data.ordine - b.data.ordine).slice(0, 4);
 const { recenti } = await eventiDivisi();
-const ultimi = recenti.slice(0, 3);
+// In home: prima gli eventi in arrivo (dal più vicino), poi i più recenti già passati.
+const oggi = new Date();
+oggi.setHours(0, 0, 0, 0);
+const futuri = recenti.filter((e) => e.data.data >= oggi).sort((a, b) => a.data.data.getTime() - b.data.data.getTime());
+const passati = recenti.filter((e) => e.data.data < oggi);
+const ultimi = [...futuri, ...passati].slice(0, 3);
 const strumenti = ['Pianoforte', 'Chitarra', 'Basso', 'Canto', 'Batteria', 'Coro', 'Propedeutica'];
 const giro = [...strumenti, ...strumenti];
 const rotazioni = [-3, 2, -2, 3];
-const prossimo = recenti.find((e) => e.data.data >= new Date());
+const prossimo = futuri[0];
 ---
 <Base overlayHeader>
   <section class="hero" style={`background-image: url(${u('img/splash.jpg')})`}>
@@ -39,6 +44,27 @@ const prossimo = recenti.find((e) => e.data.data >= new Date());
       {giro.map((s) => <span>{s}<span class="nota-m" aria-hidden="true">♪</span></span>)}
     </div>
   </section>
+
+  {ultimi.length > 0 && (
+    <section class="wrap eventi-home">
+      <div class="sec-head">
+        <h2 class="display display-l">{futuri.length > 0 ? 'Prossimi' : 'Ultimi'}<br />eventi</h2>
+        <a href={u('eventi/')} class="cream-text strong">Tutti gli eventi →</a>
+      </div>
+      <div class="ev-grid">
+        {ultimi.map((e) => (
+          <a href={u('eventi/')} class="ev-mini">
+            <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
+            <span class="ev-mini-txt">
+              <span class="tag">{e.data.tipo}</span>
+              <span class="ev-mini-title">{e.data.titolo}{e.data.sottotitolo ? ` · ${e.data.sottotitolo}` : ''}</span>
+              <span class="ev-mini-luogo">{e.data.luogo}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="wrap corsi-home">
     <div class="sec-head">
@@ -115,27 +141,6 @@ const prossimo = recenti.find((e) => e.data.data >= new Date());
     </div>
   </section>
 
-  {ultimi.length > 0 && (
-    <section class="wrap eventi-home">
-      <div class="sec-head">
-        <h2 class="display display-l">Ultimi<br />eventi</h2>
-        <a href={u('eventi/')} class="cream-text strong">Tutti gli eventi →</a>
-      </div>
-      <div class="ev-grid">
-        {ultimi.map((e) => (
-          <a href={u('eventi/')} class="ev-mini">
-            <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
-            <span class="ev-mini-txt">
-              <span class="tag">{e.data.tipo}</span>
-              <span class="ev-mini-title">{e.data.titolo}{e.data.sottotitolo ? ` · ${e.data.sottotitolo}` : ''}</span>
-              <span class="ev-mini-luogo">{e.data.luogo}</span>
-            </span>
-          </a>
-        ))}
-      </div>
-    </section>
-  )}
-
   <section class="wrap cta-finale">
     <h2 class="display display-l">La prima lezione<br /><span class="dot">è gratis.</span></h2>
     <a href={`mailto:${sito.email}?subject=Lezione di prova`} class="btn btn-cream">Prenota ora</a>
@@ -173,7 +178,7 @@ const prossimo = recenti.find((e) => e.data.data >= new Date());
   .sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 40px; }
 
   /* Corsi */
-  .corsi-home { padding-top: 120px; padding-bottom: 80px; }
+  .corsi-home { padding-top: 110px; padding-bottom: 80px; }
   .rows { border-top: 1px solid var(--line); }
   .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 28px 24px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background 0.25s, padding 0.25s; }
   .row:hover { background: var(--red); color: #fff; padding-left: 44px; }
@@ -213,7 +218,7 @@ const prossimo = recenti.find((e) => e.data.data >= new Date());
   .polaroids { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 32px; }
 
   /* Eventi */
-  .eventi-home { padding-top: 120px; }
+  .eventi-home { padding-top: 110px; }
   .ev-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
   .ev-mini { display: flex; gap: 22px; align-items: flex-start; padding: 28px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; text-decoration: none; transition: transform 0.3s; }
   .ev-mini:hover { transform: translateY(-8px); color: #fff; }

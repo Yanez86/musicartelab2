@@ -7,6 +7,7 @@ import { sito } from '../data/sito';
 
 const { tutti, recenti, archivio } = await eventiDivisi();
 const top = recenti[0];
+const topFuturo = top ? top.data.data >= new Date(new Date().toDateString()) : false;
 const altriRecenti = recenti.slice(1);
 const TopDesc = top ? (await render(top)).Content : null;
 const tipi = ['Tutti', ...new Set(tutti.map((e) => e.data.tipo))];
@@ -19,11 +20,11 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
   </div>
 
   {top && TopDesc && (
-    <section class="wrap" aria-label="Il più recente">
+    <section class="wrap" aria-label={topFuturo ? 'Prossimo evento' : 'Il più recente'}>
       <article class="top">
         <div class="top-img"><img src={img(top.data.locandina)} alt={`Locandina: ${top.data.titolo}`} /></div>
         <div class="top-txt">
-          <span class="top-tag">Il più recente · {top.data.tipo}</span>
+          <span class="top-tag">{topFuturo ? 'Prossimo evento' : 'Il più recente'} · {top.data.tipo}</span>
           <h2 class="display top-title">{top.data.titolo}{top.data.sottotitolo && <><br /><span>{top.data.sottotitolo}</span></>}</h2>
           <dl class="top-dati">
             <div><dt>Quando</dt><dd>{top.data.quando}</dd></div>
