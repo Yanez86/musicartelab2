@@ -15,6 +15,8 @@ export const sito = {
   periodoCorsi: 'da settembre a giugno',
   fondazione: 2019,
   pieghevole: 'pieghevole-musicartelab.pdf',
+  // Riquadro "sorprese" che chiude gli eventi futuri
+  sorprese: 'Un sacco di nuove ed emozionanti sorprese vi attendono: concerti, masterclass e serate da non perdere. Seguici sui social per scoprirle per primo.',
   statutoPdf: '', // es. '/statuto.pdf' dopo averlo messo in public/
 };
 
