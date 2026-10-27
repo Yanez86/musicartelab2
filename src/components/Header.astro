@@ -1,5 +1,5 @@
 ---
-import { menu, sito } from '../data/sito';
+import { menu, sito, social } from '../data/sito';
 import { u } from '../lib/url';
 
 interface Props { current?: string; overlay?: boolean }
@@ -11,11 +11,134 @@ const { current = '', overlay = false } = Astro.props;
       <img src={u('img/logo.jpg')} alt={`Logo ${sito.nome}`} width="64" height="64" />
       <span class="brand-name">Musicarte<span class="script">lab</span></span>
     </a>
-    <nav class="nav" aria-label="Principale">
+    <nav class="nav nav-desktop" aria-label="Principale">
       {menu.map((m) => (
         <a href={u(m.href)} aria-current={current === m.href ? 'page' : undefined}>{m.label}</a>
       ))}
-      <a href={u('corsi/')} class="btn btn-cream">Iscriviti</a>
     </nav>
+    <button type="button" class="hamburger" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu-telefono">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h10"></path></svg>
+    </button>
   </div>
 </header>
+
+<div id="menu-telefono" class="menu-tel" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div aria-hidden="true" class="menu-lab script">lab</div>
+  <div class="menu-top">
+    <a href={u()} class="brand">
+      <img src={u('img/logo.jpg')} alt={`Logo ${sito.nome}`} width="46" height="46" />
+      <span class="brand-name">Musicarte<span class="script">lab</span></span>
+    </a>
+    <button type="button" class="menu-chiudi" aria-label="Chiudi il menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+    </button>
+  </div>
+  <nav class="menu-voci" aria-label="Principale">
+    {menu.map((m, i) => (
+      <a href={u(m.href)} aria-current={current === m.href ? 'page' : undefined}>
+        <span class="n">{String(i + 1).padStart(2, '0')}</span>{m.label}
+        {current === m.href && <span class="pallino" aria-hidden="true"></span>}
+      </a>
+    ))}
+  </nav>
+  <div class="menu-fondo">
+    <div class="menu-contatti">
+      <a href={`mailto:${sito.email}`}>{sito.email}</a>
+      <a href={sito.whatsappLink}>WhatsApp {sito.whatsapp}</a>
+    </div>
+    <ul class="menu-social">
+      {social.map((s) => (
+        <li><a href={s.href} rel="noopener" target="_blank" aria-label={s.label}><img src={u(s.icon)} alt="" width="30" height="30" /></a></li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<script>
+  const menu = document.getElementById('menu-telefono');
+  const apri = document.querySelector<HTMLButtonElement>('.hamburger');
+  const chiudi = menu?.querySelector<HTMLButtonElement>('.menu-chiudi');
+  if (menu && apri && chiudi) {
+    const imposta = (aperto: boolean) => {
+      menu.hidden = !aperto;
+      apri.setAttribute('aria-expanded', String(aperto));
+      document.documentElement.style.overflow = aperto ? 'hidden' : '';
+      (aperto ? chiudi : apri).focus();
+    };
+    apri.addEventListener('click', () => imposta(true));
+    chiudi.addEventListener('click', () => imposta(false));
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => imposta(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) imposta(false);
+    });
+    // Se si allarga la finestra oltre il breakpoint, il menu si richiude.
+    matchMedia('(min-width: 861px)').addEventListener('change', (e) => {
+      if (e.matches && !menu.hidden) imposta(false);
+    });
+  }
+</script>
+
+<style>
+  .hamburger, .menu-chiudi {
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    display: none;
+    place-items: center;
+    cursor: pointer;
+  }
+  .hamburger { background: var(--cream); color: var(--ink); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); }
+  .menu-chiudi { display: grid; background: var(--red); color: #fff; }
+
+  @media (max-width: 860px) {
+    .nav-desktop { display: none; }
+    .hamburger { display: grid; }
+    .site-header .wrap { flex-wrap: nowrap; padding-top: 18px; padding-bottom: 18px; }
+    .site-header .brand img { width: 46px; height: 46px; }
+    .site-header .brand-name { font-size: 22px; }
+  }
+
+  .menu-tel {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: var(--ink);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 18px 28px 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    animation: menuIn 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .menu-tel[hidden] { display: none; }
+  @keyframes menuIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+  .menu-lab { position: absolute; right: -60px; bottom: 120px; font-size: 180px; line-height: 1; color: rgba(155, 27, 48, 0.14); transform: rotate(-8deg); pointer-events: none; }
+  .menu-top { position: relative; display: flex; align-items: center; justify-content: space-between; }
+  .menu-top .brand img { width: 46px; height: 46px; }
+  .menu-top .brand-name { font-size: 22px; }
+  .menu-voci { position: relative; margin-top: 44px; display: flex; flex-direction: column; }
+  .menu-voci a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--display);
+    font-size: 52px;
+    line-height: 1;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .menu-voci a:hover { color: var(--red-light); }
+  .menu-voci a[aria-current='page'] { color: var(--cream); }
+  .menu-voci .n { font-size: 20px; color: var(--red-light); width: 34px; }
+  .pallino { margin-left: auto; width: 12px; height: 12px; border-radius: 50%; background: var(--red-light); }
+  .menu-fondo { position: relative; margin-top: auto; padding-top: 32px; display: flex; flex-direction: column; gap: 18px; }
+  .menu-contatti { display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+  .menu-contatti a { color: var(--muted); text-decoration: none; }
+  .menu-social { margin: 0; padding: 0; list-style: none; display: flex; gap: 12px; }
+  .menu-social a { width: 52px; height: 52px; border-radius: 50%; background: #fff; display: grid; place-items: center; }
+  .menu-social img { width: 30px; height: 30px; object-fit: contain; }
+</style>

@@ -1,14 +1,6 @@
 ---
-import { sito } from '../data/sito';
+import { sito, social } from '../data/sito';
 import { u } from '../lib/url';
-
-// Icone ufficiali dai kit brand di Meta (public/img/social/), usate nei
-// colori originali come chiedono le linee guida: non vanno ricolorate.
-const social = [
-  { href: sito.instagram, label: 'Instagram', handle: '@musicartelab', icon: 'img/social/instagram.png' },
-  { href: sito.facebook, label: 'Facebook', handle: 'Musicarte-Lab APS', icon: 'img/social/facebook.png' },
-  { href: sito.whatsappLink, label: 'WhatsApp', handle: sito.whatsapp, icon: 'img/social/whatsapp.svg' },
-];
 ---
 <footer class="site-footer">
   <div class="wrap">
@@ -17,9 +9,8 @@ const social = [
       <ul>
         {social.map((s) => (
           <li>
-            <a href={s.href} rel="noopener" target="_blank">
-              <span class="ico"><img src={u(s.icon)} alt="" width="30" height="30" loading="lazy" /></span>
-              <span class="txt"><b>{s.label}</b><small>{s.handle}</small></span>
+            <a href={s.href} rel="noopener" target="_blank" aria-label={`${s.label}: ${s.handle}`} title={s.label}>
+              <img src={u(s.icon)} alt="" width="34" height="34" loading="lazy" />
             </a>
           </li>
         ))}
@@ -51,12 +42,7 @@ const social = [
   .social { padding-top: 64px; padding-bottom: 8px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 40px; }
   .social h2 { font-size: clamp(40px, 6vw, 64px); }
   .social ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 14px; }
-  .social a { display: flex; align-items: center; gap: 14px; padding: 10px 22px 10px 10px; border: 2px solid var(--line-strong); border-radius: 999px; text-decoration: none; transition: border-color 0.25s, background 0.25s; }
-  .social a:hover { border-color: var(--red); background: var(--card-hover); color: #fff; }
-  .ico { width: 52px; height: 52px; border-radius: 50%; background: #fff; display: grid; place-items: center; transition: transform 0.25s; }
-  .social a:hover .ico { transform: scale(1.06); }
-  .ico img { width: 30px; height: 30px; object-fit: contain; }
-  .txt { display: flex; flex-direction: column; line-height: 1.25; }
-  .txt b { font-size: 16px; }
-  .txt small { font-size: 13px; color: var(--muted); }
+  .social a { width: 60px; height: 60px; border-radius: 50%; background: #fff; display: grid; place-items: center; transition: transform 0.25s, box-shadow 0.25s; }
+  .social a:hover { transform: translateY(-4px) scale(1.06); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4); }
+  .social img { width: 34px; height: 34px; object-fit: contain; }
 </style>
