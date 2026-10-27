@@ -1,0 +1,43 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Ritratto from '../components/Ritratto.astro';
+import { u } from '../lib/url';
+import { sito } from '../data/sito';
+
+const lista = (await getCollection('insegnanti')).sort((a, b) => a.data.ordine - b.data.ordine);
+const insegnanti = await Promise.all(lista.map(async (d) => ({ d, Bio: (await render(d)).Content })));
+const rotazioni = [-3, 2, -2, 3, 2, -3, 3, -2];
+---
+<Base title="Insegnanti" current="insegnanti/">
+  <div class="wrap page-head">
+    <h1 class="display display-xl">Gli<br />insegnanti<span class="dot">.</span></h1>
+    <p class="lead">Musicisti diplomati e attivi in concerto, che insegnano nella nostra sede di {sito.citta}.</p>
+  </div>
+
+  <section class="cream lista">
+    <div class="wrap polaroids">
+      {insegnanti.map(({ d, Bio }, i) => (
+        <article class="polaroid" style={`--rot: ${rotazioni[i % rotazioni.length]}deg`}>
+          {d.data.foto ? <img src={u(`img/insegnanti/${d.data.foto}`)} alt={d.data.nome} loading="lazy" /> : <Ritratto variante={d.data.ritratto} />}
+          <span class="strumento">{d.data.strumento}</span>
+          <h2 class="nome display">{d.data.nome}</h2>
+          <div class="bio"><Bio /></div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap cta">
+    <h2 class="display display-m">Vuoi conoscerli<br /><span class="dot">di persona?</span></h2>
+    <a href={`mailto:${sito.email}?subject=Lezione di prova`} class="btn btn-cream">Prenota una lezione di prova</a>
+  </section>
+</Base>
+
+<style>
+  .lista { padding: 100px 0 120px; }
+  .polaroids { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 56px 36px; }
+  .nome { font-size: 28px; line-height: 1; }
+  .bio :global(p) { margin: 0; font-size: 15px; line-height: 1.55; color: var(--on-cream); }
+  .cta { padding-top: 110px; padding-bottom: 110px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 28px; }
+</style>

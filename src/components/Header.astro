@@ -1,0 +1,21 @@
+---
+import { menu, sito } from '../data/sito';
+import { u } from '../lib/url';
+
+interface Props { current?: string; overlay?: boolean }
+const { current = '', overlay = false } = Astro.props;
+---
+<header class:list={['site-header', { 'site-header--overlay': overlay }]}>
+  <div class="wrap">
+    <a href={u()} class="brand">
+      <img src={u('img/logo.jpg')} alt={`Logo ${sito.nome}`} width="64" height="64" />
+      <span class="brand-name">Musicarte<span class="script">lab</span></span>
+    </a>
+    <nav class="nav" aria-label="Principale">
+      {menu.map((m) => (
+        <a href={u(m.href)} aria-current={current === m.href ? 'page' : undefined}>{m.label}</a>
+      ))}
+      <a href={u('corsi/')} class="btn btn-cream">Iscriviti</a>
+    </nav>
+  </div>
+</header>

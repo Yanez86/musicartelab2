@@ -1,0 +1,60 @@
+---
+// Il camino della fornace del logo, con il pentagramma che esce come fumo.
+---
+<svg class="camino" viewBox="0 0 520 900" aria-hidden="true">
+  <defs>
+    <linearGradient id="caminoFadeG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.84" stop-color="#FFFFFF"></stop>
+      <stop offset="1" stop-color="#000000"></stop>
+    </linearGradient>
+    <mask id="caminoFade" maskUnits="userSpaceOnUse" x="0" y="-40" width="520" height="940">
+      <rect x="0" y="-40" width="520" height="940" fill="url(#caminoFadeG)"></rect>
+    </mask>
+  </defs>
+  <g class="fumo" fill="none" stroke="#EDE3D1" stroke-width="2.5" opacity="0.8">
+    <path d="M262 232 C268 150 330 130 360 90 C392 48 360 10 300 20"></path>
+    <path d="M274 232 C280 158 342 138 372 98 C404 56 372 18 312 28"></path>
+    <path d="M286 232 C292 166 354 146 384 106 C416 64 384 26 324 36"></path>
+    <path d="M298 232 C304 174 366 154 396 114 C428 72 396 34 336 44"></path>
+    <path d="M310 232 C316 182 378 162 408 122 C440 80 408 42 348 52"></path>
+  </g>
+  <g class="nota" style="animation-delay: 0s" fill="#EDE3D1"><ellipse cx="318" cy="168" rx="11" ry="8" transform="rotate(-25 318 168)"></ellipse><rect x="327" y="110" width="3" height="56"></rect></g>
+  <g class="nota" style="animation-delay: 0.9s" fill="#EDE3D1"><ellipse cx="390" cy="110" rx="11" ry="8" transform="rotate(-25 390 110)"></ellipse><rect x="399" y="52" width="3" height="56"></rect><path d="M402 52 C418 60 424 76 414 92 C418 76 412 66 402 64 Z"></path></g>
+  <g class="nota" style="animation-delay: 1.8s" fill="#C8475C"><ellipse cx="350" cy="40" rx="11" ry="8" transform="rotate(-25 350 40)"></ellipse><rect x="359" y="-18" width="3" height="56"></rect></g>
+  <g class="nota" style="animation-delay: 2.6s" fill="#EDE3D1"><ellipse cx="440" cy="150" rx="9" ry="6.5" transform="rotate(-25 440 150)"></ellipse><rect x="447" y="104" width="2.5" height="45"></rect></g>
+  <g mask="url(#caminoFade)">
+    <polygon points="230,250 320,250 360,900 190,900" fill="#9B1B30"></polygon>
+    <polygon points="275,250 320,250 360,900 275,900" fill="#000000" opacity="0.18"></polygon>
+    <rect x="218" y="226" width="114" height="28" rx="2" fill="#7E1526"></rect>
+    <rect x="226" y="296" width="98" height="10" fill="#7E1526"></rect>
+    <g fill="#F5EFE6">
+      <rect x="240" y="330" width="34" height="9"></rect><rect x="284" y="352" width="26" height="9"></rect>
+      <rect x="236" y="392" width="44" height="9"></rect><rect x="226" y="440" width="30" height="9"></rect>
+      <rect x="270" y="472" width="40" height="9"></rect><rect x="218" y="530" width="36" height="9"></rect>
+      <rect x="262" y="560" width="48" height="9"></rect><rect x="220" y="622" width="40" height="9"></rect>
+      <rect x="290" y="650" width="34" height="9"></rect><rect x="208" y="716" width="44" height="9"></rect>
+      <rect x="268" y="752" width="40" height="9"></rect><rect x="204" y="818" width="36" height="9"></rect>
+      <rect x="262" y="846" width="54" height="9"></rect><rect x="316" y="598" width="20" height="9"></rect>
+    </g>
+  </g>
+</svg>
+
+<style>
+  .camino {
+    position: absolute;
+    z-index: 3;
+    right: 2%;
+    bottom: -160px;
+    height: 920px;
+    width: auto;
+    max-width: 56%;
+    pointer-events: none;
+  }
+  .nota { animation: galleggia 4.5s ease-in-out infinite; }
+  .fumo { animation: deriva 6s ease-in-out infinite; }
+  @keyframes galleggia { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+  @keyframes deriva { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @media (max-width: 760px) {
+    .camino { z-index: 0; height: 540px; right: -40px; bottom: -120px; max-width: none; opacity: 0.45; }
+  }
+</style>

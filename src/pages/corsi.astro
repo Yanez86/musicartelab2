@@ -1,0 +1,120 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
+import { sito } from '../data/sito';
+
+const corsi = (await getCollection('corsi')).sort((a, b) => a.data.ordine - b.data.ordine);
+const filtri = [
+  { id: 'tutti', label: 'Tutti' },
+  { id: 'bambini', label: 'Bambini' },
+  { id: 'ragazzi', label: 'Ragazzi' },
+  { id: 'adulti', label: 'Adulti' },
+];
+---
+<Base title="Corsi" current="corsi/">
+  <section class="corsi-hero" style={`background-image: url(${u('img/concerto.jpg')})`}>
+    <div class="shade"></div>
+    <div class="wrap page-head">
+      <h1 class="display display-xl">I corsi<span class="dot">.</span></h1>
+      <p class="lead">Tutti i corsi sono orientati al pop rock: si studiano e si suonano i brani di Red Hot Chili Peppers, Foo Fighters, Pink Floyd e tanti altri. Anno {sito.annoCorsi}, {sito.periodoCorsi}, nella sede di {sito.citta}.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="filters" role="group" aria-label="Filtra i corsi per età" data-filtri="corsi">
+      {filtri.map((f, i) => <button type="button" class="filter" data-filtro={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>{f.label}</button>)}
+    </div>
+  </div>
+
+  <section class="wrap griglia">
+    {corsi.map((c, i) => (
+      <article class="corso" data-fasce={c.data.fasce.join(' ')}>
+        <div class="corso-top">
+          <span class="corso-n">{String(i + 1).padStart(2, '0')}</span>
+          <span class="corso-eta">{c.data.eta}</span>
+        </div>
+        <h2 class="display corso-nome">{c.data.nome}</h2>
+        <p class="corso-desc">{c.data.breve}</p>
+        <dl class="corso-dati">
+          <div><dt>Formula</dt><dd>{c.data.formula}</dd></div>
+          <div><dt>Giorni</dt><dd>{c.data.giorni}</dd></div>
+          <div><dt>Insegnante</dt><dd><a href={u('insegnanti/')}>{c.data.insegnante}</a></dd></div>
+          <div><dt>Quota</dt><dd>{c.data.quota}</dd></div>
+        </dl>
+        <div class="btn-row">
+          <a href={`mailto:${sito.email}?subject=Lezione di prova: ${c.data.nome}`} class="btn btn-red">Prenota la prova</a>
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <section class="wrap">
+    <div class="band-box">
+      <div>
+        <p class="kicker">Dopo le lezioni, il palco</p>
+        <h2 class="display band-box-title">Suona nella Musicarte<span class="script cream">Band</span></h2>
+        <p>Il gruppo ufficiale dell’associazione, con allievi e insegnanti, porta dal vivo il repertorio pop rock studiato nei corsi.</p>
+      </div>
+      <a href={u('#band')} class="btn btn-cream">Scopri la band</a>
+    </div>
+  </section>
+
+  <section class="cream iscrizione">
+    <div class="wrap">
+      <h2 class="display display-l">Come iscriversi</h2>
+      <ol class="passi">
+        <li><span>01</span><strong>Lezione di prova</strong><p>Prenota scrivendo a {sito.email} o su WhatsApp e conosci l’insegnante.</p></li>
+        <li><span>02</span><strong>Tessera associativa</strong><p>Quota annuale [€ —], come previsto dallo <a href={u('statuto/')}>statuto</a>.</p></li>
+        <li><span>03</span><strong>Giorno e orario</strong><p>Concordati con l’insegnante, nella sede di {sito.citta}.</p></li>
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-filtri="corsi"]').forEach((gruppo) => {
+    const bottoni = gruppo.querySelectorAll<HTMLButtonElement>('[data-filtro]');
+    const corsi = document.querySelectorAll<HTMLElement>('[data-fasce]');
+    bottoni.forEach((b) =>
+      b.addEventListener('click', () => {
+        const f = b.dataset.filtro!;
+        bottoni.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        corsi.forEach((c) => {
+          c.hidden = f !== 'tutti' && !c.dataset.fasce!.split(' ').includes(f);
+        });
+      }),
+    );
+  });
+</script>
+
+<style>
+  .corsi-hero { position: relative; background-size: cover; background-position: center 60%; margin-top: -112px; padding-top: 112px; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(20, 13, 15, 0.82), var(--ink)); }
+  .page-head { position: relative; }
+  .filters { padding-top: 8px; padding-bottom: 40px; }
+  .griglia { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 20px; padding-bottom: 100px; }
+  .corso { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: clamp(22px, 5vw, 32px); display: flex; flex-direction: column; gap: 18px; transition: transform 0.3s, background 0.3s; }
+  .corso:hover { transform: translateY(-8px); background: var(--card-hover); }
+  .corso-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .corso-n { font-family: var(--display); font-size: 28px; color: var(--red-light); }
+  .corso-eta { font-size: 13px; font-weight: 700; color: var(--ink); background: var(--cream); padding: 7px 14px; border-radius: 999px; white-space: nowrap; }
+  .corso-nome { font-size: clamp(38px, 9vw, 50px); line-height: 0.95; }
+  .corso-desc { margin: 0; font-size: 16px; line-height: 1.6; color: #d9cfc9; }
+  .corso-dati { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; font-size: 14px; border-top: 1px solid var(--line); padding-top: 18px; }
+  .corso-dati dt { color: var(--muted); }
+  .corso-dati dd { margin: 3px 0 0; font-weight: 600; }
+  .band-box { background: var(--red); border-radius: 28px; padding: clamp(28px, 5vw, 48px); display: flex; flex-wrap: wrap; gap: 24px 40px; align-items: center; justify-content: space-between; margin-bottom: 100px; }
+  .band-box > div { display: flex; flex-direction: column; gap: 10px; max-width: 720px; }
+  .band-box p:last-child { margin: 0; font-size: 17px; line-height: 1.6; color: #fbeff1; }
+  .band-box-title { font-size: clamp(36px, 6vw, 72px); line-height: 0.92; overflow-wrap: anywhere; }
+  .band-box .cream { background: none; color: var(--cream); }
+  .iscrizione { padding: 100px 0 110px; }
+  .iscrizione h2 { margin-bottom: 48px; }
+  .passi { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
+  .passi li { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 20px; }
+  .passi span { font-family: var(--display); font-size: 72px; line-height: 1; color: var(--red); }
+  .passi strong { font-size: 20px; }
+  .passi p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--on-cream); }
+  .passi a { color: var(--red); }
+</style>

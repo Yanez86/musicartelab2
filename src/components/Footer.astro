@@ -1,0 +1,26 @@
+---
+import { sito } from '../data/sito';
+import { u } from '../lib/url';
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <strong>Sede</strong>
+        <span>{sito.citta}, {sito.indirizzo}</span>
+        <span>{sito.nome} {sito.forma} · C.F. {sito.codiceFiscale}</span>
+      </div>
+      <div>
+        <strong>Contatti</strong>
+        <a href={`mailto:${sito.email}`}>{sito.email}</a>
+        <a href={sito.whatsappLink}>WhatsApp {sito.whatsapp}</a>
+      </div>
+      <div>
+        <strong>Associazione</strong>
+        <a href={u('statuto/')}>Statuto</a>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+    <div class="bigname" aria-hidden="true">Musicarte<span class="script">lab</span></div>
+  </div>
+</footer>
