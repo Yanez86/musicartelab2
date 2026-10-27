@@ -1,6 +1,6 @@
 ---
 nome: "[Nome Cognome]"
-strumento: Propedeutica musicale
+strumento: Musichello
 ordine: 5
 ritratto: 4
 ---
