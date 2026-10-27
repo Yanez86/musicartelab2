@@ -2,7 +2,7 @@ name: Sito
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
   # Ricostruisce il sito ogni lunedì mattina, così gli eventi più vecchi
   # di un anno passano da soli in archivio.

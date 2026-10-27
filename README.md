@@ -63,7 +63,7 @@ npm run build    # crea il sito finale in dist/
 
 ## Pubblicazione
 
-La GitHub Action in `.github/workflows/sito.yml` costruisce e pubblica il sito a ogni push su `main`.
+La GitHub Action in `.github/workflows/sito.yml` costruisce e pubblica il sito a ogni push su `master`.
 La prima volta bisogna attivare GitHub Pages: **Settings → Pages → Source: GitHub Actions**.
 
 Per usare un dominio vostro (es. `musicartelab.it`) cambiate `site` e togliete `base` in `astro.config.mjs`.
