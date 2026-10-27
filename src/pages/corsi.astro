@@ -6,7 +6,6 @@ import { sito } from '../data/sito';
 import Nome from '../components/Nome.astro';
 
 const corsi = (await getCollection('corsi')).sort((a, b) => a.data.ordine - b.data.ordine);
-const formato = ['Bambini, adolescenti e adulti', 'Individuali o piccoli gruppi', 'Orari mattutini, pomeridiani e serali', 'Anche online'];
 const altre = ['Workshop', 'Seminari', 'Conferenze', 'Lezioni concerto', 'Teatro', 'Sonorizzazione di spettacoli teatrali'];
 const fuoriSede = [
   { t: 'Corsi per le scuole', d: 'Nelle loro sedi: infanzia, primaria, secondaria di primo e secondo grado.' },
@@ -30,9 +29,6 @@ const filtri = [
       <h1 class="display display-xl">Corsi<span class="dot">.</span></h1>
       <p class="lead intro">Qui trovi tutti i corsi di <Nome />: strumento, canto, coro e Musichello per i più piccoli, per bambini, ragazzi e adulti. Per ogni corso ci sono età, formula, insegnante e quota, e con i filtri vedi subito quelli adatti a te. Sono tutti orientati al pop rock, dai Red Hot Chili Peppers ai Foo Fighters ai Pink Floyd, con lezioni {sito.periodoCorsi} nella sede di {sito.citta}. Più in basso: le altre attività, i servizi fuori sede e come iscriversi.</p>
     </div>
-    <ul class="wrap formato">
-      {formato.map((f) => <li>{f}</li>)}
-    </ul>
   </section>
 
   <div class="wrap">
@@ -150,8 +146,6 @@ const filtri = [
   .band-box p:last-child { margin: 0; font-size: 17px; line-height: 1.6; color: #fbeff1; }
   .band-box-title { font-size: clamp(36px, 6vw, 72px); line-height: 0.92; overflow-wrap: anywhere; }
   .band-box .cream { background: none; color: var(--cream); }
-  .formato { position: relative; list-style: none; margin: -24px auto 0; padding-bottom: 48px; display: flex; flex-wrap: wrap; gap: 10px; }
-  .formato li { font-size: 14px; font-weight: 700; padding: 9px 16px; border-radius: 999px; background: rgba(237, 227, 209, 0.12); border: 1px solid rgba(237, 227, 209, 0.35); color: var(--cream); }
   .altre { padding-bottom: 72px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px 32px; }
   .altre h2 { font-size: 40px; }
   .altre ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px 28px; }
