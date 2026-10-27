@@ -21,13 +21,17 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+html, body { overflow-x: hidden; }
 body {
   margin: 0;
   background: var(--ink);
   color: var(--text);
   font-family: var(--body);
-  overflow-x: hidden;
 }
+/* Gli elementi decorativi (camino, fascia inclinata, cartellini ruotati)
+   escono apposta dai bordi: qui vengono tagliati in orizzontale così
+   sul telefono la pagina non scorre di lato. In verticale restano liberi. */
+main, .site-footer { overflow-x: clip; }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
 a:hover { color: var(--cream); }
@@ -183,6 +187,7 @@ button { font: inherit; }
   text-transform: uppercase;
   color: #2a1e21;
   white-space: nowrap;
+  overflow: hidden;
   padding: 40px 0 32px;
 }
 .site-footer .bigname .script { color: #3a2428; }
