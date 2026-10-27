@@ -23,3 +23,11 @@ export const menu = [
   { href: 'statuto/', label: 'Statuto' },
   { href: 'sostienici/', label: 'Sostienici' },
 ];
+
+// Social: icone ufficiali dai kit brand di Meta in public/img/social/,
+// da usare nei colori originali (le linee guida non permettono di ricolorarle).
+export const social = [
+  { href: sito.instagram, label: 'Instagram', handle: '@musicartelab', icon: 'img/social/instagram.png' },
+  { href: sito.facebook, label: 'Facebook', handle: 'Musicarte-Lab APS', icon: 'img/social/facebook.png' },
+  { href: sito.whatsappLink, label: 'WhatsApp', handle: sito.whatsapp, icon: 'img/social/whatsapp.svg' },
+];
