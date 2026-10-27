@@ -1,6 +1,6 @@
 ---
 // Riquadro grande dell'evento principale: usato in home e nella pagina Eventi.
-// In home (breve) mostra solo le informazioni principali e il link alla pagina dell'evento.
+// In home (breve) mostra solo le informazioni principali, la prenotazione e il link alla pagina dell'evento.
 import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
 import Testo from './Testo.astro';
@@ -25,6 +25,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
     </dl>
     {breve ? (
       <div class="btn-row">
+        {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{top.data.bottone}</a>}
         <a href={linkEvento(top)} class="btn btn-dark">Vai alla pagina dell’evento</a>
       </div>
     ) : (
