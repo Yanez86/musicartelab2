@@ -54,6 +54,7 @@ Cartella: [`src/content/eventi/`](src/content/eventi) · locandine: [`public/img
 
 1. Caricate la locandina in `public/img/eventi/`, con un nome semplice: `rock-christmas-2026.jpg`.
 2. In `src/content/eventi/` create un file con lo stesso nome ma finale `.md`: `rock-christmas-2026.md`.
+   Il nome del file diventa l’indirizzo della pagina dell’evento, quindi sceglietelo bene.
 3. Incollate questo modello e compilatelo:
 
 ```md
@@ -90,14 +91,26 @@ Lasciate una riga vuota tra un paragrafo e l’altro.
 | `prenotazione` | no | Link al modulo Tally, vedi sotto |
 | `bottone` | no | Testo del pulsante di prenotazione. Se manca: **Prenota** |
 
+### La pagina dell’evento
+
+Ogni evento ha una pagina sua, con locandina intera, descrizione, prenotazione e pulsante **Condividi**.
+L’indirizzo è il nome del file senza `.md`:
+`https://yanez86.github.io/musicartelab2/eventi/rock-christmas-2026/`
+
+- **È il link da condividere** su WhatsApp, Instagram e Facebook: l’anteprima mostra locandina, titolo e data.
+- Google la usa per mostrare l’evento nei risultati di ricerca, con data e luogo.
+- Sul sito ci si arriva cliccando su qualsiasi scheda dell’evento.
+- **Non rinominate il file** dopo aver condiviso il link: l’indirizzo cambierebbe e il vecchio link
+  smetterebbe di funzionare.
+
 ### Prenotazioni con Tally
 
 1. In Tally aprite il modulo → **Share** → copiate il link, del tipo `https://tally.so/r/abc123`.
 2. Nel file dell’evento aggiungete `prenotazione: https://tally.so/r/abc123`.
 3. Se volete un testo diverso da “Prenota”, aggiungete per esempio `bottone: Iscriviti`.
 
-Il pulsante compare sull’evento in evidenza (in home e nella pagina Eventi) e sulla sua scheda tra gli
-eventi futuri. Il modulo si apre in una nuova scheda del browser. **Il giorno dopo l’evento il pulsante
+Il pulsante compare sull’evento in evidenza (in home e nella pagina Eventi), sulla sua scheda tra gli
+eventi futuri e nella pagina dell’evento. Il modulo si apre in una nuova scheda del browser. **Il giorno dopo l’evento il pulsante
 sparisce da solo.**
 
 - **Posti esauriti prima della data:** togliete la riga `prenotazione`, oppure chiudete il modulo dalle
@@ -108,9 +121,10 @@ sparisce da solo.**
 ### Cambiare, annullare o togliere un evento
 
 - **Cambiare** data, orario o testi: modificate il file. Se cambia il giorno, aggiornate sia `data` sia `quando`.
-- **Evento annullato:** cancellate il file (e la locandina), oppure lasciatelo con `sottotitolo: Annullato`.
-- **Togliere** un evento passato: di solito non serve, va in archivio da solo. Se proprio volete, cancellate
-  il file `.md` e la sua locandina.
+- **Evento annullato:** lasciate il file, scrivete `sottotitolo: Annullato` e togliete la riga `prenotazione`.
+  Così chi ha ricevuto il link trova l’avviso. Se cancellate il file, la pagina sparisce e il link non funziona più.
+- **Togliere** un evento passato: di solito non serve, va in archivio da solo e la sua pagina resta come
+  ricordo. Se proprio volete, cancellate il file `.md` e la sua locandina.
 
 ## Corsi, insegnanti e dati generali
 
@@ -166,7 +180,8 @@ Se la build va ma una foto non si vede, il nome del file non corrisponde: contro
 ## Google
 
 Il sito è già pronto per i motori di ricerca: ogni pagina ha titolo e descrizione propri, c’è la mappa
-del sito (`sitemap-index.xml`) e una scheda con i dati dell’associazione.
+del sito (`sitemap-index.xml`), una scheda con i dati dell’associazione e, per ogni evento, i dati
+che Google usa per mostrarlo nei risultati.
 Il passo che resta da fare una volta sola è iscriverlo a **Google Search Console**:
 
 1. Andate su https://search.google.com/search-console con l’account Google dell’associazione.
