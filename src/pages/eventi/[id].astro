@@ -33,8 +33,16 @@ const descrizione = testoBreve(`${d.quando} · ${d.luogo}. ${evento.body ?? ''}`
 const { futuri, recenti } = await eventiDivisi();
 const altri = [...futuri, ...recenti.filter((e) => !inArrivo(e))].filter((e) => e.id !== evento.id).slice(0, 3);
 
-// Dati strutturati schema.org: così Google può mostrare l'evento nei risultati.
 const assoluto = (path = '') => new URL(u(path), Astro.site).href;
+const indirizzo = assoluto(`eventi/${evento.id}/`);
+
+// Condivisione: WhatsApp e Facebook sono semplici link, niente script esterni.
+const condividi = {
+  whatsapp: `https://wa.me/?text=${encodeURIComponent(`${titolo} · ${d.quando}\n${indirizzo}`)}`,
+  facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(indirizzo)}`,
+};
+
+// Dati strutturati schema.org: così Google può mostrare l'evento nei risultati.
 const inCitta = d.luogo.includes(sito.citta);
 const scheda = {
   '@context': 'https://schema.org',
@@ -61,7 +69,7 @@ const scheda = {
   offers: futuro && d.prenotazione
     ? { '@type': 'Offer', url: d.prenotazione, availability: 'https://schema.org/InStock' }
     : undefined,
-  url: assoluto(`eventi/${evento.id}/`),
+  url: indirizzo,
 };
 ---
 <Base title={titolo} description={descrizione} image={locandina} current="eventi/">
@@ -93,7 +101,25 @@ const scheda = {
       <div class="btn-row">
         {futuro && d.prenotazione && <a href={d.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{d.bottone}</a>}
         <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
-        <button type="button" class="btn btn-line" data-condividi>Condividi</button>
+      </div>
+      <div class="condividi" data-condividi data-link={indirizzo} data-titolo={titolo}>
+        <span class="condividi-label">Condividi l’evento</span>
+        <div class="condividi-row">
+          <a href={condividi.whatsapp} class="btn btn-line share" target="_blank" rel="noopener">
+            <img src={u('img/social/whatsapp.svg')} alt="" width="20" height="20" />WhatsApp
+          </a>
+          <a href={condividi.facebook} class="btn btn-line share" target="_blank" rel="noopener">
+            <img src={u('img/social/facebook.png')} alt="" width="20" height="20" />Facebook
+          </a>
+          <button type="button" class="btn btn-line share" data-copia>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            <span>Copia link</span>
+          </button>
+          <button type="button" class="btn btn-line share" data-altre-app hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M8.6 13.5l6.8 4"></path><path d="M15.4 6.5l-6.8 4"></path></svg>
+            Altre app
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -110,24 +136,28 @@ const scheda = {
 </Base>
 
 <script>
-  // Condividi: sul telefono apre la scelta dell'app (WhatsApp, Instagram…),
-  // sul computer copia il link.
-  document.querySelectorAll<HTMLButtonElement>('[data-condividi]').forEach((b) =>
-    b.addEventListener('click', async () => {
-      const url = location.href.split('#')[0];
-      if (navigator.share) {
-        try { await navigator.share({ title: document.title, url }); } catch { /* condivisione annullata */ }
-        return;
-      }
+  // "Copia link" copia l'indirizzo della pagina; "Altre app" compare solo dove il
+  // dispositivo sa condividere da sé (di solito il telefono: Instagram, Telegram…).
+  const box = document.querySelector<HTMLElement>('[data-condividi]');
+  if (box) {
+    const url = box.dataset.link!;
+    const title = box.dataset.titolo!;
+    const etichetta = box.querySelector<HTMLElement>('[data-copia] span')!;
+    box.querySelector('[data-copia]')!.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(url);
-        b.textContent = 'Link copiato';
+        etichetta.textContent = 'Link copiato!';
       } catch {
-        b.textContent = 'Copia il link dalla barra degli indirizzi';
+        etichetta.textContent = 'Copialo dalla barra degli indirizzi';
       }
-      setTimeout(() => (b.textContent = 'Condividi'), 2500);
-    }),
-  );
+      setTimeout(() => (etichetta.textContent = 'Copia link'), 2500);
+    });
+    const altre = box.querySelector<HTMLButtonElement>('[data-altre-app]')!;
+    if (navigator.share) {
+      altre.hidden = false;
+      altre.addEventListener('click', () => navigator.share({ title, url }).catch(() => {}));
+    }
+  }
 </script>
 
 <style>
@@ -151,6 +181,12 @@ const scheda = {
   .info li::marker { color: var(--red); }
   .concluso { margin: 0; font-weight: 600; color: var(--red-dark); }
   .scheda .btn-line { color: var(--ink); }
+  .condividi { display: flex; flex-direction: column; gap: 12px; padding-top: 22px; border-top: 1px solid rgba(20, 13, 15, 0.15); }
+  .condividi-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
+  .condividi-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .share { min-height: 44px; padding: 9px 18px; gap: 8px; font-size: 15px; }
+  .share img, .share svg { width: 20px; height: 20px; flex: none; }
+  .share[hidden] { display: none; }
 
   .altri { padding-bottom: 110px; }
   .altri-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 32px; }

@@ -93,7 +93,8 @@ Lasciate una riga vuota tra un paragrafo e l’altro.
 
 ### La pagina dell’evento
 
-Ogni evento ha una pagina sua, con locandina intera, descrizione, prenotazione e pulsante **Condividi**.
+Ogni evento ha una pagina sua, con locandina intera, descrizione, prenotazione e i pulsanti per
+condividerla: **WhatsApp**, **Facebook**, **Copia link** e, sul telefono, **Altre app** (Instagram, Telegram…).
 L’indirizzo è il nome del file senza `.md`:
 `https://yanez86.github.io/musicartelab2/eventi/rock-christmas-2026/`
 
