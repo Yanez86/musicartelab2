@@ -6,6 +6,8 @@ import Ritratto from '../components/Ritratto.astro';
 import { eventiDivisi } from '../lib/eventi';
 import { u, giorno, meseBreve } from '../lib/url';
 import { sito } from '../data/sito';
+import Nome from '../components/Nome.astro';
+import Testo from '../components/Testo.astro';
 
 const corsi = (await getCollection('corsi')).sort((a, b) => a.data.ordine - b.data.ordine);
 const insegnanti = (await getCollection('insegnanti')).sort((a, b) => a.data.ordine - b.data.ordine).slice(0, 4);
@@ -57,8 +59,8 @@ const prossimo = futuri[0];
             <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
             <span class="ev-mini-txt">
               <span class="tag">{e.data.tipo}</span>
-              <span class="ev-mini-title">{e.data.titolo}{e.data.sottotitolo ? ` · ${e.data.sottotitolo}` : ''}</span>
-              <span class="ev-mini-luogo">{e.data.luogo}</span>
+              <span class="ev-mini-title">{e.data.titolo}{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</span>
+              <span class="ev-mini-luogo"><Testo t={e.data.luogo} /></span>
             </span>
           </a>
         ))}
@@ -93,7 +95,7 @@ const prossimo = futuri[0];
     </div>
     <div class="sede-testo">
       <h2 class="display display-m">Una casa<br />per la musica<br /><span class="dot">a Merate</span></h2>
-      <p>Fondata nel {sito.fondazione}, ma con molta strada già percorsa nel mondo dell’insegnamento musicale, Musicarte-lab nasce dal desiderio di creare uno spazio dove imparare a suonare e cantare, ma anche un luogo da condividere, dove le diverse sensibilità musicali possano crescere e incontrarsi.</p>
+      <p>Fondata nel {sito.fondazione}, ma con molta strada già percorsa nel mondo dell’insegnamento musicale, <Nome /> nasce dal desiderio di creare uno spazio dove imparare a suonare e cantare, ma anche un luogo da condividere, dove le diverse sensibilità musicali possano crescere e incontrarsi.</p>
       <p>Da settembre a giugno gli allievi vengono seguiti da insegnanti attenti ai punti di forza di ognuno. E l’obiettivo è sempre lo stesso: <strong class="cream-text">il palco.</strong></p>
       <div class="btn-row">
         <a href={u('statuto/')} class="btn btn-line cream-text">Leggi lo statuto</a>
@@ -132,7 +134,7 @@ const prossimo = futuri[0];
       </div>
       <div class="polaroids">
         {insegnanti.map((d, i) => (
-          <a href={u('insegnanti/')} class="polaroid" style={`--rot: ${rotazioni[i % 4]}deg`}>
+          <a href={u(`insegnanti/#${d.id}`)} class="polaroid" style={`--rot: ${rotazioni[i % 4]}deg`}>
             {d.data.foto ? <img src={u(`img/insegnanti/${d.data.foto}`)} alt={d.data.nome} loading="lazy" /> : <Ritratto variante={d.data.ritratto} />}
             <span class="nome">{d.data.nome}</span>
             <span class="strumento">{d.data.strumento}</span>

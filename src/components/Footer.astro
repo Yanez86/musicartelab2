@@ -1,5 +1,6 @@
 ---
 import { sito, social } from '../data/sito';
+import Nome from './Nome.astro';
 import { u } from '../lib/url';
 ---
 <footer class="site-footer">
@@ -20,7 +21,7 @@ import { u } from '../lib/url';
       <div>
         <strong>Sede</strong>
         <span>{sito.citta}, {sito.indirizzo}</span>
-        <span>{sito.nome} {sito.forma} · C.F. {sito.codiceFiscale}</span>
+        <span><Nome /> {sito.forma} · C.F. {sito.codiceFiscale}</span>
       </div>
       <div>
         <strong>Contatti</strong>

@@ -51,6 +51,9 @@ button { font: inherit; }
 .display-l { font-size: clamp(50px, 9vw, 120px); }
 .display-m { font-size: clamp(40px, 6vw, 80px); line-height: 0.95; }
 .dot { color: var(--red-light); }
+/* Il nome dell'associazione: sempre in grassetto e nel colore d'accento */
+.nome-brand { font-weight: 700; color: var(--red-light); }
+.cream .nome-brand, .top .nome-brand, .note .nome-brand { color: var(--red); }
 .script { font-family: var(--script); text-transform: none; }
 .kicker {
   margin: 0;

@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import { articoli, approvazione } from '../data/statuto';
 import { sito } from '../data/sito';
 import { u } from '../lib/url';
+import Nome from '../components/Nome.astro';
 
 const nn = (i: number) => String(i + 1).padStart(2, '0');
 ---
@@ -10,7 +11,7 @@ const nn = (i: number) => String(i + 1).padStart(2, '0');
   <div class="wrap page-head">
     <div class="head-txt">
       <h1 class="display display-xl">Statuto<span class="dot">.</span></h1>
-      <p class="lead">{sito.nome} {sito.forma}. {approvazione}</p>
+      <p class="lead"><Nome /> {sito.forma}. {approvazione}</p>
     </div>
     {sito.statutoPdf && (
       <a href={u(sito.statutoPdf)} class="btn btn-red" download>

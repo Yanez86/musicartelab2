@@ -4,6 +4,8 @@ import Base from '../layouts/Base.astro';
 import { eventiDivisi } from '../lib/eventi';
 import { u, giorno, meseBreve, dataBreve } from '../lib/url';
 import { sito } from '../data/sito';
+import Nome from '../components/Nome.astro';
+import Testo from '../components/Testo.astro';
 
 const { tutti, recenti, archivio } = await eventiDivisi();
 const top = recenti[0];
@@ -16,7 +18,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 <Base title="Eventi" current="eventi/">
   <div class="wrap page-head">
     <h1 class="display display-xl">Eventi<span class="dot">.</span></h1>
-    <p class="lead">Masterclass, contest, feste e concerti organizzati da {sito.nome} a {sito.citta}.</p>
+    <p class="lead">Masterclass, contest, feste e concerti organizzati da <Nome /> a {sito.citta}.</p>
   </div>
 
   {top && TopDesc && (
@@ -25,11 +27,11 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
         <div class="top-img"><img src={img(top.data.locandina)} alt={`Locandina: ${top.data.titolo}`} /></div>
         <div class="top-txt">
           <span class="top-tag">{topFuturo ? 'Prossimo evento' : 'Il più recente'} · {top.data.tipo}</span>
-          <h2 class="display top-title">{top.data.titolo}{top.data.sottotitolo && <><br /><span>{top.data.sottotitolo}</span></>}</h2>
+          <h2 class="display top-title">{top.data.titolo}{top.data.sottotitolo && <><br /><span><Testo t={top.data.sottotitolo} /></span></>}</h2>
           <dl class="top-dati">
             <div><dt>Quando</dt><dd>{top.data.quando}</dd></div>
-            <div><dt>Dove</dt><dd>{top.data.luogo}</dd></div>
-            {top.data.quota && <div><dt>Quota</dt><dd>{top.data.quota}</dd></div>}
+            <div><dt>Dove</dt><dd><Testo t={top.data.luogo} /></dd></div>
+            {top.data.quota && <div><dt>Quota</dt><dd><Testo t={top.data.quota} /></dd></div>}
           </dl>
           <div class="top-desc"><TopDesc /></div>
           <div class="btn-row">
@@ -58,10 +60,10 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
         </div>
         <div class="ev-txt">
           <span class="tag">{e.data.tipo}</span>
-          <h3 class="display">{e.data.titolo}{e.data.sottotitolo ? ` · ${e.data.sottotitolo}` : ''}</h3>
+          <h3 class="display">{e.data.titolo}{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</h3>
           <span class="ev-quando">{e.data.quando}</span>
-          <span class="ev-luogo">{e.data.luogo}</span>
-          {e.data.info.length > 0 && <ul>{e.data.info.map((r) => <li>{r}</li>)}</ul>}
+          <span class="ev-luogo"><Testo t={e.data.luogo} /></span>
+          {e.data.info.length > 0 && <ul>{e.data.info.map((r) => <li><Testo t={r} /></li>)}</ul>}
         </div>
       </article>
     ))}
@@ -79,7 +81,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
           <img src={img(e.data.locandina)} alt="" loading="lazy" />
           <span class="arch-data">{dataBreve(e.data.data)}</span>
           <span class="arch-txt"><span class="tag">{e.data.tipo}</span><span class="display">{e.data.titolo}</span></span>
-          <span class="arch-luogo">{e.data.luogo}</span>
+          <span class="arch-luogo"><Testo t={e.data.luogo} /></span>
         </div>
       ))}
     </div>
