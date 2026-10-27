@@ -69,7 +69,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
         ))}
         {g.id === 'futuri' && (
           <a href={sito.instagram} rel="noopener" target="_blank" class="ev sorprese">
-            <div class="sorprese-top" aria-hidden="true"><span>?</span></div>
+            <div class="sorprese-top" aria-hidden="true"><span>stay<br />tuned</span></div>
             <div class="ev-txt">
               <span class="tag">In arrivo</span>
               <h3 class="display">Altre sorprese</h3>
@@ -161,7 +161,8 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
   .sorprese { background: transparent; border: 2px dashed var(--cream); text-decoration: none; }
   .sorprese:hover { color: #fff; }
   .sorprese-top { aspect-ratio: 4 / 5; display: grid; place-items: center; background: repeating-linear-gradient(135deg, rgba(237, 227, 209, 0.06) 0 14px, transparent 14px 28px); }
-  .sorprese-top span { font-family: var(--display); font-size: 180px; line-height: 1; color: var(--cream); }
+  .sorprese-top span { font-family: var(--script); font-size: clamp(56px, 7vw, 76px); line-height: 0.95; text-align: center; color: var(--cream); transform: rotate(-8deg); }
+  .sorprese:hover .sorprese-top span { color: var(--red-light); }
   .sorprese .ev-txt p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text-2); }
   .sorprese-cta { margin-top: 6px; font-weight: 700; color: var(--cream); }
   .archivio { padding-bottom: 110px; }
