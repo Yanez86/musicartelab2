@@ -77,7 +77,7 @@ const scheda = {
         <h2 class="display display-l">Eventi</h2>
         <a href={u('eventi/')} class="cream-text strong">Tutti gli eventi →</a>
       </div>
-      {principale && <EventoTop evento={principale} futuro={principaleFuturo} dettagli={u('eventi/')} />}
+      {principale && <EventoTop evento={principale} futuro={principaleFuturo} breve />}
       <div class="ev-grid">
         {ultimi.map((e) => <EventoMini evento={e} />)}
       </div>
