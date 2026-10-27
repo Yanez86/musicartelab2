@@ -1,6 +1,6 @@
 ---
 nome: Batteria
-ordine: 5
+ordine: 6
 eta: Dagli 8 anni · adulti
 fasce: [bambini, ragazzi, adulti]
 formula: Individuale · 45 min

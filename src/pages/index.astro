@@ -11,7 +11,7 @@ const corsi = (await getCollection('corsi')).sort((a, b) => a.data.ordine - b.da
 const insegnanti = (await getCollection('insegnanti')).sort((a, b) => a.data.ordine - b.data.ordine).slice(0, 4);
 const { recenti } = await eventiDivisi();
 const ultimi = recenti.slice(0, 3);
-const strumenti = ['Pianoforte', 'Chitarra', 'Canto', 'Batteria', 'Coro', 'Propedeutica'];
+const strumenti = ['Pianoforte', 'Chitarra', 'Basso', 'Canto', 'Batteria', 'Coro', 'Propedeutica'];
 const giro = [...strumenti, ...strumenti];
 const rotazioni = [-3, 2, -2, 3];
 const prossimo = recenti.find((e) => e.data.data >= new Date());

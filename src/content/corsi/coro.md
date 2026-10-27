@@ -1,6 +1,6 @@
 ---
 nome: Coro
-ordine: 6
+ordine: 7
 eta: Dai 12 anni · adulti
 fasce: [ragazzi, adulti]
 formula: Gruppo · 90 min

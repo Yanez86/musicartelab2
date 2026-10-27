@@ -1,6 +1,6 @@
 ---
 nome: Canto
-ordine: 4
+ordine: 5
 eta: Dai 12 anni · adulti
 fasce: [ragazzi, adulti]
 formula: Individuale · 60 min
