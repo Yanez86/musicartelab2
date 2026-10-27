@@ -1,0 +1,34 @@
+---
+// Scheda piccola di un evento, con il link alla sua pagina: usata in home
+// e in fondo alla pagina di ogni evento. Gli eventi in arrivo hanno il fondo
+// bordeaux e il bordo rosso, per distinguerli dai passati.
+import type { CollectionEntry } from 'astro:content';
+import Testo from './Testo.astro';
+import { giorno, meseBreve } from '../lib/url';
+import { inArrivo, linkEvento } from '../lib/eventi';
+
+interface Props { evento: CollectionEntry<'eventi'> }
+const { evento: e } = Astro.props;
+const futuro = inArrivo(e);
+---
+<a href={linkEvento(e)} class:list={['ev-mini', { 'ev-mini--futuro': futuro }]}>
+  <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
+  <span class="ev-mini-txt">
+    <span class="tag">{futuro ? `In arrivo · ${e.data.tipo}` : e.data.tipo}</span>
+    <span class="ev-mini-title">{e.data.titolo}{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</span>
+    <span class="ev-mini-luogo"><Testo t={e.data.luogo} /></span>
+  </span>
+</a>
+
+<style>
+  .ev-mini { display: flex; gap: 22px; align-items: flex-start; padding: 28px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; text-decoration: none; transition: transform 0.3s; }
+  .ev-mini:hover { transform: translateY(-8px); color: #fff; }
+  .ev-mini--futuro { background: #2e1419; border-color: var(--red); }
+  .ev-mini--futuro .tag { color: var(--cream); }
+  .ev-date { display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: 14px; padding: 12px 16px; min-width: 56px; }
+  .ev-date b { font-family: var(--display); font-weight: 400; font-size: 42px; line-height: 1; }
+  .ev-date small { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
+  .ev-mini-txt { display: flex; flex-direction: column; gap: 8px; }
+  .ev-mini-title { font-family: var(--display); font-size: 30px; line-height: 1.02; text-transform: uppercase; }
+  .ev-mini-luogo { font-size: 14px; color: var(--muted); }
+</style>

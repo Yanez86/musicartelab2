@@ -85,11 +85,12 @@ button { font: inherit; }
   font-weight: 700;
   text-decoration: none;
   border: 2px solid transparent;
+  cursor: pointer;
 }
 .btn-red { background: var(--red); color: #fff; }
 .btn-cream { background: var(--cream); color: var(--ink); }
 .btn-dark { background: var(--ink); color: #fff; }
-.btn-line { border-color: currentColor; }
+.btn-line { border-color: currentColor; background: transparent; }
 .btn:hover { filter: brightness(1.08); }
 .btn-cream:hover, .btn-line:hover { color: inherit; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }

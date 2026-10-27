@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
 import Testo from './Testo.astro';
 import { u } from '../lib/url';
+import { linkEvento } from '../lib/eventi';
 import { sito } from '../data/sito';
 
 interface Props { evento: CollectionEntry<'eventi'>; futuro: boolean; dettagli?: string }
@@ -12,10 +13,10 @@ const { Content: TopDesc } = await render(top);
 const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 ---
 <article class="top" id={top.id}>
-  <div class="top-img"><img src={img(top.data.locandina)} alt={`Locandina: ${top.data.titolo}`} loading="lazy" /></div>
+  <a href={linkEvento(top)} class="top-img" tabindex="-1" aria-hidden="true"><img src={img(top.data.locandina)} alt="" loading="lazy" /></a>
   <div class="top-txt">
     <span class="top-tag">{topFuturo ? 'Prossimo evento' : 'Il più recente'} · {top.data.tipo}</span>
-    <h2 class="display top-title">{top.data.titolo}{top.data.sottotitolo && <><br /><span><Testo t={top.data.sottotitolo} /></span></>}</h2>
+    <h2 class="display top-title"><a href={linkEvento(top)}>{top.data.titolo}{top.data.sottotitolo && <><br /><span><Testo t={top.data.sottotitolo} /></span></>}</a></h2>
     <dl class="top-dati">
       <div><dt>Quando</dt><dd>{top.data.quando}</dd></div>
       <div><dt>Dove</dt><dd><Testo t={top.data.luogo} /></dd></div>
@@ -37,6 +38,8 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
   .top-txt { flex: 999 1 420px; min-width: 0; padding: clamp(24px, 5vw, 56px); display: flex; flex-direction: column; gap: 20px; }
   .top-tag { align-self: flex-start; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; background: var(--red); color: #fff; padding: 8px 14px; border-radius: 999px; }
   .top-title { font-size: clamp(44px, 6vw, 80px); line-height: 0.92; }
+  .top-title a { text-decoration: none; }
+  .top-title a:hover { color: var(--red-dark); }
   .top-title span { color: var(--red); }
   .top-dati { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; font-size: 15px; }
   .top-dati dt { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }

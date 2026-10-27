@@ -18,12 +18,14 @@ import { u } from '../lib/url';
 interface Props {
   title?: string;
   description?: string;
+  image?: string; // immagine per l'anteprima dei link, es. 'img/eventi/locandina.jpg'
   current?: string;
   overlayHeader?: boolean;
 }
 const {
   title,
   description = `Scuola di musica pop e rock a ${sito.citta}: corsi di canto, chitarra, basso, batteria, pianoforte e coro per bambini, ragazzi e adulti, concerti ed eventi dal vivo.`,
+  image = 'img/splash.jpg',
   current = '',
   overlayHeader = false,
 } = Astro.props;
@@ -49,7 +51,7 @@ const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), Astro.site);
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(u('img/splash.jpg'), Astro.site)} />
+    <meta property="og:image" content={new URL(u(image), Astro.site)} />
     <meta name="twitter:card" content="summary_large_image" />
     <slot name="head" />
   </head>
