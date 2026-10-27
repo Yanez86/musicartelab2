@@ -34,9 +34,9 @@ const { current = '', overlay = false } = Astro.props;
     </button>
   </div>
   <nav class="menu-voci" aria-label="Principale">
-    {menu.map((m, i) => (
+    {[{ href: '', label: 'Home' }, ...menu].map((m, i) => (
       <a href={u(m.href)} aria-current={current === m.href ? 'page' : undefined}>
-        <span class="n">{String(i + 1).padStart(2, '0')}</span>{m.label}
+        <span class="n">{String(i).padStart(2, '0')}</span>{m.label}
         {current === m.href && <span class="pallino" aria-hidden="true"></span>}
       </a>
     ))}
@@ -118,7 +118,7 @@ const { current = '', overlay = false } = Astro.props;
   .menu-top { position: relative; display: flex; align-items: center; justify-content: space-between; }
   .menu-top .brand img { width: 46px; height: 46px; }
   .menu-top .brand-name { font-size: 22px; }
-  .menu-voci { position: relative; margin-top: 44px; display: flex; flex-direction: column; }
+  .menu-voci { position: relative; margin-top: 32px; display: flex; flex-direction: column; }
   .menu-voci a {
     display: flex;
     align-items: center;
@@ -126,7 +126,7 @@ const { current = '', overlay = false } = Astro.props;
     padding: 10px 0;
     border-bottom: 1px solid var(--line);
     font-family: var(--display);
-    font-size: 52px;
+    font-size: 48px;
     line-height: 1;
     text-transform: uppercase;
     text-decoration: none;
