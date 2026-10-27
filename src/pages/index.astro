@@ -19,8 +19,7 @@ oggi.setHours(0, 0, 0, 0);
 const passati = recenti.filter((e) => e.data.data < oggi);
 const prossimiAltri = futuri.filter((e) => e.id !== principale?.id);
 const recentiPassati = passati.filter((e) => e.id !== principale?.id);
-// Schede sotto l'evento principale: prima quelle in arrivo, poi il riquadro
-// "sorprese", poi i passati più recenti; quattro in tutto.
+// Schede sotto l'evento principale: prima quelle in arrivo, poi i passati più recenti.
 const ultimi = [...prossimiAltri.slice(0, 2), ...recentiPassati].slice(0, 3);
 const strumenti = ['Canto', 'Chitarra', 'Basso', 'Batteria', 'Pianoforte', 'Ukulele', 'Coro Rock', 'Musichello'];
 const giro = [...strumenti, ...strumenti];
@@ -68,14 +67,6 @@ const prossimo = futuri[0];
             </span>
           </a>
         ))}
-        <a href={sito.instagram} rel="noopener" target="_blank" class="ev-mini ev-mini--sorprese">
-          <span class="ev-date"><b>?</b><small>presto</small></span>
-          <span class="ev-mini-txt">
-            <span class="tag">In arrivo</span>
-            <span class="ev-mini-title">Altre sorprese</span>
-            <span class="ev-mini-luogo">{sito.sorprese}</span>
-          </span>
-        </a>
         {ultimi.filter((e) => e.data.data < oggi).map((e) => (
           <a href={u('eventi/')} class="ev-mini">
             <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
@@ -242,10 +233,6 @@ const prossimo = futuri[0];
   /* Eventi in arrivo: fondo bordeaux scuro e bordo rosso, per distinguerli dai passati */
   .ev-mini--futuro { background: #2e1419; border-color: var(--red); }
   .ev-mini--futuro .tag { color: var(--cream); }
-  .ev-mini--sorprese { background: transparent; border: 2px dashed var(--cream); }
-  .ev-mini--sorprese .ev-date { background: var(--cream); color: var(--ink); }
-  .ev-mini--sorprese .ev-date small { color: var(--red); }
-  .ev-mini--sorprese .ev-mini-luogo { color: var(--text-2); line-height: 1.5; }
   .ev-date { display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: 14px; padding: 12px 16px; min-width: 56px; }
   .ev-date b { font-family: var(--display); font-weight: 400; font-size: 42px; line-height: 1; }
   .ev-date small { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
