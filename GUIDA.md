@@ -133,7 +133,8 @@ sparisce da solo.**
 |---|---|---|
 | Corsi | [`src/content/corsi/`](src/content/corsi) | `ordine` decide la posizione; `fasce` può contenere `bambini`, `ragazzi`, `adulti` |
 | Insegnanti | [`src/content/insegnanti/`](src/content/insegnanti) | Foto verticali (circa 800×1000 px) in `public/img/insegnanti/`, poi `foto: nome-file.jpg` |
-| Email, WhatsApp, indirizzo, anno dei corsi | [`src/data/sito.ts`](src/data/sito.ts) | Cambiate solo il testo tra apici `'…'` |
+| Email, WhatsApp, indirizzo, anno dei corsi, quota della tessera | [`src/data/sito.ts`](src/data/sito.ts) | Cambiate solo il testo tra apici `'…'` |
+| Associazione | [`src/pages/associazione.astro`](src/pages/associazione.astro) | Chi siamo, cosa facciamo, come diventare soci |
 | Statuto | [`src/data/statuto.ts`](src/data/statuto.ts) | |
 | Privacy | [`src/pages/privacy.astro`](src/pages/privacy.astro) | |
 
