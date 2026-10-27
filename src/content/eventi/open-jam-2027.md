@@ -6,6 +6,7 @@ tipo: Jam session
 data: 2027-01-07
 quando: Giovedì 7 gennaio 2027 · ore 20:30
 luogo: Sede Musicarte-lab, Via Statale 5/7, Merate
+locandina: open-jam-2027.jpg
 quota: Ingresso libero per i soci
 info:
   - Palco aperto ad allievi, docenti e amici

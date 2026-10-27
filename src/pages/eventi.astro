@@ -4,6 +4,7 @@ import { eventiDivisi } from '../lib/eventi';
 import { u, giorno, meseBreve, dataBreve } from '../lib/url';
 import { sito } from '../data/sito';
 import Testo from '../components/Testo.astro';
+import Nome from '../components/Nome.astro';
 import EventoTop from '../components/EventoTop.astro';
 
 const { tutti, recenti, archivio, futuri, principale: top, principaleFuturo: topFuturo } = await eventiDivisi();
@@ -14,7 +15,7 @@ const gruppi = [
     id: 'futuri',
     titolo: 'Eventi futuri',
     lista: futuri.filter((e) => e.id !== top?.id),
-    vuoto: 'Per ora nessun altro evento in programma: torna a trovarci presto.',
+    vuoto: 'Nessun altro evento di questo tipo in programma, per ora.',
   },
   {
     id: 'passati',
@@ -29,6 +30,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 <Base title="Eventi" current="eventi/">
   <div class="wrap page-head">
     <h1 class="display display-xl">Eventi<span class="dot">.</span></h1>
+    <p class="lead intro">Concerti, masterclass, jam session, feste e open day organizzati da <Nome />. In cima trovi in grande il prossimo appuntamento, poi gli eventi in programma, quelli degli ultimi dodici mesi e l’archivio. Per ognuno ci sono data, luogo, quota e programma, e puoi filtrarli per tipo.</p>
   </div>
 
   {top && (
@@ -47,7 +49,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
   {gruppi.map((g) => (
     <section class="wrap gruppo" aria-labelledby={`titolo-${g.id}`}>
       <h2 id={`titolo-${g.id}`} class="display gruppo-titolo">{g.titolo}</h2>
-      <p class="vuoto" data-vuoto={g.id} hidden={g.lista.length > 0}>{g.vuoto}</p>
+      <p class="vuoto" data-vuoto={g.id} hidden={g.lista.length > 0 || g.id === 'futuri'}>{g.vuoto}</p>
       <div class="griglia" data-lista={g.id}>
         {g.lista.map((e) => (
           <article class="ev" data-tipo={e.data.tipo}>
@@ -64,6 +66,17 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
             </div>
           </article>
         ))}
+        {g.id === 'futuri' && (
+          <a href={sito.instagram} rel="noopener" target="_blank" class="ev sorprese">
+            <div class="sorprese-top" aria-hidden="true"><span>?</span></div>
+            <div class="ev-txt">
+              <span class="tag">In arrivo</span>
+              <h3 class="display">Altre sorprese</h3>
+              <p>{sito.sorprese}</p>
+              <span class="sorprese-cta">Seguici su Instagram →</span>
+            </div>
+          </a>
+        )}
       </div>
     </section>
   ))}
@@ -143,6 +156,12 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
   .ev-luogo { font-size: 14px; color: var(--muted); }
   .ev-txt ul { margin: 4px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.45; color: #d9cfc9; }
   .ev-txt li::marker { color: var(--red-light); }
+  .sorprese { background: transparent; border: 2px dashed var(--cream); text-decoration: none; }
+  .sorprese:hover { color: #fff; }
+  .sorprese-top { aspect-ratio: 4 / 5; display: grid; place-items: center; background: repeating-linear-gradient(135deg, rgba(237, 227, 209, 0.06) 0 14px, transparent 14px 28px); }
+  .sorprese-top span { font-family: var(--display); font-size: 180px; line-height: 1; color: var(--cream); }
+  .sorprese .ev-txt p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text-2); }
+  .sorprese-cta { margin-top: 6px; font-weight: 700; color: var(--cream); }
   .archivio { padding-bottom: 110px; }
   .arch-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; border-bottom: 1px solid var(--line); padding-bottom: 18px; margin-bottom: 8px; }
   .arch-head h2 { color: var(--muted); }
