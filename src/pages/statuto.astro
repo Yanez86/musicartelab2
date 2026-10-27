@@ -11,7 +11,7 @@ const nn = (i: number) => String(i + 1).padStart(2, '0');
   <div class="wrap page-head">
     <div class="head-txt">
       <h1 class="display display-xl">Statuto<span class="dot">.</span></h1>
-      <p class="lead intro">Lo statuto è il documento che dice chi siamo e come funziona <Nome /> {sito.forma}: gli scopi dell’associazione, chi può diventare socio, diritti e doveri, gli organi, il patrimonio. Puoi leggerlo articolo per articolo partendo dall’indice. {approvazione}</p>
+      <p class="lead intro">Chi siamo, nero su bianco. {approvazione}</p>
     </div>
     {sito.statutoPdf && (
       <a href={u(sito.statutoPdf)} class="btn btn-red" download>
