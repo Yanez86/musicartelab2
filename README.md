@@ -18,39 +18,8 @@ Sito dell’associazione Musicarte-lab di Merate: corsi ed eventi di musica pop 
 | Grafica comune (colori, font, pulsanti) | `src/styles/global.css` |
 | Le pagine | `src/pages/*.astro` |
 
-### Aggiungere un evento
-
-1. Mettete la locandina in `public/img/eventi/`, per esempio `concerto-natale-2026.jpg`.
-2. Create un file in `src/content/eventi/`, per esempio `concerto-natale-2026.md`:
-
-```md
----
-titolo: Concerto di Natale
-sottotitolo: con la MusicarteBand
-tipo: Concerto
-data: 2026-12-20
-quando: 20 dicembre 2026 · ore 21:00
-luogo: Auditorium Giusi Spezzaferri, Merate
-locandina: concerto-natale-2026.jpg
-quota: Ingresso libero
-info:
-  - Prima parte con gli allievi dei corsi
-  - Seconda parte con la MusicarteBand
-link: https://link-al-form-di-iscrizione
----
-Descrizione dell’evento, anche su più paragrafi.
-```
-
-3. Fate commit e push: in un paio di minuti il sito si aggiorna da solo.
-
-L’evento più recente finisce in evidenza in cima alla pagina Eventi, gli altri sotto in ordine di data,
-e quelli più vecchi di un anno passano in **Archivio**. Il sito si ricostruisce da solo ogni notte,
-quindi l’archivio resta aggiornato anche se non si pubblica nulla.
-
-### Aggiungere la foto di un insegnante
-
-Mettete la foto (verticale, circa 800×1000 px) in `public/img/insegnanti/` e nel file dell’insegnante aggiungete
-`foto: nome-file.jpg`. Finché non c’è la foto viene mostrata un’illustrazione segnaposto.
+Per aggiungere eventi (anche con il link di prenotazione Tally), corsi, insegnanti e foto,
+e per capire come funzionano pubblicazione e build notturna, c’è la **[guida rapida](GUIDA.md)**.
 
 ## Lavorare in locale
 
@@ -64,7 +33,9 @@ npm run build    # crea il sito finale in dist/
 
 ## Pubblicazione
 
-La GitHub Action in `.github/workflows/sito.yml` costruisce e pubblica il sito a ogni push su `master`.
+La GitHub Action in `.github/workflows/sito.yml` costruisce e pubblica il sito a ogni push su `master`
+e ogni notte poco dopo mezzanotte, con l’ora italiana (`TZ: Europe/Rome`), così evento in evidenza e archivio
+restano aggiornati.
 La prima volta bisogna attivare GitHub Pages: **Settings → Pages → Source: GitHub Actions**.
 
 Per usare un dominio vostro (es. `musicartelab.it`) cambiate `site` e togliete `base` in `astro.config.mjs`.
@@ -79,5 +50,5 @@ La foto del palco usata in apertura è firmata PuntoFoto: verificate il permesso
 
 La pagina **Privacy** è una bozza da far rivedere a chi segue gli aspetti legali dell’associazione
 (compreso il tempo di conservazione dei messaggi, `[12 mesi]`). Il sito oggi non usa cookie né servizi
-esterni e i font sono caricati dal sito stesso: se aggiungete statistiche, mappe, video o post incorporati
-va aggiornata l’informativa e potrebbe servire il banner dei cookie.
+esterni (le prenotazioni Tally sono semplici link) e i font sono caricati dal sito stesso: se aggiungete
+statistiche, mappe, video o post incorporati va aggiornata l’informativa e potrebbe servire il banner dei cookie.

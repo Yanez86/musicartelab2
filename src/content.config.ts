@@ -14,7 +14,10 @@ const eventi = defineCollection({
     locandina: z.string().optional(), // nome file in public/img/eventi/
     quota: z.string().optional(),
     info: z.array(z.string()).default([]),
-    link: z.string().optional(), // link al form di iscrizione
+    // Link al modulo di prenotazione (es. Tally): il pulsante sparisce da solo
+    // quando l'evento è passato.
+    prenotazione: z.string().url('serve un link completo, che inizia con https://').optional(),
+    bottone: z.string().default('Prenota'), // testo del pulsante, es. "Iscriviti"
   }),
 });
 

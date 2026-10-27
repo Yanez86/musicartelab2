@@ -27,7 +27,7 @@ const gruppi = [
 const tipi = ['Tutti', ...new Set(tutti.map((e) => e.data.tipo))];
 const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 ---
-<Base title="Eventi" current="eventi/">
+<Base title={`Eventi e concerti a ${sito.citta}`} current="eventi/" description={`Concerti, jam session, masterclass e feste di ${sito.nome} a ${sito.citta}: i prossimi eventi, le prenotazioni e l’archivio.`}>
   <div class="wrap page-head">
     <h1 class="display display-xl">Eventi<span class="dot">.</span></h1>
     <p class="lead intro">Palchi, jam, masterclass e feste: la musica di <Nome /> si vive dal vivo.</p>
@@ -52,7 +52,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
       <p class="vuoto" data-vuoto={g.id} hidden={g.lista.length > 0 || g.id === 'futuri'}>{g.vuoto}</p>
       <div class="griglia" data-lista={g.id}>
         {g.lista.map((e) => (
-          <article class="ev" data-tipo={e.data.tipo}>
+          <article class="ev" id={e.id} data-tipo={e.data.tipo}>
             <div class="ev-img">
               <img src={img(e.data.locandina)} alt={`Locandina: ${e.data.titolo}`} loading="lazy" />
               <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
@@ -63,6 +63,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
               <span class="ev-quando">{e.data.quando}</span>
               <span class="ev-luogo"><Testo t={e.data.luogo} /></span>
               {e.data.info.length > 0 && <ul>{e.data.info.map((r) => <li><Testo t={r} /></li>)}</ul>}
+              {g.id === 'futuri' && e.data.prenotazione && <a href={e.data.prenotazione} class="btn btn-red ev-btn" target="_blank" rel="noopener">{e.data.bottone}</a>}
             </div>
           </article>
         ))}
@@ -142,7 +143,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
   .vuoto { margin: 0; padding-bottom: 12px; font-size: 17px; color: var(--muted); }
   .griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 24px; }
   .griglia:empty { display: none; }
-  .ev { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s, border-color 0.3s; }
+  .ev { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s, border-color 0.3s; scroll-margin-top: 24px; }
   .ev:hover { transform: translateY(-8px); border-color: var(--red); }
   .ev-img { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--card-hover); }
   .ev-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform 0.5s; }
@@ -150,7 +151,8 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
   .ev-date { position: absolute; left: 14px; top: 14px; display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: 14px; padding: 10px 14px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
   .ev-date b { font-family: var(--display); font-weight: 400; font-size: 36px; line-height: 1; }
   .ev-date small { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
-  .ev-txt { padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .ev-txt { padding: 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .ev-btn { margin-top: auto; align-self: flex-start; min-height: 44px; padding: 11px 22px; }
   .ev-txt h3 { font-size: 30px; line-height: 1.02; }
   .ev-quando { font-size: 14px; color: var(--text-2); }
   .ev-luogo { font-size: 14px; color: var(--muted); }

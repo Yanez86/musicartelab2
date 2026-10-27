@@ -24,8 +24,32 @@ const ultimi = [...prossimiAltri.slice(0, 2), ...recentiPassati].slice(0, 3);
 const strumenti = ['Canto', 'Chitarra', 'Basso', 'Batteria', 'Pianoforte', 'Ukulele', 'Coro Rock', 'Musichello'];
 const giro = [...strumenti, ...strumenti];
 const prossimo = futuri[0];
+// Scheda dell'associazione per Google (dati strutturati schema.org).
+const assoluto = (path = '') => new URL(u(path), Astro.site).href;
+const scheda = {
+  '@context': 'https://schema.org',
+  '@type': 'EducationalOrganization',
+  name: `${sito.nome} ${sito.forma}`,
+  description: `Scuola di musica pop e rock a ${sito.citta}: corsi, concerti ed eventi dal vivo.`,
+  url: assoluto(),
+  logo: assoluto('img/logo.jpg'),
+  image: assoluto('img/splash.jpg'),
+  email: sito.email,
+  telephone: `+39 ${sito.whatsapp}`,
+  foundingDate: String(sito.fondazione),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: sito.indirizzo,
+    postalCode: sito.cap,
+    addressLocality: sito.citta,
+    addressRegion: sito.provincia,
+    addressCountry: 'IT',
+  },
+  sameAs: [sito.instagram, sito.facebook],
+};
 ---
 <Base overlayHeader>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(scheda)} />
   <section class="hero" style={`background-image: url(${u('img/splash.jpg')})`}>
     <div class="hero-shade"></div>
     <div class="hero-fade"></div>
@@ -58,7 +82,7 @@ const prossimo = futuri[0];
       {principale && <EventoTop evento={principale} futuro={principaleFuturo} dettagli={u('eventi/')} />}
       <div class="ev-grid">
         {ultimi.filter((e) => e.data.data >= oggi).map((e) => (
-          <a href={u('eventi/')} class="ev-mini ev-mini--futuro">
+          <a href={u(`eventi/#${e.id}`)} class="ev-mini ev-mini--futuro">
             <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
             <span class="ev-mini-txt">
               <span class="tag">In arrivo · {e.data.tipo}</span>
@@ -68,7 +92,7 @@ const prossimo = futuri[0];
           </a>
         ))}
         {ultimi.filter((e) => e.data.data < oggi).map((e) => (
-          <a href={u('eventi/')} class="ev-mini">
+          <a href={u(`eventi/#${e.id}`)} class="ev-mini">
             <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
             <span class="ev-mini-txt">
               <span class="tag">{e.data.tipo}</span>
@@ -125,7 +149,7 @@ const prossimo = futuri[0];
         <p class="band-lead">Il gruppo ufficiale dell’associazione: allievi e docenti sullo stesso palco per un viaggio nella musica pop rock. La MusicarteBand si esibisce a feste, sagre ed eventi della zona e dal vivo ospita spesso altri “colleghi”.</p>
         <dl class="band-info">
           <div><dt>Formazione</dt><dd>Chitarre, basso, batteria, tastiera e voci</dd></div>
-          {prossimo && <div><dt>Prossima data</dt><dd><a href={u('eventi/')}>{prossimo.data.titolo} · {giorno(prossimo.data.data)} {meseBreve(prossimo.data.data)}</a></dd></div>}
+          {prossimo && <div><dt>Prossima data</dt><dd><a href={u(`eventi/#${prossimo.id}`)}>{prossimo.data.titolo} · {giorno(prossimo.data.data)} {meseBreve(prossimo.data.data)}</a></dd></div>}
           <div><dt>Chi suona</dt><dd>Allievi e docenti, con ospiti dal vivo</dd></div>
         </dl>
         <div class="btn-row">

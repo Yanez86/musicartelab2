@@ -6,8 +6,9 @@ on:
   pull_request:
   # Ricostruisce il sito ogni notte: così l'evento in evidenza passa al
   # successivo il giorno dopo e quelli di oltre un anno vanno in archivio.
+  # L'orario è in UTC: 23:05 UTC = 00:05 in Italia (01:05 con l'ora legale).
   schedule:
-    - cron: '0 3 * * *'
+    - cron: '5 23 * * *'
   workflow_dispatch:
 
 permissions:
@@ -22,6 +23,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # "Oggi" va calcolato con l'ora italiana, non con quella del server.
+    env:
+      TZ: Europe/Rome
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
