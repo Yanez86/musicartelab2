@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { u } from '../lib/url';
 import { sito } from '../data/sito';
+import Nome from '../components/Nome.astro';
 
 const lista = (await getCollection('insegnanti')).sort((a, b) => a.data.ordine - b.data.ordine);
 const insegnanti = await Promise.all(lista.map(async (d) => ({ d, Bio: (await render(d)).Content })));
@@ -43,7 +44,7 @@ const anno = sito.annoCorsi.replace(/[\[\]]/g, '');
             <span class="track">Track {nn(i)}</span>
           </div>
           <div class="note">
-            <div class="note-top"><span>{nn(i)} · {d.data.strumento}</span><span>{sito.nome} · {anno}</span></div>
+            <div class="note-top"><span>{nn(i)} · {d.data.strumento}</span><span><Nome /> · {anno}</span></div>
             <h2 class="display">{d.data.nome}</h2>
             {d.data.ruolo && <span class="ruolo script">{d.data.ruolo}</span>}
             <div class="bio"><Bio /></div>

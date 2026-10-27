@@ -2,6 +2,8 @@
 import Base from '../layouts/Base.astro';
 import { sito } from '../data/sito';
 import { u } from '../lib/url';
+import Nome from '../components/Nome.astro';
+import Testo from '../components/Testo.astro';
 
 const passi = [
   { t: 'Prendi la dichiarazione', d: 'Modello 730, Redditi Persone Fisiche oppure la scheda allegata alla Certificazione Unica.' },
@@ -12,7 +14,7 @@ const passi = [
 <Base title="Sostienici" current="sostienici/" description={`Dona il 5x1000 a ${sito.nome}: codice fiscale ${sito.codiceFiscale}.`}>
   <div class="wrap page-head">
     <h1 class="display display-xl">Sostienici<span class="dot">.</span></h1>
-    <p class="lead">Corsi, concerti, feste e masterclass di <strong style="color: var(--red-light);">{sito.nome}</strong> esistono grazie a chi crede nella musica dal vivo. Darci una mano non costa nulla.</p>
+    <p class="lead">Corsi, concerti, feste e masterclass di <Nome /> esistono grazie a chi crede nella musica dal vivo. Darci una mano non costa nulla.</p>
   </div>
 
   <section class="wrap cinque">
@@ -22,7 +24,7 @@ const passi = [
     <div class="cinque-testo">
       <p class="kicker">Dona il 5x1000</p>
       <h2 class="display display-m">Sostieni la musica<br /><span class="dot">e la cultura</span></h2>
-      <p>Con la tua firma una piccola parte delle tasse che paghi comunque arriva a {sito.nome}: per te non cambia nulla, per noi significa strumenti, eventi e nuovi progetti.</p>
+      <p>Con la tua firma una piccola parte delle tasse che paghi comunque arriva a <Nome />: per te non cambia nulla, per noi significa strumenti, eventi e nuovi progetti.</p>
       <div class="cf">
         <span class="cf-label">Codice fiscale</span>
         <span class="cf-num" id="cf">{sito.codiceFiscale}</span>
@@ -36,7 +38,7 @@ const passi = [
       <h2 class="display display-l">Come si fa</h2>
       <ol class="passi">
         {passi.map((p, i) => (
-          <li><span>{String(i + 1).padStart(2, '0')}</span><strong>{p.t}</strong><p>{p.d}</p></li>
+          <li><span>{String(i + 1).padStart(2, '0')}</span><strong>{p.t}</strong><p><Testo t={p.d} /></p></li>
         ))}
       </ol>
       <p class="nota">Puoi firmare anche se non presenti la dichiarazione: basta consegnare la scheda per il 5x1000 a un CAF, a un ufficio postale o al tuo commercialista.</p>
