@@ -1,0 +1,160 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { sito } from '../data/sito';
+import { u } from '../lib/url';
+import Nome from '../components/Nome.astro';
+
+const corsi = await getCollection('corsi');
+const numeri = [
+  { n: String(sito.fondazione), d: 'L’anno in cui siamo nati' },
+  { n: String(corsi.length), d: 'Corsi, individuali e di gruppo' },
+  { n: '4+', d: 'Gli anni per cominciare, con Musichello' },
+];
+const attivita = [
+  { t: 'Corsi', d: `Canto, chitarra, basso, batteria, pianoforte, ukulele e molto altro, per bambini, ragazzi e adulti, ${sito.periodoCorsi}.`, href: u('corsi/') },
+  { t: 'MusicarteBand', d: 'Allievi e docenti sullo stesso palco, con una formazione tipicamente rock: chitarre, basso, batteria, tastiera e voci.', href: u('#band') },
+  { t: 'Coro Rock', d: 'Nato nel 2022 come coro polifonico misto per adolescenti e adulti, punta ai classici del rock e alle ballad. E a Natale, i Christmas carol.', href: u('corsi/') },
+  { t: 'Laboratori', d: 'Workshop musicali e creativi, conferenze, lezioni concerto e seminari: cerchiamo sempre proposte nuove da fare insieme ai soci.', href: u('eventi/') },
+  { t: 'Fuori sede', d: 'Corsi nelle scuole, sala di registrazione, lezioni a domicilio, team building per aziende, concerti e spettacoli teatrali.', href: u('corsi/#fuori-sede') },
+];
+---
+<Base title="Associazione" current="associazione/" description={`${sito.nome} ${sito.forma} è un’associazione di promozione sociale di ${sito.citta}, nata nel ${sito.fondazione}: chi siamo, cosa facciamo e come diventare soci.`}>
+  <div class="wrap page-head">
+    <h1 class="display display-xl">Associazione<span class="dot">.</span></h1>
+    <p class="lead intro"><Nome /> è un’associazione di promozione sociale di {sito.citta}: una scuola di musica pop e rock, ma soprattutto un posto dove fare musica insieme.</p>
+  </div>
+
+  <section class="wrap chi">
+    <div class="chi-foto">
+      <img src={u('img/gruppo-2.jpg')} alt="Allievi e insegnanti di Musicarte-lab sul palco all’aperto" />
+      <span class="script">dal {sito.fondazione}</span>
+    </div>
+    <div class="chi-testo">
+      <p class="kicker">Chi siamo</p>
+      <h2 class="display display-m">Uno spazio<br /><span class="dot">da condividere</span></h2>
+      <p>Fondata nel {sito.fondazione}, ma con molta strada già percorsa nel mondo dell’insegnamento musicale, <Nome /> nasce dal desiderio di creare uno spazio dove imparare a suonare e cantare, ma anche un luogo da condividere: un posto dove le diverse sensibilità musicali possano crescere, svilupparsi e incontrarsi.</p>
+      <p>Durante l’anno, {sito.periodoCorsi}, gli allievi vengono preparati da insegnanti attenti, che colgono i punti di forza e le debolezze di ognuno e li aiutano a dare voce al proprio strumento e alla propria personalità.</p>
+      <dl class="numeri">
+        {numeri.map((x) => <div><dt>{x.d}</dt><dd>{x.n}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <section class="motto">
+    <div class="wrap">
+      <p class="display motto-titolo">Noi miriamo sempre<br />al <span class="script">palco!</span></p>
+      <p class="motto-testo">Il nostro obiettivo è che i nostri giovani (o diversamente giovani) musicisti imparino a stare in una band e a confrontarsi con il pubblico. Così è nato il progetto MusicarteBand.</p>
+    </div>
+  </section>
+
+  <section class="wrap cosa">
+    <h2 class="display display-l">Cosa facciamo</h2>
+    <ol class="righe">
+      {attivita.map((a, i) => (
+        <li>
+          <a href={a.href} class="riga">
+            <span class="riga-n">{String(i + 1).padStart(2, '0')}</span>
+            <span class="riga-nome display">{a.t}</span>
+            <span class="riga-desc">{a.d}</span>
+            <svg class="riga-arr" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section id="soci" class="cream soci">
+    <div class="wrap">
+      <h2 class="display display-l">Diventa socio</h2>
+      <ol class="passi">
+        <li><span>01</span><strong>Chiedi la tessera</strong><p>Scrivi a {sito.email}, su WhatsApp al {sito.whatsapp} o passa in sede, in {sito.indirizzo} a {sito.citta}.</p></li>
+        <li><span>02</span><strong>Quota annuale</strong><p>La tessera costa {sito.quotaTessera} all’anno e serve anche per iscriversi ai corsi.</p></li>
+        <li><span>03</span><strong>Sei dei nostri</strong><p>Partecipi all’assemblea dei soci e alla vita dell’associazione, e paghi una quota ridotta per le masterclass.</p></li>
+      </ol>
+      <div class="btn-row soci-btn">
+        <a href={`mailto:${sito.email}?subject=Tessera associativa`} class="btn btn-red">Chiedi la tessera</a>
+        <a href={u('statuto/')} class="btn btn-dark">Leggi lo statuto</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap dati">
+    <div class="dati-testo">
+      <h2 class="display display-m">Vieni a<br /><span class="dot">trovarci</span></h2>
+      <p>La nostra sede è a {sito.citta}, in {sito.indirizzo}. Per conoscerci, chiedere la tessera o fissare una lezione di prova, scrivici.</p>
+      <div class="btn-row">
+        <a href={`mailto:${sito.email}`} class="btn btn-cream">Scrivici</a>
+        <a href={sito.whatsappLink} class="btn btn-line">WhatsApp</a>
+      </div>
+    </div>
+    <div class="scheda">
+      <dl>
+        <div><dt>Denominazione</dt><dd><Nome /> {sito.forma}, associazione di promozione sociale</dd></div>
+        <div><dt>Sede</dt><dd>{sito.indirizzo}, {sito.cap} {sito.citta} ({sito.provincia})</dd></div>
+        <div><dt>Codice fiscale</dt><dd>{sito.codiceFiscale}</dd></div>
+        <div><dt>Email</dt><dd><a href={`mailto:${sito.email}`}>{sito.email}</a></dd></div>
+      </dl>
+      <ul class="documenti">
+        <li><a href={u('statuto/')}>Statuto →</a></li>
+        <li><a href={u('sostienici/')}>5x1000 →</a></li>
+        <li><a href={u('privacy/')}>Privacy →</a></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Chi siamo */
+  .chi { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 56px; align-items: center; padding-bottom: 110px; }
+  .chi-foto { position: relative; }
+  .chi-foto img { width: 100%; border-radius: 24px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45); transform: rotate(-1.5deg); }
+  .chi-foto span { position: absolute; right: -12px; bottom: -18px; background: var(--cream); color: var(--ink); padding: 12px 20px; border-radius: 14px; transform: rotate(3deg); font-size: 26px; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
+  .chi-testo { display: flex; flex-direction: column; gap: 22px; }
+  .chi-testo > p:not(.kicker) { margin: 0; font-size: 18px; line-height: 1.65; color: var(--text-2); }
+  .numeri { margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 18px; border-top: 1px solid var(--line); padding-top: 22px; }
+  .numeri div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 6px; }
+  .numeri dt { font-size: 14px; line-height: 1.4; color: var(--muted); }
+  .numeri dd { margin: 0; font-family: var(--display); font-size: 56px; line-height: 1; color: var(--red-light); }
+
+  /* Motto */
+  .motto { background: var(--red); padding: 90px 0; }
+  .motto .wrap { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 56px; }
+  .motto-titolo { font-size: clamp(44px, 7vw, 96px); text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.35); }
+  .motto-titolo .script { color: var(--cream); }
+  .motto-testo { margin: 0; max-width: 460px; font-size: 18px; line-height: 1.6; color: #fbeff1; }
+
+  /* Cosa facciamo */
+  .cosa { padding-top: 110px; padding-bottom: 110px; }
+  .cosa h2 { margin-bottom: 40px; }
+  .righe { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .riga { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 28px 24px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background 0.25s, padding 0.25s; }
+  .riga:hover { background: var(--red); color: #fff; padding-left: 44px; }
+  .riga-n { font-family: var(--display); font-size: 30px; color: var(--red-light); width: 56px; }
+  .riga:hover .riga-n { color: var(--cream); }
+  .riga-nome { font-size: clamp(36px, 4.5vw, 60px); line-height: 1; flex: 1 1 300px; }
+  .riga-desc { font-size: 16px; line-height: 1.55; color: var(--text-2); flex: 1 1 360px; }
+  .riga-arr { transition: transform 0.25s; }
+  .riga:hover .riga-arr { transform: translateX(8px) rotate(-45deg); }
+
+  /* Diventa socio */
+  .soci { padding: 100px 0 110px; scroll-margin-top: 24px; }
+  .soci h2 { margin-bottom: 48px; }
+  .passi { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
+  .passi li { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 20px; }
+  .passi span { font-family: var(--display); font-size: 72px; line-height: 1; color: var(--red); }
+  .passi strong { font-size: 20px; }
+  .passi p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--on-cream); }
+  .soci-btn { margin-top: 48px; }
+
+  /* Dati */
+  .dati { padding-top: 110px; padding-bottom: 110px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 56px; align-items: center; }
+  .dati-testo { display: flex; flex-direction: column; gap: 24px; }
+  .dati-testo p { margin: 0; font-size: 18px; line-height: 1.65; color: var(--text-2); max-width: 460px; }
+  .scheda { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: clamp(24px, 5vw, 36px); display: flex; flex-direction: column; gap: 28px; }
+  .scheda dl { margin: 0; display: flex; flex-direction: column; gap: 18px; }
+  .scheda dt { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); }
+  .scheda dd { margin: 4px 0 0; font-size: 17px; line-height: 1.5; overflow-wrap: anywhere; }
+  .documenti { margin: 0; padding: 22px 0 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px 28px; border-top: 1px solid var(--line); }
+  .documenti a { font-weight: 700; color: var(--cream); }
+</style>

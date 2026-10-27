@@ -16,7 +16,7 @@ export const sito = {
   annoCorsi: '[2026/27]',
   periodoCorsi: 'da settembre a giugno',
   fondazione: 2019,
-  pieghevole: 'pieghevole-musicartelab.pdf',
+  quotaTessera: '[€ —]', // quota annuale della tessera associativa
   // Riquadro "sorprese" che chiude gli eventi futuri
   sorprese: 'Un sacco di nuove ed emozionanti sorprese vi attendono: concerti, masterclass e serate da non perdere. Seguici sui social per scoprirle per primo.',
   statutoPdf: '', // es. '/statuto.pdf' dopo averlo messo in public/
@@ -28,7 +28,7 @@ export const menu = [
   { href: 'corsi/', label: 'Corsi' },
   { href: 'eventi/', label: 'Eventi' },
   { href: 'insegnanti/', label: 'Insegnanti' },
-  { href: 'statuto/', label: 'Statuto' },
+  { href: 'associazione/', label: 'Associazione' },
   { href: 'sostienici/', label: 'Sostienici' },
 ];
 

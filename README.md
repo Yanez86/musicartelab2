@@ -8,10 +8,11 @@ Sito dell’associazione Musicarte-lab di Merate: corsi ed eventi di musica pop 
 
 | Voglio cambiare… | File |
 |---|---|
-| Email, WhatsApp, indirizzo, codice fiscale, anno dei corsi | `src/data/sito.ts` |
+| Email, WhatsApp, indirizzo, codice fiscale, anno dei corsi, quota della tessera | `src/data/sito.ts` |
 | Un evento | `src/content/eventi/*.md` |
 | Un corso | `src/content/corsi/*.md` |
 | Un insegnante | `src/content/insegnanti/*.md` |
+| La pagina Associazione (chi siamo, come diventare soci) | `src/pages/associazione.astro` |
 | Il testo dello statuto | `src/data/statuto.ts` |
 | L’informativa privacy e cookie | `src/pages/privacy.astro` |
 | Foto e locandine | `public/img/` |
@@ -43,7 +44,7 @@ Per usare un dominio vostro (es. `musicartelab.it`) cambiate `site` e togliete `
 ## Da completare
 
 Tutti i testi tra parentesi quadre, ad esempio `[indirizzo sede]`, sono segnaposto da sostituire:
-indirizzo e codice fiscale, quote dei corsi, nomi e bio degli insegnanti, testo dello statuto,
+indirizzo e codice fiscale, quote dei corsi e della tessera, nomi e bio degli insegnanti, testo dello statuto,
 formazione della MusicarteBand.
 
 La foto del palco usata in apertura è firmata PuntoFoto: verificate il permesso d’uso e il credito.
