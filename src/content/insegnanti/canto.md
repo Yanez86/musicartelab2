@@ -3,6 +3,7 @@ nome: Simona
 foto: simona.jpg
 strumento: Canto
 ruolo: "voce"
+ascolta: Tony Effe, Ligabue, Mario Merola
 ordine: 1
 ritratto: 2
 ---
