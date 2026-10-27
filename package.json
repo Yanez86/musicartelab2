@@ -9,6 +9,9 @@
     "preview": "astro preview"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/kaushan-script": "^5.3.0",
+    "@fontsource/passion-one": "^5.3.0",
     "astro": "^5.7.0"
   }
 }
