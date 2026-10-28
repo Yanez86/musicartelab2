@@ -47,15 +47,16 @@ const nn = (i: number) => String(i + 1).padStart(2, '0');
   .corpo { padding: 90px 0 110px; }
   .layout { display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start; }
   .indice { flex: 1 1 280px; background: var(--ink); color: #fff; border-radius: 20px; padding: 28px; }
-  .indice > span { display: block; font-size: 30px; margin-bottom: 14px; }
+  .indice > span { display: block; font-size: 1.875rem; margin-bottom: 14px; }
   .indice ol { margin: 0; padding: 0; list-style: none; }
   .indice li { border-top: 1px solid var(--line); }
-  .indice a { display: flex; gap: 12px; padding: 11px 0; font-size: 15px; text-decoration: none; color: #fff; }
+  .indice a { display: flex; gap: 12px; padding: 11px 0; font-size: 0.9375rem; text-decoration: none; color: #fff; }
   .indice a:hover { color: var(--red-light); }
   .indice b { font-family: var(--display); font-weight: 400; color: var(--red-light); width: 28px; }
   .articoli { flex: 999 1 560px; min-width: 0; max-width: 780px; display: flex; flex-direction: column; gap: 48px; }
   .articoli section { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 22px; scroll-margin-top: 24px; }
-  .art-n { font-family: var(--display); font-size: 56px; line-height: 1; color: var(--red); }
-  .articoli h2 { font-size: 36px; }
-  .articoli p { margin: 0; font-size: 17px; line-height: 1.75; color: var(--on-cream); }
+  .art-n { font-family: var(--display); font-size: 3.5rem; line-height: 1; color: var(--red); }
+  .articoli h2 { font-size: 2.25rem; }
+  /* max-width: righe di circa 75 caratteri, più facili da leggere */
+  .articoli p { margin: 0; max-width: 36em; font-size: 1.0625rem; line-height: 1.75; color: var(--on-cream); }
 </style>

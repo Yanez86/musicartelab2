@@ -1,4 +1,7 @@
 /* ---------- Colori e font ---------- */
+/* Le dimensioni dei testi sono in rem: con le impostazioni normali del browser
+   1rem = 16px (0.75rem = 12px, 0.875rem = 14px, 1.125rem = 18px), e seguono
+   la dimensione del testo scelta da chi visita il sito. */
 :root {
   --ink: #140d0f;
   --card: #1c1214;
@@ -7,7 +10,9 @@
   --line-strong: #5a4a4e;
   --cream: #ede3d1;
   --red: #9b1b30;
-  --red-light: #c8475c;
+  /* Abbastanza chiaro da essere leggibile (contrasto 4.5:1) anche
+     nei testi piccoli sui fondi scuri e sulle schede */
+  --red-light: #d65c70;
   --red-dark: #6b2030;
   --text: #ffffff;
   --text-2: #e6ded6;
@@ -20,7 +25,9 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 html, body { overflow-x: hidden; }
 body {
   margin: 0;
@@ -39,6 +46,40 @@ button { font: inherit; }
 
 .wrap { max-width: var(--wrap); margin: 0 auto; padding-left: 24px; padding-right: 24px; }
 
+/* ---------- Accessibilità ---------- */
+/* Contorno ben visibile su ciò che ha il focus quando si naviga con la tastiera:
+   crema sui fondi scuri e rossi, rosso sui fondi crema. */
+:focus-visible { outline: 3px solid var(--cream); outline-offset: 3px; }
+.cream :focus-visible, .top :focus-visible, .novita :focus-visible { outline-color: var(--red); }
+.cream .indice :focus-visible { outline-color: var(--cream); }
+/* "Vai al contenuto": nascosto, compare al primo Tab per saltare il menu */
+.salta {
+  position: absolute;
+  z-index: 100;
+  left: 16px;
+  top: 16px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.salta:focus { transform: none; }
+/* Testo letto dagli screen reader ma non mostrato */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ---------- Tipografia ---------- */
 .display {
   margin: 0;
@@ -46,10 +87,13 @@ button { font: inherit; }
   font-weight: 400;
   text-transform: uppercase;
   line-height: 0.9;
+  /* Una parola troppo lunga per lo schermo va a capo invece di essere tagliata */
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
-.display-xl { font-size: clamp(54px, 13vw, 180px); line-height: 0.86; }
-.display-l { font-size: clamp(50px, 9vw, 120px); }
-.display-m { font-size: clamp(40px, 6vw, 80px); line-height: 0.95; }
+.display-xl { font-size: clamp(2.875rem, 13vw + 4px, 11.25rem); line-height: 0.86; }
+.display-l { font-size: clamp(3.125rem, 9vw, 7.5rem); }
+.display-m { font-size: clamp(2.5rem, 6vw, 5rem); line-height: 0.95; }
 .dot { color: var(--red-light); }
 /* Il nome dell'associazione: sempre in grassetto e nel colore d'accento */
 .nome-brand { font-weight: 700; color: var(--red-light); }
@@ -57,17 +101,17 @@ button { font: inherit; }
 .script { font-family: var(--script); text-transform: none; }
 .kicker {
   margin: 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--cream);
 }
-.lead { margin: 0; font-size: 18px; line-height: 1.6; color: var(--text-2); max-width: 420px; }
+.lead { margin: 0; font-size: 1.125rem; line-height: 1.6; color: var(--text-2); max-width: 420px; }
 /* Paragrafo introduttivo sotto il titolo di ogni pagina */
-.lead.intro { max-width: 760px; font-size: clamp(18px, 1.6vw, 21px); line-height: 1.6; }
+.lead.intro { max-width: 760px; font-size: clamp(1.125rem, 1.6vw, 1.3125rem); line-height: 1.6; }
 .tag {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -115,10 +159,11 @@ button { font: inherit; }
   object-fit: cover;
   box-shadow: 0 0 0 3px rgba(237, 227, 209, 0.35);
 }
-.brand-name { font-family: var(--display); font-size: 26px; letter-spacing: 0.02em; text-transform: uppercase; }
+.brand-name { font-family: var(--display); font-size: 1.625rem; letter-spacing: 0.02em; text-transform: uppercase; }
 .brand-name .script { color: var(--red-light); font-size: 1.05em; margin-left: 3px; }
-.nav { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; font-size: 15px; font-weight: 600; }
-.nav a { text-decoration: none; }
+.nav { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; font-size: 0.9375rem; font-weight: 600; }
+/* Il padding allarga l'area cliccabile dei link (circa 44px di altezza) */
+.nav a { padding: 12px 0; text-decoration: none; }
 .nav a[aria-current='page'] { color: var(--cream); text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 2px; }
 .nav .btn { min-height: 44px; padding: 11px 22px; }
 
@@ -142,7 +187,7 @@ button { font: inherit; }
   min-height: 46px;
   padding: 10px 22px;
   border-radius: 999px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: 700;
   cursor: pointer;
   background: transparent;
@@ -168,9 +213,9 @@ button { font: inherit; }
 }
 .polaroid:hover { transform: rotate(0deg) translateY(-10px); color: var(--ink); }
 .polaroid svg, .polaroid img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; }
-.polaroid .nome { font-family: var(--display); font-size: 26px; text-transform: uppercase; }
-.polaroid .strumento { font-size: 13px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.1em; }
-.polaroid p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--on-cream); }
+.polaroid .nome { font-family: var(--display); font-size: 1.625rem; text-transform: uppercase; }
+.polaroid .strumento { font-size: 0.8125rem; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.1em; }
+.polaroid p { margin: 0; font-size: 0.9375rem; line-height: 1.55; color: var(--on-cream); }
 
 /* ---------- Piè di pagina ---------- */
 .site-footer { border-top: 1px solid var(--line); }
@@ -179,7 +224,7 @@ button { font: inherit; }
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 32px;
   padding-top: 56px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.7;
   color: var(--muted);
 }
@@ -187,7 +232,7 @@ button { font: inherit; }
 .site-footer strong { color: #fff; }
 .site-footer .bigname {
   font-family: var(--display);
-  font-size: clamp(44px, 15vw, 220px);
+  font-size: clamp(2.75rem, 15vw, 13.75rem);
   line-height: 0.85;
   text-transform: uppercase;
   color: #2a1e21;
@@ -197,6 +242,15 @@ button { font: inherit; }
 }
 .site-footer .bigname .script { color: #3a2428; }
 
+/* Animazioni continue ferme: con il pulsante di pausa nella fascia degli strumenti */
+.animazioni-ferme .marquee, .animazioni-ferme .camino *, .animazioni-ferme .disco { animation-play-state: paused !important; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* Modalità a contrasto elevato di Windows: i colori di fondo spariscono,
+   quindi il filtro scelto viene sottolineato. */
+@media (forced-colors: active) {
+  .filter[aria-pressed='true'] { text-decoration: underline 2px; text-underline-offset: 4px; }
 }

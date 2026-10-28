@@ -67,8 +67,14 @@ const scheda = {
 
   <section class="marquee-band" aria-label="Strumenti">
     <div class="marquee">
-      {giro.map((s) => <span>{s}<span class="nota-m" aria-hidden="true">♪</span></span>)}
+      {giro.map((s, i) => (
+        <span aria-hidden={i >= strumenti.length ? 'true' : undefined}>{s}<span class="nota-m" aria-hidden="true">♪</span></span>
+      ))}
     </div>
+    <button type="button" class="pausa" aria-pressed="false" aria-label="Ferma le animazioni">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6z"></path><path d="M14 5h4v14h-4z"></path></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="M7 4.5v15l12.5-7.5z"></path></svg>
+    </button>
   </section>
 
   {principale && (
@@ -77,7 +83,7 @@ const scheda = {
         <h2 class="display display-l">Eventi</h2>
         <a href={u('eventi/')} class="cream-text strong">Tutti gli eventi →</a>
       </div>
-      {principale && <EventoTop evento={principale} futuro={principaleFuturo} breve />}
+      {principale && <EventoTop evento={principale} futuro={principaleFuturo} breve livello="h3" />}
       <div class="ev-grid">
         {ultimi.map((e) => <EventoMini evento={e} />)}
       </div>
@@ -149,7 +155,7 @@ const scheda = {
         <h2 class="display display-l">Insegnanti</h2>
         <p class="lead">Sfoglia il booklet: ogni insegnante è una traccia.</p>
       </div>
-      <Libretto />
+      <Libretto livello="h3" />
     </div>
   </section>
 
@@ -159,18 +165,34 @@ const scheda = {
   </section>
 </Base>
 
+<script>
+  // La fascia degli strumenti scorre di continuo: il pulsante ferma (e fa ripartire)
+  // tutte le animazioni continue della pagina.
+  const pausa = document.querySelector<HTMLButtonElement>('.pausa');
+  if (pausa) {
+    const [iconaPausa, iconaPlay] = pausa.querySelectorAll('svg');
+    pausa.addEventListener('click', () => {
+      const ferme = pausa.getAttribute('aria-pressed') !== 'true';
+      pausa.setAttribute('aria-pressed', String(ferme));
+      document.documentElement.classList.toggle('animazioni-ferme', ferme);
+      iconaPausa.toggleAttribute('hidden', ferme);
+      iconaPlay.toggleAttribute('hidden', !ferme);
+    });
+  }
+</script>
+
 <style>
   .cream-text { color: var(--cream); }
-  .strong { font-weight: 700; font-size: 17px; }
+  .strong { font-weight: 700; font-size: 1.0625rem; }
 
   /* Splash */
   .hero { position: relative; min-height: 820px; display: flex; flex-direction: column; background-size: cover; background-position: center 60%; }
   .hero-shade { position: absolute; inset: 0; background: rgba(20, 13, 15, 0.68); }
   .hero-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 260px; background: linear-gradient(to bottom, rgba(20, 13, 15, 0), var(--ink)); }
   .hero-body { position: relative; z-index: 1; flex-grow: 1; width: 100%; padding-top: 150px; padding-bottom: 140px; display: flex; flex-direction: column; justify-content: flex-end; gap: 28px; }
-  .hero-title { font-size: clamp(56px, 10.5vw, 160px); line-height: 0.9; letter-spacing: 0.01em; text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.55); }
+  .hero-title { font-size: clamp(3.5rem, 10.5vw, 10rem); line-height: 0.9; letter-spacing: 0.01em; text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.55); }
   .hero-cta { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
-  .hero-lead { margin: 0; max-width: 460px; font-size: 19px; line-height: 1.55; color: var(--text-2); }
+  .hero-lead { margin: 0; max-width: 460px; font-size: 1.1875rem; line-height: 1.55; color: var(--text-2); }
   .hero-lead strong { color: #fff; font-size: 1.15em; }
   .rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
   @keyframes rise { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
@@ -181,9 +203,15 @@ const scheda = {
     transform: rotate(-1.5deg); margin: -70px -20px 20px; overflow: hidden;
     box-shadow: 0 22px 26px -6px rgba(0, 0, 0, 0.6), 0 -6px 18px rgba(0, 0, 0, 0.35);
   }
-  .marquee { display: flex; width: max-content; animation: scorri 32s linear infinite; font-family: var(--display); font-size: 46px; line-height: 1; text-transform: uppercase; white-space: nowrap; }
+  .marquee { display: flex; width: max-content; animation: scorri 32s linear infinite; font-family: var(--display); font-size: 2.875rem; line-height: 1; text-transform: uppercase; white-space: nowrap; }
   .marquee > span { display: flex; align-items: center; gap: 32px; padding-right: 32px; }
   .nota-m { color: var(--cream); }
+  .pausa {
+    position: absolute; z-index: 1; top: 50%; right: max(44px, calc(50% - var(--wrap) / 2 + 24px)); transform: translateY(-50%);
+    width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--cream); background: var(--ink); color: var(--cream);
+    display: grid; place-items: center; cursor: pointer;
+  }
+  @media (prefers-reduced-motion: reduce) { .pausa { display: none; } }
   @keyframes scorri { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
   /* Intestazioni sezione */
@@ -194,10 +222,10 @@ const scheda = {
   .rows { border-top: 1px solid var(--line); }
   .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 28px 24px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background 0.25s, padding 0.25s; }
   .row:hover { background: var(--red); color: #fff; padding-left: 44px; }
-  .row-n { font-family: var(--display); font-size: 30px; color: var(--red-light); width: 56px; }
+  .row-n { font-family: var(--display); font-size: 1.875rem; color: var(--red-light); width: 56px; }
   .row:hover .row-n { color: var(--cream); }
-  .row-nome { font-family: var(--display); font-size: clamp(38px, 5vw, 66px); line-height: 1; text-transform: uppercase; flex: 1 1 320px; }
-  .row-eta { font-size: 16px; color: var(--text-2); flex: 0 1 220px; }
+  .row-nome { font-family: var(--display); font-size: clamp(2.375rem, 5vw, 4.125rem); line-height: 1; text-transform: uppercase; flex: 1 1 320px; }
+  .row-eta { font-size: 1rem; color: var(--text-2); flex: 0 1 220px; }
   .row-arr { transition: transform 0.25s; }
   .row:hover .row-arr { transform: translateX(8px) rotate(-45deg); }
 
@@ -206,24 +234,24 @@ const scheda = {
   .sede-foto { position: relative; }
   .sede-foto img { width: 100%; height: 560px; object-fit: cover; object-position: center 45%; border-radius: 28px; }
   .sticker { position: absolute; right: -16px; bottom: 40px; background: var(--cream); color: var(--ink); padding: 22px 26px; border-radius: 20px; transform: rotate(3deg); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); }
-  .sticker span { display: block; font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); }
-  .sticker strong { display: block; font-family: var(--display); font-weight: 400; font-size: 36px; text-transform: uppercase; line-height: 1.05; }
+  .sticker span { display: block; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); }
+  .sticker strong { display: block; font-family: var(--display); font-weight: 400; font-size: 2.25rem; text-transform: uppercase; line-height: 1.05; }
   .sede-testo { display: flex; flex-direction: column; gap: 24px; }
-  .sede-testo p { margin: 0; font-size: 18px; line-height: 1.65; color: var(--text-2); }
+  .sede-testo p { margin: 0; font-size: 1.125rem; line-height: 1.65; color: var(--text-2); }
 
   /* Band */
   .band { background: var(--red); position: relative; overflow: hidden; }
-  .band-bg { position: absolute; right: -40px; top: -30px; font-family: var(--display); font-size: 340px; line-height: 0.8; color: rgba(0, 0, 0, 0.12); text-transform: uppercase; white-space: nowrap; }
+  .band-bg { position: absolute; right: -40px; top: -30px; font-family: var(--display); font-size: 21.25rem; line-height: 0.8; color: rgba(0, 0, 0, 0.12); text-transform: uppercase; white-space: nowrap; }
   .band-grid { position: relative; padding-top: 110px; padding-bottom: 110px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 56px; align-items: center; }
   .band-testo { display: flex; flex-direction: column; gap: 24px; }
-  .band-title { font-size: clamp(42px, 9vw, 128px); line-height: 0.88; overflow-wrap: anywhere; text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.35); }
-  .band-lead { margin: 0; font-size: 19px; line-height: 1.6; color: #fbeff1; }
+  .band-title { font-size: clamp(2.625rem, 9vw, 8rem); line-height: 0.88; overflow-wrap: anywhere; text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.35); }
+  .band-lead { margin: 0; font-size: 1.1875rem; line-height: 1.6; color: #fbeff1; }
   .band-info { margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 18px; border-top: 1px solid rgba(255, 255, 255, 0.3); padding-top: 22px; }
-  .band-info dt { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
+  .band-info dt { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
   .band-info dd { margin: 6px 0 0; font-weight: 600; }
   .band-foto { position: relative; }
   .band-foto img { width: 100%; height: 520px; object-fit: cover; object-position: 30% 60%; border-radius: 24px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); transform: rotate(2deg); }
-  .band-foto span { position: absolute; left: -12px; bottom: 32px; background: var(--ink); color: var(--cream); padding: 14px 20px; border-radius: 14px; transform: rotate(-3deg); font-size: 26px; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
+  .band-foto span { position: absolute; left: -12px; bottom: 32px; background: var(--ink); color: var(--cream); padding: 14px 20px; border-radius: 14px; transform: rotate(-3deg); font-size: 1.625rem; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
 
   /* Insegnanti */
   .insegnanti-home { padding: 110px 0 120px; background: radial-gradient(ellipse at 50% 45%, #3a2328 0%, var(--ink) 65%); }

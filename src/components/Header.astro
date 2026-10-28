@@ -36,7 +36,7 @@ const { current = '', overlay = false } = Astro.props;
   <nav class="menu-voci" aria-label="Principale">
     {[{ href: '', label: 'Home' }, ...menu].map((m, i) => (
       <a href={u(m.href)} aria-current={current === m.href ? 'page' : undefined}>
-        <span class="n">{String(i).padStart(2, '0')}</span>{m.label}
+        <span class="n" aria-hidden="true">{String(i).padStart(2, '0')}</span>{m.label}
         {current === m.href && <span class="pallino" aria-hidden="true"></span>}
       </a>
     ))}
@@ -58,11 +58,14 @@ const { current = '', overlay = false } = Astro.props;
   const menu = document.getElementById('menu-telefono');
   const apri = document.querySelector<HTMLButtonElement>('.hamburger');
   const chiudi = menu?.querySelector<HTMLButtonElement>('.menu-chiudi');
+  // Con il menu aperto il resto della pagina è inattivo: il Tab resta nel menu.
+  const sfondo = document.querySelectorAll('.salta, .site-header, main, .site-footer');
   if (menu && apri && chiudi) {
     const imposta = (aperto: boolean) => {
       menu.hidden = !aperto;
       apri.setAttribute('aria-expanded', String(aperto));
       document.documentElement.style.overflow = aperto ? 'hidden' : '';
+      sfondo.forEach((el) => el.toggleAttribute('inert', aperto));
       (aperto ? chiudi : apri).focus();
     };
     apri.addEventListener('click', () => imposta(true));
@@ -96,7 +99,7 @@ const { current = '', overlay = false } = Astro.props;
     .hamburger { display: grid; }
     .site-header .wrap { flex-wrap: nowrap; padding-top: 18px; padding-bottom: 18px; }
     .site-header .brand img { width: 46px; height: 46px; }
-    .site-header .brand-name { font-size: 22px; }
+    .site-header .brand-name { font-size: 1.375rem; }
   }
 
   .menu-tel {
@@ -114,10 +117,10 @@ const { current = '', overlay = false } = Astro.props;
   }
   .menu-tel[hidden] { display: none; }
   @keyframes menuIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
-  .menu-lab { position: absolute; right: -60px; bottom: 120px; font-size: 180px; line-height: 1; color: rgba(155, 27, 48, 0.14); transform: rotate(-8deg); pointer-events: none; }
+  .menu-lab { position: absolute; right: -60px; bottom: 120px; font-size: 11.25rem; line-height: 1; color: rgba(155, 27, 48, 0.14); transform: rotate(-8deg); pointer-events: none; }
   .menu-top { position: relative; display: flex; align-items: center; justify-content: space-between; }
   .menu-top .brand img { width: 46px; height: 46px; }
-  .menu-top .brand-name { font-size: 22px; }
+  .menu-top .brand-name { font-size: 1.375rem; }
   .menu-voci { position: relative; margin-top: 32px; display: flex; flex-direction: column; }
   .menu-voci a {
     display: flex;
@@ -126,17 +129,17 @@ const { current = '', overlay = false } = Astro.props;
     padding: 10px 0;
     border-bottom: 1px solid var(--line);
     font-family: var(--display);
-    font-size: 48px;
+    font-size: 3rem;
     line-height: 1;
     text-transform: uppercase;
     text-decoration: none;
   }
   .menu-voci a:hover { color: var(--red-light); }
   .menu-voci a[aria-current='page'] { color: var(--cream); }
-  .menu-voci .n { font-size: 20px; color: var(--red-light); width: 34px; }
+  .menu-voci .n { font-size: 1.25rem; color: var(--red-light); width: 34px; }
   .pallino { margin-left: auto; width: 12px; height: 12px; border-radius: 50%; background: var(--red-light); }
   .menu-fondo { position: relative; margin-top: auto; padding-top: 32px; display: flex; flex-direction: column; gap: 18px; }
-  .menu-contatti { display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+  .menu-contatti { display: flex; flex-direction: column; gap: 4px; font-size: 0.9375rem; }
   .menu-contatti a { color: var(--muted); text-decoration: none; }
   .menu-social { margin: 0; padding: 0; list-style: none; display: flex; gap: 12px; }
   .menu-social a { width: 52px; height: 52px; border-radius: 50%; background: #fff; display: grid; place-items: center; }
