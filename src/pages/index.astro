@@ -1,5 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Camino from '../components/Camino.astro';
 import Libretto from '../components/Libretto.astro';
@@ -10,8 +9,10 @@ import Nome from '../components/Nome.astro';
 import Testo from '../components/Testo.astro';
 import EventoTop from '../components/EventoTop.astro';
 import EventoMini from '../components/EventoMini.astro';
+import CorsiEtichette from '../components/CorsiEtichette.astro';
+import { corsiInOrdine } from '../lib/corsi';
 
-const corsi = (await getCollection('corsi')).sort((a, b) => a.data.ordine - b.data.ordine);
+const corsi = await corsiInOrdine();
 const { recenti, futuri, principale, principaleFuturo } = await eventiDivisi();
 // In home: in grande l'evento principale (il più vicino a oggi), sotto i
 // successivi in arrivo e poi i più recenti già passati.
@@ -96,15 +97,9 @@ const scheda = {
       <h2 class="display display-l">Corsi</h2>
       <p class="lead">Lezioni individuali e di gruppo sul repertorio pop rock, {sito.periodoCorsi}.</p>
     </div>
-    <div class="rows">
-      {corsi.map((c, i) => (
-        <a href={u('corsi/')} class="row">
-          <span class="row-n">{String(i + 1).padStart(2, '0')}</span>
-          <span class="row-nome"><Testo t={c.data.nome} /></span>
-          <span class="row-eta">{c.data.eta}</span>
-          <svg class="row-arr" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
-        </a>
-      ))}
+    <CorsiEtichette corsi={corsi} filtri />
+    <div class="btn-row corsi-cta">
+      <a href={u('corsi/')} class="btn btn-red">Età, orari e quote di ogni corso</a>
     </div>
   </section>
 
@@ -221,15 +216,7 @@ const scheda = {
 
   /* Corsi */
   .corsi-home { padding-top: var(--spazio-sezione); }
-  .rows { border-top: 1px solid var(--line); }
-  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 32px 24px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background 0.25s, padding 0.25s; }
-  .row:hover { background: var(--red); color: #fff; padding-left: 48px; }
-  .row-n { font-family: var(--display); font-size: var(--titolo-5); color: var(--red-light); width: 56px; }
-  .row:hover .row-n { color: var(--cream); }
-  .row-nome { font-family: var(--display); font-size: var(--titolo-3); line-height: 1; text-transform: uppercase; flex: 1 1 320px; }
-  .row-eta { font-size: var(--testo-m); color: var(--text-2); flex: 0 1 220px; }
-  .row-arr { transition: transform 0.25s; }
-  .row:hover .row-arr { transform: translateX(8px) rotate(-45deg); }
+  .corsi-cta { margin-top: 40px; }
 
   /* Sede */
   .sede { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: var(--spazio-colonne); align-items: center; }

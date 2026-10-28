@@ -1,4 +1,4 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 // EVENTI — un file .md per evento in src/content/eventi/
@@ -21,7 +21,8 @@ const eventi = defineCollection({
   }),
 });
 
-// CORSI — un file .md per corso in src/content/corsi/
+// CORSI — un file .md per corso in src/content/corsi/; ognuno ha la sua pagina,
+// /corsi/<nome del file>/. Sotto i trattini si può scrivere una descrizione lunga.
 const corsi = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/corsi' }),
   schema: z.object({
@@ -32,7 +33,9 @@ const corsi = defineCollection({
     formula: z.string(),
     giorni: z.string().default('[giorno e orario]'),
     quota: z.string().default('[€ — / mese]'),
-    insegnante: z.string().default('[Nome Cognome]'),
+    // File degli insegnanti del corso (senza .md), es. [canto]: compaiono nella
+    // pagina del corso. Un nome sbagliato blocca la build con un messaggio d'errore.
+    insegnanti: z.array(reference('insegnanti')).default([]),
     breve: z.string(),
   }),
 });

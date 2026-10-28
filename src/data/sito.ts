@@ -36,6 +36,7 @@ export const paroleInglesi = [
   'Talk & Play',
   'Freestyle rap battle',
   'Christmas carol',
+  'Xmas carol',
   'Writing & Producing',
 ];
 

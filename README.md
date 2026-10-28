@@ -17,7 +17,7 @@ Sito dell’associazione Musicarte-lab di Merate: corsi ed eventi di musica pop 
 | L’informativa privacy e cookie | `src/pages/privacy.astro` |
 | Foto e locandine | `public/img/` |
 | Grafica comune (colori, font, pulsanti) | `src/styles/global.css` |
-| Le pagine | `src/pages/*.astro` (la pagina di ogni evento è `src/pages/attivita/[id].astro`; quelle in `src/pages/eventi` fanno solo funzionare i vecchi link) |
+| Le pagine | `src/pages/*.astro` (la pagina di ogni evento è `src/pages/attivita/[id].astro`, quella di ogni corso `src/pages/corsi/[id].astro`; quelle in `src/pages/eventi` fanno solo funzionare i vecchi link) |
 
 Per aggiungere eventi (anche con il link di prenotazione Tally), corsi, insegnanti e foto,
 e per capire come funzionano pubblicazione e build notturna, c’è la **[guida rapida](GUIDA.md)**.

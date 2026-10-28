@@ -77,7 +77,7 @@ button { font: inherit; }
 /* Contorno ben visibile su ciò che ha il focus quando si naviga con la tastiera:
    crema sui fondi scuri e rossi, rosso sui fondi crema. */
 :focus-visible { outline: 3px solid var(--cream); outline-offset: 3px; }
-.cream :focus-visible, .top :focus-visible, .novita :focus-visible { outline-color: var(--red); }
+.cream :focus-visible, .top :focus-visible, .novita :focus-visible, .note :focus-visible { outline-color: var(--red); }
 .cream .indice :focus-visible { outline-color: var(--cream); }
 /* "Vai al contenuto": nascosto, compare al primo Tab per saltare il menu */
 .salta {
