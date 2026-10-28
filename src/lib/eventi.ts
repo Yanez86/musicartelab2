@@ -12,8 +12,8 @@ export function inizioOggi() {
 
 export const inArrivo = (e: Evento) => e.data.data >= inizioOggi();
 
-// Indirizzo della pagina dell'evento: /eventi/<nome del file>/
-export const linkEvento = (e: Evento) => u(`eventi/${e.id}/`);
+// Indirizzo della pagina dell'evento: /attivita/<nome del file>/
+export const linkEvento = (e: Evento) => u(`attivita/${e.id}/`);
 
 // Restituisce gli eventi dal più recente al più vecchio, divisi in
 // "recenti" (ultimi 12 mesi o futuri) e "archivio" (più vecchi di un anno).

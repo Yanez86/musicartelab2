@@ -17,7 +17,7 @@ export const sito = {
   periodoCorsi: 'da settembre a giugno',
   fondazione: 2019,
   quotaTessera: '[€ —]', // quota annuale della tessera associativa
-  // Riquadro "sorprese" che chiude gli eventi futuri
+  // Riquadro "sorprese" che chiude le prossime attività
   sorprese: 'Un sacco di nuove ed emozionanti sorprese vi attendono: concerti, masterclass e serate da non perdere. Seguici sui social per scoprirle per primo.',
   statutoPdf: '', // es. '/statuto.pdf' dopo averlo messo in public/
   // Codice di verifica di Google Search Console (solo la parte dentro content="…").
@@ -26,7 +26,7 @@ export const sito = {
 
 export const menu = [
   { href: 'corsi/', label: 'Corsi' },
-  { href: 'eventi/', label: 'Eventi' },
+  { href: 'attivita/', label: 'Attività' },
   { href: 'insegnanti/', label: 'Insegnanti' },
   { href: 'associazione/', label: 'Associazione' },
   { href: 'sostienici/', label: 'Sostienici' },
