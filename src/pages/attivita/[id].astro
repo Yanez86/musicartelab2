@@ -5,9 +5,10 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Testo from '../../components/Testo.astro';
+import NuovaScheda from '../../components/NuovaScheda.astro';
 import EventoMini from '../../components/EventoMini.astro';
 import { eventiDivisi, inArrivo, inizioIso, inizioOggi, testoBreve } from '../../lib/eventi';
-import { u } from '../../lib/url';
+import { u, nuovaScheda } from '../../lib/url';
 import { sito } from '../../data/sito';
 
 export async function getStaticPaths() {
@@ -78,13 +79,14 @@ const scheda = {
   <div class="wrap page-head">
     <a href={u('attivita/')} class="indietro">← Tutte le attività</a>
     <span class:list={['stato', { 'stato--passato': !futuro }]}>{stato} · {d.tipo}</span>
-    <h1 class="display titolo">{d.titolo}{d.sottotitolo && <><br /><span><Testo t={d.sottotitolo} /></span></>}</h1>
+    <h1 class="display titolo"><Testo t={d.titolo} />{d.sottotitolo && <><br /><span><Testo t={d.sottotitolo} /></span></>}</h1>
   </div>
 
   <section class="wrap corpo">
     {locandina ? (
       <a href={u(locandina)} class="locandina" target="_blank" rel="noopener" title="Apri la locandina">
         <img src={u(locandina)} alt={`Locandina: ${d.titolo}`} />
+        <NuovaScheda />
       </a>
     ) : (
       <div class="locandina"><img src={u('img/concerto.jpg')} alt="" /></div>
@@ -99,17 +101,17 @@ const scheda = {
       {d.info.length > 0 && <ul class="info">{d.info.map((r) => <li><Testo t={r} /></li>)}</ul>}
       {!futuro && <p class="concluso">Questa attività si è già svolta. Qui sotto trovi le prossime.</p>}
       <div class="btn-row">
-        {futuro && d.prenotazione && <a href={d.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{d.bottone}</a>}
+        {futuro && d.prenotazione && <a href={d.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{d.bottone}<NuovaScheda /></a>}
         <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
       </div>
       <div class="condividi" data-condividi data-link={indirizzo} data-titolo={titolo}>
         <span class="condividi-label">Condividi l’attività</span>
         <div class="condividi-row">
-          <a href={condividi.whatsapp} class="btn btn-line share" target="_blank" rel="noopener" aria-label="Condividi su WhatsApp" title="WhatsApp">
-            <img src={u('img/social/whatsapp.svg')} alt="" width="22" height="22" />
+          <a href={condividi.whatsapp} class="btn btn-line share" target="_blank" rel="noopener" aria-label={`Condividi su WhatsApp (${nuovaScheda})`} title="WhatsApp">
+            <img src={u('img/social/whatsapp.svg')} alt="" width="24" height="24" />
           </a>
-          <a href={condividi.facebook} class="btn btn-line share" target="_blank" rel="noopener" aria-label="Condividi su Facebook" title="Facebook">
-            <img src={u('img/social/facebook.png')} alt="" width="22" height="22" />
+          <a href={condividi.facebook} class="btn btn-line share" target="_blank" rel="noopener" aria-label={`Condividi su Facebook (${nuovaScheda})`} title="Facebook">
+            <img src={u('img/social/facebook.png')} alt="" width="24" height="24" />
           </a>
           <button type="button" class="btn btn-line share" data-copia aria-label="Copia il link" title="Copia il link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
@@ -170,36 +172,36 @@ const scheda = {
 </script>
 
 <style>
-  .page-head { gap: 22px; padding-bottom: 48px; }
-  .indietro { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
-  .stato { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; background: var(--red); color: #fff; padding: 8px 14px; border-radius: 999px; }
+  .page-head { gap: 24px; padding-bottom: 48px; }
+  .indietro { font-size: var(--testo-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+  .stato { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; background: var(--red); color: #fff; padding: 8px 16px; border-radius: 999px; }
   .stato--passato { background: var(--line); color: var(--text-2); }
-  .titolo { font-size: clamp(48px, 8vw, 112px); line-height: 0.9; }
+  .titolo { font-size: var(--titolo-2); line-height: 0.9; }
   .titolo span { color: var(--red-light); }
 
-  .corpo { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px; padding-bottom: 100px; }
-  .locandina { flex: 0 1 380px; max-width: 460px; border-radius: 22px; overflow: hidden; background: var(--card); }
+  .corpo { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px; padding-bottom: var(--spazio-sezione); }
+  .locandina { flex: 0 1 380px; max-width: 460px; border-radius: var(--raggio); overflow: hidden; background: var(--card); }
   .locandina img { width: 100%; height: auto; }
-  .scheda { flex: 999 1 420px; min-width: 0; border-radius: 28px; padding: clamp(24px, 5vw, 56px); display: flex; flex-direction: column; gap: 24px; }
-  .dati { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; font-size: 15px; }
-  .dati dt { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
+  .scheda { flex: 999 1 420px; min-width: 0; border-radius: var(--raggio); padding: var(--spazio-riquadro); display: flex; flex-direction: column; gap: 24px; }
+  .dati { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; font-size: var(--testo-s); }
+  .dati dt { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
   .dati dd { margin: 4px 0 0; font-weight: 600; }
-  .desc { display: flex; flex-direction: column; gap: 14px; }
-  .desc :global(p) { margin: 0; font-size: 17px; line-height: 1.65; color: var(--on-cream); }
-  .info { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.5; color: var(--on-cream); }
+  .desc { display: flex; flex-direction: column; gap: 16px; }
+  .desc :global(p) { margin: 0; max-width: 36em; font-size: var(--testo-l); line-height: 1.65; color: var(--on-cream); }
+  .info { margin: 0; padding-left: 24px; display: flex; flex-direction: column; gap: 8px; font-size: var(--testo-m); line-height: 1.5; color: var(--on-cream); }
   .info li::marker { color: var(--red); }
   .concluso { margin: 0; font-weight: 600; color: var(--red-dark); }
   .scheda .btn-line { color: var(--ink); }
-  .condividi { display: flex; flex-direction: column; gap: 12px; padding-top: 22px; border-top: 1px solid rgba(20, 13, 15, 0.15); }
-  .condividi-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
-  .condividi-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .condividi { display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid rgba(20, 13, 15, 0.15); }
+  .condividi-label { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
+  .condividi-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .share { width: 48px; height: 48px; padding: 0; justify-content: center; border-radius: 50%; }
-  .share img, .share svg { width: 22px; height: 22px; flex: none; }
+  .share img, .share svg { width: 24px; height: 24px; flex: none; }
   .share[hidden], .share svg[hidden] { display: none; }
-  .esito { font-size: 15px; font-weight: 600; color: var(--red-dark); }
+  .esito { font-size: var(--testo-s); font-weight: 600; color: var(--red-dark); }
 
-  .altri { padding-bottom: 110px; }
-  .altri-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 32px; }
-  .tutti { color: var(--cream); font-weight: 700; font-size: 17px; }
-  .griglia { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
+  .altri { padding-bottom: var(--spazio-sezione); }
+  .altri-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: var(--spazio-titolo); }
+  .tutti { color: var(--cream); font-weight: 700; font-size: var(--testo-m); }
+  .griglia { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: var(--spazio-griglia); }
 </style>

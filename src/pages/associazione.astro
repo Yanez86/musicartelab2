@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import { sito } from '../data/sito';
 import { u } from '../lib/url';
 import Nome from '../components/Nome.astro';
+import Testo from '../components/Testo.astro';
 
 const corsi = await getCollection('corsi');
 const numeri = [
@@ -56,7 +57,7 @@ const attivita = [
           <a href={a.href} class="riga">
             <span class="riga-n">{String(i + 1).padStart(2, '0')}</span>
             <span class="riga-nome display">{a.t}</span>
-            <span class="riga-desc">{a.d}</span>
+            <span class="riga-desc"><Testo t={a.d} /></span>
             <svg class="riga-arr" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
           </a>
         </li>
@@ -106,55 +107,55 @@ const attivita = [
 
 <style>
   /* Chi siamo */
-  .chi { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 56px; align-items: center; padding-bottom: 110px; }
+  .chi { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: var(--spazio-colonne); align-items: center; padding-bottom: var(--spazio-sezione); }
   .chi-foto { position: relative; }
-  .chi-foto img { width: 100%; border-radius: 24px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45); transform: rotate(-1.5deg); }
-  .chi-foto span { position: absolute; right: -12px; bottom: -18px; background: var(--cream); color: var(--ink); padding: 12px 20px; border-radius: 14px; transform: rotate(3deg); font-size: 26px; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
-  .chi-testo { display: flex; flex-direction: column; gap: 22px; }
-  .chi-testo > p:not(.kicker) { margin: 0; font-size: 18px; line-height: 1.65; color: var(--text-2); }
-  .numeri { margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 18px; border-top: 1px solid var(--line); padding-top: 22px; }
-  .numeri div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 6px; }
-  .numeri dt { font-size: 14px; line-height: 1.4; color: var(--muted); }
-  .numeri dd { margin: 0; font-family: var(--display); font-size: 56px; line-height: 1; color: var(--red-light); }
+  .chi-foto img { width: 100%; border-radius: var(--raggio); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45); transform: rotate(-1.5deg); }
+  .chi-foto span { position: absolute; right: -12px; bottom: -18px; background: var(--cream); color: var(--ink); padding: 12px 24px; border-radius: var(--raggio-s); transform: rotate(3deg); font-size: var(--titolo-5); box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
+  .chi-testo { display: flex; flex-direction: column; gap: 24px; }
+  .chi-testo > p:not(.kicker) { margin: 0; font-size: var(--testo-l); line-height: 1.65; color: var(--text-2); }
+  .numeri { margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; border-top: 1px solid var(--line); padding-top: 24px; }
+  .numeri div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 8px; }
+  .numeri dt { font-size: var(--testo-s); line-height: 1.4; color: var(--muted); }
+  .numeri dd { margin: 0; font-family: var(--display); font-size: 3.5rem; line-height: 1; color: var(--red-light); }
 
   /* Motto */
-  .motto { background: var(--red); padding: 90px 0; }
-  .motto .wrap { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 56px; }
-  .motto-titolo { font-size: clamp(44px, 7vw, 96px); text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.35); }
+  .motto { background: var(--red); padding: var(--spazio-sezione) 0; }
+  .motto .wrap { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px 56px; }
+  .motto-titolo { font-size: var(--titolo-3); text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.35); }
   .motto-titolo .script { color: var(--cream); }
-  .motto-testo { margin: 0; max-width: 460px; font-size: 18px; line-height: 1.6; color: #fbeff1; }
+  .motto-testo { margin: 0; max-width: 460px; font-size: var(--testo-l); line-height: 1.6; color: #fbeff1; }
 
   /* Cosa facciamo */
-  .cosa { padding-top: 110px; padding-bottom: 110px; }
-  .cosa h2 { margin-bottom: 40px; }
+  .cosa { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); }
+  .cosa h2 { margin-bottom: var(--spazio-titolo); }
   .righe { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-  .riga { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 28px 24px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background 0.25s, padding 0.25s; }
-  .riga:hover { background: var(--red); color: #fff; padding-left: 44px; }
-  .riga-n { font-family: var(--display); font-size: 30px; color: var(--red-light); width: 56px; }
+  .riga { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 32px 24px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background 0.25s, padding 0.25s; }
+  .riga:hover { background: var(--red); color: #fff; padding-left: 48px; }
+  .riga-n { font-family: var(--display); font-size: var(--titolo-5); color: var(--red-light); width: 56px; }
   .riga:hover .riga-n { color: var(--cream); }
-  .riga-nome { font-size: clamp(36px, 4.5vw, 60px); line-height: 1; flex: 1 1 300px; }
-  .riga-desc { font-size: 16px; line-height: 1.55; color: var(--text-2); flex: 1 1 360px; }
+  .riga-nome { font-size: var(--titolo-3); line-height: 1; flex: 1 1 300px; }
+  .riga-desc { font-size: var(--testo-m); line-height: 1.55; color: var(--text-2); flex: 1 1 360px; }
   .riga-arr { transition: transform 0.25s; }
   .riga:hover .riga-arr { transform: translateX(8px) rotate(-45deg); }
 
   /* Diventa socio */
-  .soci { padding: 100px 0 110px; scroll-margin-top: 24px; }
-  .soci h2 { margin-bottom: 48px; }
+  .soci { padding: var(--spazio-sezione) 0; scroll-margin-top: 24px; }
+  .soci h2 { margin-bottom: var(--spazio-titolo); }
   .passi { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
-  .passi li { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 20px; }
-  .passi span { font-family: var(--display); font-size: 72px; line-height: 1; color: var(--red); }
-  .passi strong { font-size: 20px; }
-  .passi p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--on-cream); }
+  .passi li { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 24px; }
+  .passi span { font-family: var(--display); font-size: 4.5rem; line-height: 1; color: var(--red); }
+  .passi strong { font-size: var(--testo-xl); }
+  .passi p { margin: 0; font-size: var(--testo-m); line-height: 1.6; color: var(--on-cream); }
   .soci-btn { margin-top: 48px; }
 
   /* Dati */
-  .dati { padding-top: 110px; padding-bottom: 110px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 56px; align-items: center; }
+  .dati { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: var(--spazio-colonne); align-items: center; }
   .dati-testo { display: flex; flex-direction: column; gap: 24px; }
-  .dati-testo p { margin: 0; font-size: 18px; line-height: 1.65; color: var(--text-2); max-width: 460px; }
-  .scheda { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: clamp(24px, 5vw, 36px); display: flex; flex-direction: column; gap: 28px; }
-  .scheda dl { margin: 0; display: flex; flex-direction: column; gap: 18px; }
-  .scheda dt { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); }
-  .scheda dd { margin: 4px 0 0; font-size: 17px; line-height: 1.5; overflow-wrap: anywhere; }
-  .documenti { margin: 0; padding: 22px 0 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px 28px; border-top: 1px solid var(--line); }
+  .dati-testo p { margin: 0; font-size: var(--testo-l); line-height: 1.65; color: var(--text-2); max-width: 460px; }
+  .scheda { background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio); padding: var(--spazio-scheda); display: flex; flex-direction: column; gap: 24px; }
+  .scheda dl { margin: 0; display: flex; flex-direction: column; gap: 16px; }
+  .scheda dt { font-size: var(--testo-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); }
+  .scheda dd { margin: 4px 0 0; font-size: var(--testo-m); line-height: 1.5; overflow-wrap: anywhere; }
+  .documenti { margin: 0; padding: 24px 0 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px 32px; border-top: 1px solid var(--line); }
   .documenti a { font-weight: 700; color: var(--cream); }
 </style>

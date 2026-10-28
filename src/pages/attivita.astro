@@ -4,6 +4,7 @@ import { eventiDivisi, inArrivo, linkEvento } from '../lib/eventi';
 import { u, giorno, meseBreve, dataBreve } from '../lib/url';
 import { sito } from '../data/sito';
 import Testo from '../components/Testo.astro';
+import NuovaScheda from '../components/NuovaScheda.astro';
 import Nome from '../components/Nome.astro';
 import EventoTop from '../components/EventoTop.astro';
 
@@ -57,22 +58,22 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
             </div>
             <div class="ev-txt">
               <span class="tag">{e.data.tipo}</span>
-              <h3 class="display"><a href={linkEvento(e)} class="ev-link">{e.data.titolo}{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</a></h3>
+              <h3 class="display"><a href={linkEvento(e)} class="ev-link"><Testo t={e.data.titolo} />{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</a></h3>
               <span class="ev-quando">{e.data.quando}</span>
               <span class="ev-luogo"><Testo t={e.data.luogo} /></span>
               {e.data.info.length > 0 && <ul>{e.data.info.map((r) => <li><Testo t={r} /></li>)}</ul>}
-              {g.id === 'futuri' && e.data.prenotazione && <a href={e.data.prenotazione} class="btn btn-red ev-btn" target="_blank" rel="noopener">{e.data.bottone}</a>}
+              {g.id === 'futuri' && e.data.prenotazione && <a href={e.data.prenotazione} class="btn btn-red ev-btn" target="_blank" rel="noopener">{e.data.bottone}<NuovaScheda /></a>}
             </div>
           </article>
         ))}
         {g.id === 'futuri' && (
           <a href={sito.instagram} rel="noopener" target="_blank" class="ev sorprese">
-            <div class="sorprese-top" aria-hidden="true"><span>stay<br />tuned</span></div>
+            <div class="sorprese-top" aria-hidden="true"><span lang="en">stay<br />tuned</span></div>
             <div class="ev-txt">
               <span class="tag">In arrivo</span>
               <h3 class="display">Altre sorprese</h3>
               <p>{sito.sorprese}</p>
-              <span class="sorprese-cta">Seguici su Instagram →</span>
+              <span class="sorprese-cta">Seguici su Instagram →</span><NuovaScheda />
             </div>
           </a>
         )}
@@ -91,7 +92,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
         <div class="arch-row" data-tipo={e.data.tipo}>
           <img src={img(e.data.locandina)} alt="" loading="lazy" />
           <span class="arch-data">{dataBreve(e.data.data)}</span>
-          <span class="arch-txt"><span class="tag">{e.data.tipo}</span><a href={linkEvento(e)} class="display ev-link">{e.data.titolo}</a></span>
+          <span class="arch-txt"><span class="tag">{e.data.tipo}</span><a href={linkEvento(e)} class="display ev-link"><Testo t={e.data.titolo} /></a></span>
           <span class="arch-luogo"><Testo t={e.data.luogo} /></span>
         </div>
       ))}
@@ -133,54 +134,54 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 </script>
 
 <style>
-  .filtri-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-bottom: 48px; }
-  .filtri-label { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-  .gruppo { padding-bottom: 90px; }
-  .gruppo-titolo { font-size: 48px; margin-bottom: 28px; }
-  .arch-head h2 { font-size: 48px; }
-  .vuoto { margin: 0; padding-bottom: 12px; font-size: 17px; color: var(--muted); }
-  .griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 24px; }
+  .filtri-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding-bottom: 48px; }
+  .filtri-label { font-size: var(--testo-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .gruppo { padding-bottom: var(--spazio-sezione); }
+  .gruppo-titolo { font-size: var(--titolo-4); margin-bottom: 24px; }
+  .arch-head h2 { font-size: var(--titolo-4); }
+  .vuoto { margin: 0; padding-bottom: 12px; font-size: var(--testo-m); color: var(--muted); }
+  .griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: var(--spazio-griglia); }
   .griglia:empty { display: none; }
-  .ev { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s, border-color 0.3s; scroll-margin-top: 24px; }
+  .ev { background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s, border-color 0.3s; scroll-margin-top: 24px; }
   .ev:hover, .ev:focus-within { transform: translateY(-8px); border-color: var(--red); }
   /* Il link del titolo copre tutta la scheda; il pulsante di prenotazione resta sopra */
   .ev, .arch-row { position: relative; }
   .ev-link { text-decoration: none; }
   .ev-link::after { content: ''; position: absolute; inset: 0; }
   .ev-link:focus-visible { outline: none; }
-  .ev-link:focus-visible::after { outline: 2px solid var(--cream); outline-offset: -2px; border-radius: inherit; }
+  .ev-link:focus-visible::after { outline: 3px solid var(--cream); outline-offset: -3px; border-radius: inherit; }
   .ev-img { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--card-hover); }
   .ev-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform 0.5s; }
   .ev:hover .ev-img img { transform: scale(1.04); }
-  .ev-date { position: absolute; left: 14px; top: 14px; display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: 14px; padding: 10px 14px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
-  .ev-date b { font-family: var(--display); font-weight: 400; font-size: 36px; line-height: 1; }
-  .ev-date small { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
-  .ev-txt { padding: 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-  .ev-btn { margin-top: auto; align-self: flex-start; min-height: 44px; padding: 11px 22px; position: relative; z-index: 1; }
-  .ev-txt h3 { font-size: 30px; line-height: 1.02; }
-  .ev-quando { font-size: 14px; color: var(--text-2); }
-  .ev-luogo { font-size: 14px; color: var(--muted); }
-  .ev-txt ul { margin: 4px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.45; color: #d9cfc9; }
+  .ev-date { position: absolute; left: 16px; top: 16px; display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: var(--raggio-s); padding: 12px 16px; min-width: 56px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
+  .ev-date b { font-family: var(--display); font-weight: 400; font-size: 2.5rem; line-height: 1; }
+  .ev-date small { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
+  .ev-txt { padding: 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .ev-btn { margin-top: auto; align-self: flex-start; position: relative; z-index: 1; }
+  .ev-txt h3 { font-size: var(--titolo-5); line-height: 1.02; }
+  .ev-quando { font-size: var(--testo-s); color: var(--text-2); }
+  .ev-luogo { font-size: var(--testo-s); color: var(--muted); }
+  .ev-txt ul { margin: 4px 0 0; padding-left: 24px; display: flex; flex-direction: column; gap: 8px; font-size: var(--testo-s); line-height: 1.5; color: #d9cfc9; }
   .ev-txt li::marker { color: var(--red-light); }
   .sorprese { background: transparent; border: 2px dashed var(--cream); text-decoration: none; }
   .sorprese:hover { color: #fff; }
   .sorprese-top { aspect-ratio: 4 / 5; display: grid; place-items: center; background: repeating-linear-gradient(135deg, rgba(237, 227, 209, 0.06) 0 14px, transparent 14px 28px); }
-  .sorprese-top span { font-family: var(--script); font-size: clamp(56px, 7vw, 76px); line-height: 0.95; text-align: center; color: var(--cream); transform: rotate(-8deg); }
+  .sorprese-top span { font-family: var(--script); font-size: clamp(3.5rem, 7vw, 4.75rem); line-height: 0.95; text-align: center; color: var(--cream); transform: rotate(-8deg); }
   .sorprese:hover .sorprese-top span { color: var(--red-light); }
-  .sorprese .ev-txt p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text-2); }
-  .sorprese-cta { margin-top: 6px; font-weight: 700; color: var(--cream); }
-  .archivio { padding-bottom: 110px; }
-  .arch-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; border-bottom: 1px solid var(--line); padding-bottom: 18px; margin-bottom: 8px; }
+  .sorprese .ev-txt p { margin: 0; font-size: var(--testo-m); line-height: 1.55; color: var(--text-2); }
+  .sorprese-cta { margin-top: 8px; font-weight: 700; color: var(--cream); }
+  .archivio { padding-bottom: var(--spazio-sezione); }
+  .arch-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 8px; }
   .arch-head h2 { color: var(--muted); }
-  .arch-head span { font-size: 14px; color: var(--muted); }
+  .arch-head span { font-size: var(--testo-s); color: var(--muted); }
   .archivio .vuoto { padding: 24px 0; }
-  .arch-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
-  .arch-row img { width: 64px; height: 80px; object-fit: cover; object-position: center top; border-radius: 8px; filter: grayscale(0.6); }
-  .arch-data { font-size: 15px; font-weight: 700; color: var(--text-2); width: 110px; }
+  .arch-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .arch-row img { width: 64px; height: 80px; object-fit: cover; object-position: center top; border-radius: var(--raggio-s); filter: grayscale(0.6); }
+  .arch-data { font-size: var(--testo-s); font-weight: 700; color: var(--text-2); width: 112px; }
   .arch-txt { display: flex; flex-direction: column; gap: 4px; flex: 1 1 280px; }
-  .arch-txt .display { font-size: 28px; line-height: 1.05; }
-  .arch-luogo { font-size: 14px; color: var(--muted); flex: 0 1 300px; }
-  .news-in { padding-top: 90px; padding-bottom: 90px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between; }
+  .arch-txt .display { font-size: var(--titolo-5); line-height: 1.05; }
+  .arch-luogo { font-size: var(--testo-s); color: var(--muted); flex: 0 1 300px; }
+  .news-in { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between; }
   .rosso { color: var(--red); }
   .news .btn-line { color: var(--ink); }
 </style>

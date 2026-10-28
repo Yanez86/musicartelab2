@@ -1,9 +1,9 @@
 ---
 // Mostra un testo (per esempio un campo di un evento) mettendo in evidenza
-// ogni "Musicarte-lab" con lo stile del nome dell'associazione.
-import { sito } from '../data/sito';
+// ogni "Musicarte-lab" con lo stile del nome dell'associazione e marcando
+// come inglesi le espressioni elencate in src/data/sito.ts.
+import { pezzi } from '../lib/pezzi';
 interface Props { t?: string }
 const { t = '' } = Astro.props;
-const pezzi = t.split(new RegExp(`(${sito.nome.replace(/[-]/g, '\\-')})`, 'g'));
 ---
-{pezzi.map((p) => (p === sito.nome ? <strong class="nome-brand">{p}</strong> : p))}
+{pezzi(t).map((p) => (p.tipo === 'nome' ? <strong class="nome-brand">{p.testo}</strong> : p.tipo === 'inglese' ? <span lang="en">{p.testo}</span> : p.testo))}

@@ -5,6 +5,10 @@ export function u(path = ''): string {
   return `${base}/${path.replace(/^\//, '')}`;
 }
 
+// Avviso per chi usa uno screen reader, sui link che aprono una nuova scheda
+// (i social, le prenotazioni su Tally, i siti esterni).
+export const nuovaScheda = 'si apre in una nuova scheda';
+
 const MESI = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
 const MESI_LUNGHI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
 

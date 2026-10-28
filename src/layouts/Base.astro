@@ -56,8 +56,9 @@ const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), Astro.site);
     <slot name="head" />
   </head>
   <body>
+    <a href="#contenuto" class="salta">Vai al contenuto</a>
     <Header current={current} overlay={overlayHeader} />
-    <main>
+    <main id="contenuto">
       <slot />
     </main>
     <Footer />

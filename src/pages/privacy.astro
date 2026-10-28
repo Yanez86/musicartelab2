@@ -1,11 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import { sito } from '../data/sito';
+import { nuovaScheda } from '../lib/url';
 
 // Informativa privacy: se aggiungete servizi esterni al sito (statistiche, mappe,
 // video o post incorporati) va aggiornata, e potrebbe servire il banner dei cookie.
 const aggiornata = '27 ottobre 2026';
 const email = `<a href="mailto:${sito.email}">${sito.email}</a>`;
+// Link a un sito esterno, in una nuova scheda (con l'avviso per gli screen reader)
+const esterno = (href: string, testo: string) =>
+  `<a href="${href}" rel="noopener" target="_blank">${testo}<span class="sr-only"> (${nuovaScheda})</span></a>`;
 
 const sezioni = [
   {
@@ -19,7 +23,7 @@ const sezioni = [
     titolo: 'Navigazione sul sito',
     paragrafi: [
       'Il sito è ospitato da GitHub Pages, un servizio di GitHub, Inc. (Stati Uniti). Quando visiti una pagina, GitHub registra l’indirizzo IP del tuo dispositivo per motivi di sicurezza, anche se non hai un account GitHub.',
-      'Noi non abbiamo accesso a questi dati e non li usiamo. GitHub li tratta secondo la propria <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener" target="_blank">informativa sulla privacy</a>, che descrive anche le garanzie adottate per il trasferimento dei dati fuori dall’Unione europea.',
+      `Noi non abbiamo accesso a questi dati e non li usiamo. GitHub li tratta secondo la propria ${esterno('https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement', 'informativa sulla privacy')}, che descrive anche le garanzie adottate per il trasferimento dei dati fuori dall’Unione europea.`,
       'Caratteri tipografici e immagini sono caricati dal sito stesso: mentre navighi, il tuo browser non contatta altri servizi esterni.',
     ],
   },
@@ -36,7 +40,7 @@ const sezioni = [
       'Se ci scrivi via email o WhatsApp, per chiedere informazioni, prenotare una lezione di prova o partecipare a un evento, trattiamo i dati che ci mandi: di solito nome, indirizzo email o numero di telefono e il contenuto del messaggio, a volte anche i dati di tuo figlio o tua figlia.',
       'Li usiamo solo per risponderti e organizzare quello che ci hai chiesto. La base giuridica è la tua richiesta (art. 6, par. 1, lett. b del GDPR): senza questi dati non possiamo risponderti. Se hai meno di 14 anni, chiedi a un genitore di scriverci per te.',
       'Conserviamo i messaggi per il tempo necessario a gestire la richiesta e comunque non oltre [12 mesi]. Se poi ti iscrivi all’associazione o a un corso, ti consegniamo un’informativa specifica per soci e allievi.',
-      'WhatsApp è un servizio di WhatsApp Ireland Ltd: se ci scrivi lì, i tuoi dati sono trattati anche da WhatsApp secondo la sua <a href="https://www.whatsapp.com/legal/privacy-policy-eea" rel="noopener" target="_blank">informativa</a>.',
+      `WhatsApp è un servizio di WhatsApp Ireland Ltd: se ci scrivi lì, i tuoi dati sono trattati anche da WhatsApp secondo la sua ${esterno('https://www.whatsapp.com/legal/privacy-policy-eea', 'informativa')}.`,
       'Per prenotare alcuni eventi ti chiediamo di compilare un modulo online su Tally, servizio di Tally BV (Belgio) che conserva i dati in Europa e li tratta per nostro conto. Nel modulo trovi quali dati ti chiediamo; li usiamo solo per gestire la prenotazione.',
     ],
   },
@@ -51,7 +55,7 @@ const sezioni = [
     titolo: 'I tuoi diritti',
     paragrafi: [
       `In qualsiasi momento puoi chiederci di vedere i tuoi dati, correggerli, cancellarli, limitarne l’uso, opporti al trattamento o riceverli in un formato leggibile (artt. 15–22 del GDPR). Basta scrivere a ${email}.`,
-      'Se ritieni che i tuoi dati siano trattati in modo non corretto, puoi presentare reclamo al <a href="https://www.garanteprivacy.it" rel="noopener" target="_blank">Garante per la protezione dei dati personali</a>.',
+      `Se ritieni che i tuoi dati siano trattati in modo non corretto, puoi presentare reclamo al ${esterno('https://www.garanteprivacy.it', 'Garante per la protezione dei dati personali')}.`,
     ],
   },
   {
@@ -94,20 +98,21 @@ const nn = (i: number) => String(i + 1).padStart(2, '0');
 </Base>
 
 <style>
-  .head-txt { display: flex; flex-direction: column; gap: 28px; width: 100%; }
-  .corpo { padding: 90px 0 110px; }
-  .layout { display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start; }
-  .indice { flex: 1 1 280px; background: var(--ink); color: #fff; border-radius: 20px; padding: 28px; }
-  .indice > span { display: block; font-size: 30px; margin-bottom: 14px; }
+  .head-txt { display: flex; flex-direction: column; gap: 32px; width: 100%; }
+  .corpo { padding: var(--spazio-sezione) 0; }
+  .layout { display: flex; flex-wrap: wrap; gap: var(--spazio-colonne); align-items: flex-start; }
+  .indice { flex: 1 1 280px; background: var(--ink); color: #fff; border-radius: var(--raggio); padding: var(--spazio-scheda); }
+  .indice > span { display: block; font-size: var(--titolo-5); margin-bottom: 16px; }
   .indice ol { margin: 0; padding: 0; list-style: none; }
   .indice li { border-top: 1px solid var(--line); }
-  .indice a { display: flex; gap: 12px; padding: 11px 0; font-size: 15px; text-decoration: none; color: #fff; }
+  .indice a { display: flex; gap: 12px; padding: 12px 0; font-size: var(--testo-s); text-decoration: none; color: #fff; }
   .indice a:hover { color: var(--red-light); }
-  .indice b { font-family: var(--display); font-weight: 400; color: var(--red-light); width: 28px; }
+  .indice b { font-family: var(--display); font-weight: 400; color: var(--red-light); width: 32px; }
   .sezioni { flex: 999 1 560px; min-width: 0; max-width: 780px; display: flex; flex-direction: column; gap: 48px; }
-  .sezioni section { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 22px; scroll-margin-top: 24px; }
-  .sez-n { font-family: var(--display); font-size: 56px; line-height: 1; color: var(--red); }
-  .sezioni h2 { font-size: 36px; }
-  .sezioni p { margin: 0; font-size: 17px; line-height: 1.75; color: var(--on-cream); overflow-wrap: break-word; }
+  .sezioni section { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 24px; scroll-margin-top: 24px; }
+  .sez-n { font-family: var(--display); font-size: 3.5rem; line-height: 1; color: var(--red); }
+  .sezioni h2 { font-size: var(--titolo-4); }
+  /* max-width: righe di circa 75 caratteri, più facili da leggere */
+  .sezioni p { margin: 0; max-width: 36em; font-size: var(--testo-l); line-height: 1.75; color: var(--on-cream); overflow-wrap: break-word; }
   .sezioni p :global(a) { color: var(--red); font-weight: 600; }
 </style>

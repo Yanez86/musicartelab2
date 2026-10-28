@@ -1,7 +1,7 @@
 ---
 import { sito, social } from '../data/sito';
 import Nome from './Nome.astro';
-import { u } from '../lib/url';
+import { u, nuovaScheda } from '../lib/url';
 ---
 <footer class="site-footer">
   <div class="wrap">
@@ -10,7 +10,7 @@ import { u } from '../lib/url';
       <ul>
         {social.map((s) => (
           <li>
-            <a href={s.href} rel="noopener" target="_blank" aria-label={`${s.label}: ${s.handle}`} title={s.label}>
+            <a href={s.href} rel="noopener" target="_blank" aria-label={`${s.label}: ${s.handle} (${nuovaScheda})`} title={s.label}>
               <img src={u(s.icon)} alt="" width="34" height="34" loading="lazy" />
             </a>
           </li>
@@ -42,9 +42,9 @@ import { u } from '../lib/url';
 
 <style>
   .social { padding-top: 64px; padding-bottom: 8px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 40px; }
-  .social h2 { font-size: clamp(40px, 6vw, 64px); }
-  .social ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 14px; }
-  .social a { width: 60px; height: 60px; border-radius: 50%; background: #fff; display: grid; place-items: center; transition: transform 0.25s, box-shadow 0.25s; }
+  .social h2 { font-size: var(--titolo-3); }
+  .social ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 16px; }
+  .social a { width: 56px; height: 56px; border-radius: 50%; background: #fff; display: grid; place-items: center; transition: transform 0.25s, box-shadow 0.25s; }
   .social a:hover { transform: translateY(-4px) scale(1.06); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4); }
   .social img { width: 34px; height: 34px; object-fit: contain; }
 </style>

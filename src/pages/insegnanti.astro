@@ -7,7 +7,7 @@ import { sito } from '../data/sito';
 <Base title="Insegnanti di musica" current="insegnanti/" description={`I musicisti che insegnano canto, chitarra, basso, batteria, pianoforte e coro a ${sito.nome}, scuola di musica pop e rock di ${sito.citta}.`}>
   <div class="wrap page-head">
     <h1 class="display display-xl">Insegnanti<span class="dot">.</span></h1>
-    <p class="lead intro">Musicisti veri, prima che insegnanti. Sfoglia il booklet degli insegnanti di <Nome />!</p>
+    <p class="lead intro">Musicisti veri, prima che insegnanti. Sfoglia il <span lang="en">booklet</span> degli insegnanti di <Nome />!</p>
   </div>
 
   <div class="wrap lettore-pagina">
@@ -22,5 +22,5 @@ import { sito } from '../data/sito';
 
 <style>
   .lettore-pagina { padding-bottom: 40px; }
-  .cta { padding-top: 110px; padding-bottom: 110px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 28px; }
+  .cta { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 32px; }
 </style>

@@ -93,6 +93,11 @@ Lasciate una riga vuota tra un paragrafo e l’altro.
 | `prenotazione` | no | Link al modulo Tally, vedi sotto |
 | `bottone` | no | Testo del pulsante di prenotazione. Se manca: **Prenota** |
 
+Se il titolo o un testo contiene un’espressione in inglese che non è d’uso comune in italiano
+(per esempio *Talk and Play*), aggiungetela all’elenco `paroleInglesi` in
+[`src/data/sito.ts`](src/data/sito.ts): così gli screen reader la leggono con la pronuncia inglese.
+Parole come rock, band, jam session, masterclass o open day non servono.
+
 ### La pagina dell’evento
 
 Ogni evento ha una pagina sua, con locandina intera, descrizione, prenotazione e le icone per
@@ -136,7 +141,7 @@ sparisce da solo.**
 |---|---|---|
 | Corsi | [`src/content/corsi/`](src/content/corsi) | `ordine` decide la posizione; `fasce` può contenere `bambini`, `ragazzi`, `adulti` |
 | Insegnanti | [`src/content/insegnanti/`](src/content/insegnanti) | Foto verticali (circa 800×1000 px) in `public/img/insegnanti/`, poi `foto: nome-file.jpg` |
-| Email, WhatsApp, indirizzo, anno dei corsi, quota della tessera | [`src/data/sito.ts`](src/data/sito.ts) | Cambiate solo il testo tra apici `'…'` |
+| Email, WhatsApp, indirizzo, anno dei corsi, quota della tessera, espressioni in inglese | [`src/data/sito.ts`](src/data/sito.ts) | Cambiate solo il testo tra apici `'…'` |
 | Associazione | [`src/pages/associazione.astro`](src/pages/associazione.astro) | Chi siamo, cosa facciamo, come diventare soci |
 | Statuto | [`src/data/statuto.ts`](src/data/statuto.ts) | |
 | Privacy | [`src/pages/privacy.astro`](src/pages/privacy.astro) | |
