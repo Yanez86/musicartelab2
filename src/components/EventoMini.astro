@@ -21,14 +21,14 @@ const futuro = inArrivo(e);
 </a>
 
 <style>
-  .ev-mini { display: flex; gap: 22px; align-items: flex-start; padding: 28px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; text-decoration: none; transition: transform 0.3s; }
+  .ev-mini { display: flex; gap: 24px; align-items: flex-start; padding: var(--spazio-scheda); background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio); text-decoration: none; transition: transform 0.3s; }
   .ev-mini:hover { transform: translateY(-8px); color: #fff; }
   .ev-mini--futuro { background: #2e1419; border-color: var(--red); }
   .ev-mini--futuro .tag { color: var(--cream); }
-  .ev-date { display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: 14px; padding: 12px 16px; min-width: 56px; }
-  .ev-date b { font-family: var(--display); font-weight: 400; font-size: 2.625rem; line-height: 1; }
-  .ev-date small { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
+  .ev-date { display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: var(--raggio-s); padding: 12px 16px; min-width: 56px; }
+  .ev-date b { font-family: var(--display); font-weight: 400; font-size: 2.5rem; line-height: 1; }
+  .ev-date small { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
   .ev-mini-txt { display: flex; flex-direction: column; gap: 8px; }
-  .ev-mini-title { font-family: var(--display); font-size: 1.875rem; line-height: 1.02; text-transform: uppercase; }
-  .ev-mini-luogo { font-size: 0.875rem; color: var(--muted); }
+  .ev-mini-title { font-family: var(--display); font-size: var(--titolo-5); line-height: 1.02; text-transform: uppercase; }
+  .ev-mini-luogo { font-size: var(--testo-s); color: var(--muted); }
 </style>

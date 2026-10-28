@@ -94,21 +94,21 @@ const nn = (i: number) => String(i + 1).padStart(2, '0');
 </Base>
 
 <style>
-  .head-txt { display: flex; flex-direction: column; gap: 28px; width: 100%; }
-  .corpo { padding: 90px 0 110px; }
-  .layout { display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start; }
-  .indice { flex: 1 1 280px; background: var(--ink); color: #fff; border-radius: 20px; padding: 28px; }
-  .indice > span { display: block; font-size: 1.875rem; margin-bottom: 14px; }
+  .head-txt { display: flex; flex-direction: column; gap: 32px; width: 100%; }
+  .corpo { padding: var(--spazio-sezione) 0; }
+  .layout { display: flex; flex-wrap: wrap; gap: var(--spazio-colonne); align-items: flex-start; }
+  .indice { flex: 1 1 280px; background: var(--ink); color: #fff; border-radius: var(--raggio); padding: var(--spazio-scheda); }
+  .indice > span { display: block; font-size: var(--titolo-5); margin-bottom: 16px; }
   .indice ol { margin: 0; padding: 0; list-style: none; }
   .indice li { border-top: 1px solid var(--line); }
-  .indice a { display: flex; gap: 12px; padding: 11px 0; font-size: 0.9375rem; text-decoration: none; color: #fff; }
+  .indice a { display: flex; gap: 12px; padding: 12px 0; font-size: var(--testo-s); text-decoration: none; color: #fff; }
   .indice a:hover { color: var(--red-light); }
-  .indice b { font-family: var(--display); font-weight: 400; color: var(--red-light); width: 28px; }
+  .indice b { font-family: var(--display); font-weight: 400; color: var(--red-light); width: 32px; }
   .sezioni { flex: 999 1 560px; min-width: 0; max-width: 780px; display: flex; flex-direction: column; gap: 48px; }
-  .sezioni section { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 22px; scroll-margin-top: 24px; }
+  .sezioni section { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 24px; scroll-margin-top: 24px; }
   .sez-n { font-family: var(--display); font-size: 3.5rem; line-height: 1; color: var(--red); }
-  .sezioni h2 { font-size: 2.25rem; }
+  .sezioni h2 { font-size: var(--titolo-4); }
   /* max-width: righe di circa 75 caratteri, più facili da leggere */
-  .sezioni p { margin: 0; max-width: 36em; font-size: 1.0625rem; line-height: 1.75; color: var(--on-cream); overflow-wrap: break-word; }
+  .sezioni p { margin: 0; max-width: 36em; font-size: var(--testo-l); line-height: 1.75; color: var(--on-cream); overflow-wrap: break-word; }
   .sezioni p :global(a) { color: var(--red); font-weight: 600; }
 </style>

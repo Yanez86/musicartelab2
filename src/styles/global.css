@@ -1,7 +1,4 @@
-/* ---------- Colori e font ---------- */
-/* Le dimensioni dei testi sono in rem: con le impostazioni normali del browser
-   1rem = 16px (0.75rem = 12px, 0.875rem = 14px, 1.125rem = 18px), e seguono
-   la dimensione del testo scelta da chi visita il sito. */
+/* ---------- Colori, font, misure ---------- */
 :root {
   --ink: #140d0f;
   --card: #1c1214;
@@ -22,6 +19,36 @@
   --script: 'Kaushan Script', cursive;
   --body: 'Inter', system-ui, sans-serif;
   --wrap: 1280px;
+
+  /* Misure dei testi (Inter). Sono in rem: con le impostazioni normali del
+     browser 1rem = 16px, e seguono la dimensione del testo scelta da chi visita. */
+  --testo-xs: 0.8125rem; /* 13px: etichette in maiuscolo */
+  --testo-s: 0.9375rem;  /* 15px: date, luoghi, dati, menu, piè di pagina */
+  --testo-m: 1rem;       /* 16px: testi delle schede e dei pulsanti */
+  --testo-l: 1.125rem;   /* 18px: paragrafi da leggere */
+  --testo-xl: 1.25rem;   /* 20px: sottotitoli in grassetto */
+
+  /* Titoli (Passion One), dal più grande: titolo della pagina, delle sezioni,
+     delle sezioni secondarie, dei gruppi e degli articoli, delle schede.
+     Gli elementi grafici (numeri grandi, scritte decorative, titolo della home,
+     libretto degli insegnanti) hanno misure proprie. */
+  --titolo-1: clamp(2.875rem, 13vw + 4px, 11.25rem);
+  --titolo-2: clamp(3.125rem, 9vw, 7.5rem);
+  --titolo-3: clamp(2.5rem, 6vw, 5rem);
+  --titolo-4: clamp(2.25rem, 4vw, 3rem);
+  --titolo-5: 1.875rem;
+
+  /* Spazi: multipli di 8px; quelli grandi si riducono sul telefono */
+  --spazio-sezione: clamp(64px, 9vw, 112px);  /* sopra e sotto le sezioni */
+  --spazio-titolo: clamp(32px, 4vw, 48px);    /* sotto il titolo di una sezione */
+  --spazio-colonne: clamp(32px, 5vw, 56px);   /* tra foto e testo affiancati */
+  --spazio-griglia: 24px;                     /* tra le schede */
+  --spazio-scheda: clamp(24px, 3vw, 32px);    /* dentro le schede */
+  --spazio-riquadro: clamp(24px, 5vw, 48px);  /* dentro i riquadri grandi */
+
+  /* Angoli arrotondati */
+  --raggio: 24px;   /* schede, riquadri e foto */
+  --raggio-s: 12px; /* cartellini, date e miniature */
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -58,7 +85,7 @@ button { font: inherit; }
   z-index: 100;
   left: 16px;
   top: 16px;
-  padding: 12px 22px;
+  padding: 12px 24px;
   border-radius: 999px;
   background: var(--cream);
   color: var(--ink);
@@ -91,9 +118,9 @@ button { font: inherit; }
   max-width: 100%;
   overflow-wrap: break-word;
 }
-.display-xl { font-size: clamp(2.875rem, 13vw + 4px, 11.25rem); line-height: 0.86; }
-.display-l { font-size: clamp(3.125rem, 9vw, 7.5rem); }
-.display-m { font-size: clamp(2.5rem, 6vw, 5rem); line-height: 0.95; }
+.display-xl { font-size: var(--titolo-1); line-height: 0.86; }
+.display-l { font-size: var(--titolo-2); }
+.display-m { font-size: var(--titolo-3); line-height: 0.95; }
 .dot { color: var(--red-light); }
 /* Il nome dell'associazione: sempre in grassetto e nel colore d'accento */
 .nome-brand { font-weight: 700; color: var(--red-light); }
@@ -101,17 +128,17 @@ button { font: inherit; }
 .script { font-family: var(--script); text-transform: none; }
 .kicker {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: var(--testo-xs);
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--cream);
 }
-.lead { margin: 0; font-size: 1.125rem; line-height: 1.6; color: var(--text-2); max-width: 420px; }
+.lead { margin: 0; font-size: var(--testo-l); line-height: 1.6; color: var(--text-2); max-width: 420px; }
 /* Paragrafo introduttivo sotto il titolo di ogni pagina */
-.lead.intro { max-width: 760px; font-size: clamp(1.125rem, 1.6vw, 1.3125rem); line-height: 1.6; }
+.lead.intro { max-width: 760px; font-size: clamp(var(--testo-l), 1.6vw, var(--testo-xl)); line-height: 1.6; }
 .tag {
-  font-size: 0.75rem;
+  font-size: var(--testo-xs);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -122,9 +149,9 @@ button { font: inherit; }
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   min-height: 48px;
-  padding: 14px 26px;
+  padding: 12px 24px;
   border-radius: 999px;
   font-weight: 700;
   text-decoration: none;
@@ -151,7 +178,7 @@ button { font: inherit; }
   padding-top: 24px;
   padding-bottom: 24px;
 }
-.brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+.brand { display: flex; align-items: center; gap: 16px; text-decoration: none; }
 .brand img {
   width: 64px;
   height: 64px;
@@ -160,19 +187,19 @@ button { font: inherit; }
   box-shadow: 0 0 0 3px rgba(237, 227, 209, 0.35);
 }
 .brand-name { font-family: var(--display); font-size: 1.625rem; letter-spacing: 0.02em; text-transform: uppercase; }
-.brand-name .script { color: var(--red-light); font-size: 1.05em; margin-left: 3px; }
-.nav { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; font-size: 0.9375rem; font-weight: 600; }
+.brand-name .script { color: var(--red-light); font-size: 1.05em; margin-left: 4px; }
+.nav { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; font-size: var(--testo-s); font-weight: 600; }
 /* Il padding allarga l'area cliccabile dei link (circa 44px di altezza) */
 .nav a { padding: 12px 0; text-decoration: none; }
 .nav a[aria-current='page'] { color: var(--cream); text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 2px; }
-.nav .btn { min-height: 44px; padding: 11px 22px; }
+.nav .btn { min-height: 44px; padding: 12px 24px; }
 
 /* ---------- Intestazione di pagina ---------- */
 .page-head {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 28px;
+  gap: 32px;
   padding-top: 72px;
   padding-bottom: 64px;
 }
@@ -182,12 +209,12 @@ button { font: inherit; }
 .cream a:hover { color: var(--red); }
 
 /* ---------- Filtri ---------- */
-.filters { display: flex; flex-wrap: wrap; gap: 10px; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
 .filter {
-  min-height: 46px;
-  padding: 10px 22px;
+  min-height: 48px;
+  padding: 12px 24px;
   border-radius: 999px;
-  font-size: 0.9375rem;
+  font-size: var(--testo-s);
   font-weight: 700;
   cursor: pointer;
   background: transparent;
@@ -197,26 +224,6 @@ button { font: inherit; }
 .filter[aria-pressed='true'] { background: var(--cream); color: var(--ink); border-color: var(--cream); }
 [hidden] { display: none !important; }
 
-/* ---------- Ritratti polaroid ---------- */
-.polaroid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background: #fff;
-  color: var(--ink);
-  padding: 14px 14px 22px;
-  border-radius: 10px;
-  text-decoration: none;
-  box-shadow: 0 18px 40px rgba(20, 13, 15, 0.18);
-  transform: rotate(var(--rot, 0deg));
-  transition: transform 0.3s;
-}
-.polaroid:hover { transform: rotate(0deg) translateY(-10px); color: var(--ink); }
-.polaroid svg, .polaroid img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; }
-.polaroid .nome { font-family: var(--display); font-size: 1.625rem; text-transform: uppercase; }
-.polaroid .strumento { font-size: 0.8125rem; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.1em; }
-.polaroid p { margin: 0; font-size: 0.9375rem; line-height: 1.55; color: var(--on-cream); }
-
 /* ---------- Piè di pagina ---------- */
 .site-footer { border-top: 1px solid var(--line); }
 .site-footer .cols {
@@ -224,7 +231,7 @@ button { font: inherit; }
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 32px;
   padding-top: 56px;
-  font-size: 0.9375rem;
+  font-size: var(--testo-s);
   line-height: 1.7;
   color: var(--muted);
 }

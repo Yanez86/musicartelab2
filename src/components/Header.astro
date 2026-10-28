@@ -83,8 +83,8 @@ const { current = '', overlay = false } = Astro.props;
 
 <style>
   .hamburger, .menu-chiudi {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     border: none;
     border-radius: 50%;
     display: none;
@@ -97,7 +97,7 @@ const { current = '', overlay = false } = Astro.props;
   @media (max-width: 860px) {
     .nav-desktop { display: none; }
     .hamburger { display: grid; }
-    .site-header .wrap { flex-wrap: nowrap; padding-top: 18px; padding-bottom: 18px; }
+    .site-header .wrap { flex-wrap: nowrap; padding-top: 16px; padding-bottom: 16px; }
     .site-header .brand img { width: 46px; height: 46px; }
     .site-header .brand-name { font-size: 1.375rem; }
   }
@@ -110,7 +110,7 @@ const { current = '', overlay = false } = Astro.props;
     color: #fff;
     display: flex;
     flex-direction: column;
-    padding: 18px 18px 28px 20px;
+    padding: 16px 16px 32px 24px;
     overflow-x: hidden;
     overflow-y: auto;
     animation: menuIn 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
@@ -126,7 +126,7 @@ const { current = '', overlay = false } = Astro.props;
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 0;
+    padding: 12px 0;
     border-bottom: 1px solid var(--line);
     font-family: var(--display);
     font-size: 3rem;
@@ -136,12 +136,12 @@ const { current = '', overlay = false } = Astro.props;
   }
   .menu-voci a:hover { color: var(--red-light); }
   .menu-voci a[aria-current='page'] { color: var(--cream); }
-  .menu-voci .n { font-size: 1.25rem; color: var(--red-light); width: 34px; }
+  .menu-voci .n { font-size: var(--testo-xl); color: var(--red-light); width: 32px; }
   .pallino { margin-left: auto; width: 12px; height: 12px; border-radius: 50%; background: var(--red-light); }
-  .menu-fondo { position: relative; margin-top: auto; padding-top: 32px; display: flex; flex-direction: column; gap: 18px; }
-  .menu-contatti { display: flex; flex-direction: column; gap: 4px; font-size: 0.9375rem; }
+  .menu-fondo { position: relative; margin-top: auto; padding-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+  .menu-contatti { display: flex; flex-direction: column; gap: 4px; font-size: var(--testo-s); }
   .menu-contatti a { color: var(--muted); text-decoration: none; }
   .menu-social { margin: 0; padding: 0; list-style: none; display: flex; gap: 12px; }
-  .menu-social a { width: 52px; height: 52px; border-radius: 50%; background: #fff; display: grid; place-items: center; }
+  .menu-social a { width: 48px; height: 48px; border-radius: 50%; background: #fff; display: grid; place-items: center; }
   .menu-social img { width: 30px; height: 30px; object-fit: contain; }
 </style>

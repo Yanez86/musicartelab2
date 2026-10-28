@@ -86,7 +86,7 @@ const filtri = [
     <div class="band-box">
       <div>
         <p class="kicker">Dopo le lezioni, il palco</p>
-        <h2 class="display band-box-title">Suona nella Musicarte<span class="script cream">Band</span></h2>
+        <h2 class="display band-box-title">Suona nella Musicarte<wbr /><span class="script cream">Band</span></h2>
         <p>Il gruppo ufficiale dell’associazione, con allievi e docenti, porta dal vivo il repertorio pop rock studiato nei corsi. Il nostro obiettivo: imparare a stare in una band e davanti al pubblico.</p>
       </div>
       <a href={u('#band')} class="btn btn-cream">Scopri la band</a>
@@ -125,46 +125,47 @@ const filtri = [
   .corsi-hero { position: relative; background-size: cover; background-position: center 60%; margin-top: -112px; padding-top: 112px; }
   .shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(20, 13, 15, 0.82), var(--ink)); }
   .page-head { position: relative; }
-  .filters { padding-top: 8px; padding-bottom: 40px; }
-  .griglia { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 20px; padding-bottom: 100px; }
-  .corso { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: clamp(22px, 5vw, 32px); display: flex; flex-direction: column; gap: 18px; transition: transform 0.3s, background 0.3s; }
+  .filters { padding-top: 8px; padding-bottom: 32px; }
+  .griglia { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: var(--spazio-griglia); padding-bottom: var(--spazio-sezione); }
+  .corso { background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio); padding: var(--spazio-scheda); display: flex; flex-direction: column; gap: 16px; transition: transform 0.3s, background 0.3s; }
   .corso:hover { transform: translateY(-8px); background: var(--card-hover); }
   .corso-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-  .corso-n { font-family: var(--display); font-size: 1.75rem; color: var(--red-light); }
-  .corso-eta { font-size: 0.8125rem; font-weight: 700; color: var(--ink); background: var(--cream); padding: 7px 14px; border-radius: 999px; white-space: nowrap; }
-  .corso-nome { font-size: clamp(2.375rem, 9vw, 3.125rem); line-height: 0.95; }
-  .corso-desc { margin: 0; font-size: 1rem; line-height: 1.6; color: #d9cfc9; }
-  .corso-dati { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; font-size: 0.875rem; border-top: 1px solid var(--line); padding-top: 18px; }
+  .corso-n { font-family: var(--display); font-size: var(--titolo-5); color: var(--red-light); }
+  .corso-eta { font-size: var(--testo-xs); font-weight: 700; color: var(--ink); background: var(--cream); padding: 8px 16px; border-radius: 999px; white-space: nowrap; }
+  .corso-nome { font-size: var(--titolo-4); line-height: 0.95; }
+  .corso-desc { margin: 0; font-size: var(--testo-m); line-height: 1.6; color: #d9cfc9; }
+  .corso-dati { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; font-size: var(--testo-s); border-top: 1px solid var(--line); padding-top: 16px; }
   .corso-dati dt { color: var(--muted); }
-  .corso-dati dd { margin: 3px 0 0; font-weight: 600; }
-  .band-box { background: var(--red); border-radius: 28px; padding: clamp(28px, 5vw, 48px); display: flex; flex-wrap: wrap; gap: 24px 40px; align-items: center; justify-content: space-between; margin-bottom: 100px; }
-  .band-box > div { display: flex; flex-direction: column; gap: 10px; max-width: 720px; }
-  .band-box p:last-child { margin: 0; font-size: 1.0625rem; line-height: 1.6; color: #fbeff1; }
-  .band-box-title { font-size: clamp(2.25rem, 6vw, 4.5rem); line-height: 0.92; overflow-wrap: anywhere; }
+  .corso-dati dd { margin: 4px 0 0; font-weight: 600; }
+  .band-box { background: var(--red); border-radius: var(--raggio); padding: var(--spazio-riquadro); display: flex; flex-wrap: wrap; gap: 24px 40px; align-items: center; justify-content: space-between; margin-bottom: var(--spazio-sezione); }
+  .band-box > div { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
+  .band-box p:last-child { margin: 0; font-size: var(--testo-l); line-height: 1.6; color: #fbeff1; }
+  /* balance: righe di lunghezza simile, così "Band" non resta da sola */
+  .band-box-title { font-size: var(--titolo-3); line-height: 0.92; text-wrap: balance; }
   .band-box .cream { background: none; color: var(--cream); }
-  .altre { padding-bottom: 72px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px 32px; }
-  .altre h2 { font-size: 2.5rem; }
-  .altre ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px 28px; }
-  .altre li { font-family: var(--display); font-size: 1.75rem; text-transform: uppercase; color: var(--text-2); }
+  .altre { padding-bottom: var(--spazio-sezione); display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px 32px; }
+  .altre h2 { font-size: var(--titolo-4); }
+  .altre ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px 32px; }
+  .altre li { font-family: var(--display); font-size: var(--titolo-5); text-transform: uppercase; color: var(--text-2); }
   .altre li::before { content: '♪ '; color: var(--red-light); }
-  .novita { position: relative; background: var(--cream); color: var(--ink); border-radius: 28px; padding: clamp(28px, 5vw, 48px); display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; justify-content: space-between; margin-bottom: 100px; }
-  .novita-tag { position: absolute; top: -24px; left: 32px; background: var(--red); color: #fff; font-size: 1.875rem; padding: 6px 20px; border-radius: 12px; transform: rotate(-4deg); }
+  .novita { position: relative; background: var(--cream); color: var(--ink); border-radius: var(--raggio); padding: var(--spazio-riquadro); display: flex; flex-wrap: wrap; gap: 24px 40px; align-items: center; justify-content: space-between; margin-bottom: var(--spazio-sezione); }
+  .novita-tag { position: absolute; top: -24px; left: 32px; background: var(--red); color: #fff; font-size: var(--titolo-5); padding: 8px 24px; border-radius: var(--raggio-s); transform: rotate(-4deg); }
   .novita { padding-top: clamp(64px, 8vw, 80px); }
-  .novita h2 { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 0.95; }
+  .novita h2 { font-size: var(--titolo-3); line-height: 0.95; }
   .novita h2 span { color: var(--red); font-size: 0.6em; }
   .novita .btn-cream { background: var(--ink); color: #fff; }
-  .fuori { padding-bottom: 100px; }
-  .fuori-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 40px; }
-  .fuori-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; }
-  .fuori-card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 8px; }
-  .fuori-card strong { font-family: var(--display); font-weight: 400; font-size: 1.875rem; text-transform: uppercase; line-height: 1; }
-  .fuori-card p { margin: 0; font-size: 0.9375rem; line-height: 1.55; color: #d9cfc9; }
-  .iscrizione { padding: 100px 0 110px; }
-  .iscrizione h2 { margin-bottom: 48px; }
+  .fuori { padding-bottom: var(--spazio-sezione); }
+  .fuori-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: var(--spazio-titolo); }
+  .fuori-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: var(--spazio-griglia); }
+  .fuori-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio); padding: var(--spazio-scheda); display: flex; flex-direction: column; gap: 8px; }
+  .fuori-card strong { font-family: var(--display); font-weight: 400; font-size: var(--titolo-5); text-transform: uppercase; line-height: 1; }
+  .fuori-card p { margin: 0; font-size: var(--testo-m); line-height: 1.55; color: #d9cfc9; }
+  .iscrizione { padding: var(--spazio-sezione) 0; }
+  .iscrizione h2 { margin-bottom: var(--spazio-titolo); }
   .passi { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
-  .passi li { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 20px; }
+  .passi li { display: flex; flex-direction: column; gap: 12px; border-top: 3px solid var(--ink); padding-top: 24px; }
   .passi span { font-family: var(--display); font-size: 4.5rem; line-height: 1; color: var(--red); }
-  .passi strong { font-size: 1.25rem; }
-  .passi p { margin: 0; font-size: 1rem; line-height: 1.6; color: var(--on-cream); }
+  .passi strong { font-size: var(--testo-xl); }
+  .passi p { margin: 0; font-size: var(--testo-m); line-height: 1.6; color: var(--on-cream); }
   .passi a { color: var(--red); }
 </style>

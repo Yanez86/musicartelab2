@@ -130,7 +130,7 @@ const scheda = {
     <div class="wrap band-grid">
       <div class="band-testo">
         <p class="kicker">Noi miriamo sempre al palco</p>
-        <h2 id="band-title" class="display band-title">Musicarte<span class="script cream-text">Band</span></h2>
+        <h2 id="band-title" class="display band-title">Musicarte<wbr /><span class="script cream-text">Band</span></h2>
         <p class="band-lead">Il gruppo ufficiale dell’associazione: allievi e docenti sullo stesso palco per un viaggio nella musica pop rock. La MusicarteBand si esibisce a feste, sagre ed eventi della zona e dal vivo ospita spesso altri “colleghi”.</p>
         <dl class="band-info">
           <div><dt>Formazione</dt><dd>Chitarre, basso, batteria, tastiera e voci</dd></div>
@@ -183,24 +183,25 @@ const scheda = {
 
 <style>
   .cream-text { color: var(--cream); }
-  .strong { font-weight: 700; font-size: 1.0625rem; }
+  .strong { font-weight: 700; font-size: var(--testo-m); }
 
   /* Splash */
   .hero { position: relative; min-height: 820px; display: flex; flex-direction: column; background-size: cover; background-position: center 60%; }
   .hero-shade { position: absolute; inset: 0; background: rgba(20, 13, 15, 0.68); }
   .hero-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 260px; background: linear-gradient(to bottom, rgba(20, 13, 15, 0), var(--ink)); }
-  .hero-body { position: relative; z-index: 1; flex-grow: 1; width: 100%; padding-top: 150px; padding-bottom: 140px; display: flex; flex-direction: column; justify-content: flex-end; gap: 28px; }
+  .hero-body { position: relative; z-index: 1; flex-grow: 1; width: 100%; padding-top: 152px; padding-bottom: 136px; display: flex; flex-direction: column; justify-content: flex-end; gap: 24px; }
+  /* Il titolo della home ha una misura sua, pensata per la foto di apertura */
   .hero-title { font-size: clamp(3.5rem, 10.5vw, 10rem); line-height: 0.9; letter-spacing: 0.01em; text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.55); }
   .hero-cta { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
-  .hero-lead { margin: 0; max-width: 460px; font-size: 1.1875rem; line-height: 1.55; color: var(--text-2); }
-  .hero-lead strong { color: #fff; font-size: 1.15em; }
+  .hero-lead { margin: 0; max-width: 460px; font-size: var(--testo-l); line-height: 1.55; color: var(--text-2); }
+  .hero-lead strong { color: #fff; font-size: var(--testo-xl); }
   .rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
   @keyframes rise { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
 
   /* Fascia strumenti */
   .marquee-band {
-    position: relative; z-index: 5; background: var(--red); height: 94px; display: flex; align-items: center;
-    transform: rotate(-1.5deg); margin: -70px -20px 20px; overflow: hidden;
+    position: relative; z-index: 5; background: var(--red); height: 96px; display: flex; align-items: center;
+    transform: rotate(-1.5deg); margin: -72px -20px 24px; overflow: hidden;
     box-shadow: 0 22px 26px -6px rgba(0, 0, 0, 0.6), 0 -6px 18px rgba(0, 0, 0, 0.35);
   }
   .marquee { display: flex; width: max-content; animation: scorri 32s linear infinite; font-family: var(--display); font-size: 2.875rem; line-height: 1; text-transform: uppercase; white-space: nowrap; }
@@ -208,60 +209,60 @@ const scheda = {
   .nota-m { color: var(--cream); }
   .pausa {
     position: absolute; z-index: 1; top: 50%; right: max(44px, calc(50% - var(--wrap) / 2 + 24px)); transform: translateY(-50%);
-    width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--cream); background: var(--ink); color: var(--cream);
+    width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--cream); background: var(--ink); color: var(--cream);
     display: grid; place-items: center; cursor: pointer;
   }
   @media (prefers-reduced-motion: reduce) { .pausa { display: none; } }
   @keyframes scorri { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
   /* Intestazioni sezione */
-  .sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 40px; }
+  .sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: var(--spazio-titolo); }
 
   /* Corsi */
-  .corsi-home { padding-top: 110px; padding-bottom: 80px; }
+  .corsi-home { padding-top: var(--spazio-sezione); }
   .rows { border-top: 1px solid var(--line); }
-  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 28px 24px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background 0.25s, padding 0.25s; }
-  .row:hover { background: var(--red); color: #fff; padding-left: 44px; }
-  .row-n { font-family: var(--display); font-size: 1.875rem; color: var(--red-light); width: 56px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding: 32px 24px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background 0.25s, padding 0.25s; }
+  .row:hover { background: var(--red); color: #fff; padding-left: 48px; }
+  .row-n { font-family: var(--display); font-size: var(--titolo-5); color: var(--red-light); width: 56px; }
   .row:hover .row-n { color: var(--cream); }
-  .row-nome { font-family: var(--display); font-size: clamp(2.375rem, 5vw, 4.125rem); line-height: 1; text-transform: uppercase; flex: 1 1 320px; }
-  .row-eta { font-size: 1rem; color: var(--text-2); flex: 0 1 220px; }
+  .row-nome { font-family: var(--display); font-size: var(--titolo-3); line-height: 1; text-transform: uppercase; flex: 1 1 320px; }
+  .row-eta { font-size: var(--testo-m); color: var(--text-2); flex: 0 1 220px; }
   .row-arr { transition: transform 0.25s; }
   .row:hover .row-arr { transform: translateX(8px) rotate(-45deg); }
 
   /* Sede */
-  .sede { padding-top: 40px; padding-bottom: 120px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 56px; align-items: center; }
+  .sede { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: var(--spazio-colonne); align-items: center; }
   .sede-foto { position: relative; }
-  .sede-foto img { width: 100%; height: 560px; object-fit: cover; object-position: center 45%; border-radius: 28px; }
-  .sticker { position: absolute; right: -16px; bottom: 40px; background: var(--cream); color: var(--ink); padding: 22px 26px; border-radius: 20px; transform: rotate(3deg); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); }
-  .sticker span { display: block; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); }
+  .sede-foto img { width: 100%; height: 560px; object-fit: cover; object-position: center 45%; border-radius: var(--raggio); }
+  .sticker { position: absolute; right: -16px; bottom: 40px; background: var(--cream); color: var(--ink); padding: 24px; border-radius: var(--raggio); transform: rotate(3deg); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); }
+  .sticker span { display: block; font-size: var(--testo-xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); }
   .sticker strong { display: block; font-family: var(--display); font-weight: 400; font-size: 2.25rem; text-transform: uppercase; line-height: 1.05; }
   .sede-testo { display: flex; flex-direction: column; gap: 24px; }
-  .sede-testo p { margin: 0; font-size: 1.125rem; line-height: 1.65; color: var(--text-2); }
+  .sede-testo p { margin: 0; font-size: var(--testo-l); line-height: 1.65; color: var(--text-2); }
 
   /* Band */
   .band { background: var(--red); position: relative; overflow: hidden; }
   .band-bg { position: absolute; right: -40px; top: -30px; font-family: var(--display); font-size: 21.25rem; line-height: 0.8; color: rgba(0, 0, 0, 0.12); text-transform: uppercase; white-space: nowrap; }
-  .band-grid { position: relative; padding-top: 110px; padding-bottom: 110px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 56px; align-items: center; }
+  .band-grid { position: relative; padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: var(--spazio-colonne); align-items: center; }
   .band-testo { display: flex; flex-direction: column; gap: 24px; }
-  .band-title { font-size: clamp(2.625rem, 9vw, 8rem); line-height: 0.88; overflow-wrap: anywhere; text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.35); }
-  .band-lead { margin: 0; font-size: 1.1875rem; line-height: 1.6; color: #fbeff1; }
-  .band-info { margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 18px; border-top: 1px solid rgba(255, 255, 255, 0.3); padding-top: 22px; }
-  .band-info dt { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
-  .band-info dd { margin: 6px 0 0; font-weight: 600; }
+  .band-title { font-size: var(--titolo-3); line-height: 0.88; text-wrap: balance; text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.35); }
+  .band-lead { margin: 0; font-size: var(--testo-l); line-height: 1.6; color: #fbeff1; }
+  .band-info { margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; border-top: 1px solid rgba(255, 255, 255, 0.3); padding-top: 24px; }
+  .band-info dt { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
+  .band-info dd { margin: 8px 0 0; font-size: var(--testo-s); font-weight: 600; }
   .band-foto { position: relative; }
-  .band-foto img { width: 100%; height: 520px; object-fit: cover; object-position: 30% 60%; border-radius: 24px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); transform: rotate(2deg); }
-  .band-foto span { position: absolute; left: -12px; bottom: 32px; background: var(--ink); color: var(--cream); padding: 14px 20px; border-radius: 14px; transform: rotate(-3deg); font-size: 1.625rem; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
+  .band-foto img { width: 100%; height: 520px; object-fit: cover; object-position: 30% 60%; border-radius: var(--raggio); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); transform: rotate(2deg); }
+  .band-foto span { position: absolute; left: -12px; bottom: 32px; background: var(--ink); color: var(--cream); padding: 12px 24px; border-radius: var(--raggio-s); transform: rotate(-3deg); font-size: var(--titolo-5); box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
 
   /* Insegnanti */
-  .insegnanti-home { padding: 110px 0 120px; background: radial-gradient(ellipse at 50% 45%, #3a2328 0%, var(--ink) 65%); }
+  .insegnanti-home { padding: var(--spazio-sezione) 0; background: radial-gradient(ellipse at 50% 45%, #3a2328 0%, var(--ink) 65%); }
 
   /* Eventi */
-  .eventi-home { padding-top: 110px; }
-  .ev-grid { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
+  .eventi-home { padding-top: var(--spazio-sezione); }
+  .ev-grid { margin-top: var(--spazio-griglia); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: var(--spazio-griglia); }
 
   /* Chiusura */
-  .cta-finale { padding-top: 120px; padding-bottom: 120px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 28px; }
+  .cta-finale { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 32px; }
 
   @media (max-width: 760px) {
     .sede-foto img { height: 380px; }

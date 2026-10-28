@@ -106,10 +106,10 @@ const scheda = {
         <span class="condividi-label">Condividi l’evento</span>
         <div class="condividi-row">
           <a href={condividi.whatsapp} class="btn btn-line share" target="_blank" rel="noopener" aria-label="Condividi su WhatsApp" title="WhatsApp">
-            <img src={u('img/social/whatsapp.svg')} alt="" width="22" height="22" />
+            <img src={u('img/social/whatsapp.svg')} alt="" width="24" height="24" />
           </a>
           <a href={condividi.facebook} class="btn btn-line share" target="_blank" rel="noopener" aria-label="Condividi su Facebook" title="Facebook">
-            <img src={u('img/social/facebook.png')} alt="" width="22" height="22" />
+            <img src={u('img/social/facebook.png')} alt="" width="24" height="24" />
           </a>
           <button type="button" class="btn btn-line share" data-copia aria-label="Copia il link" title="Copia il link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
@@ -170,36 +170,36 @@ const scheda = {
 </script>
 
 <style>
-  .page-head { gap: 22px; padding-bottom: 48px; }
-  .indietro { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
-  .stato { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; background: var(--red); color: #fff; padding: 8px 14px; border-radius: 999px; }
+  .page-head { gap: 24px; padding-bottom: 48px; }
+  .indietro { font-size: var(--testo-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+  .stato { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; background: var(--red); color: #fff; padding: 8px 16px; border-radius: 999px; }
   .stato--passato { background: var(--line); color: var(--text-2); }
-  .titolo { font-size: clamp(3rem, 8vw, 7rem); line-height: 0.9; }
+  .titolo { font-size: var(--titolo-2); line-height: 0.9; }
   .titolo span { color: var(--red-light); }
 
-  .corpo { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px; padding-bottom: 100px; }
-  .locandina { flex: 0 1 380px; max-width: 460px; border-radius: 22px; overflow: hidden; background: var(--card); }
+  .corpo { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px; padding-bottom: var(--spazio-sezione); }
+  .locandina { flex: 0 1 380px; max-width: 460px; border-radius: var(--raggio); overflow: hidden; background: var(--card); }
   .locandina img { width: 100%; height: auto; }
-  .scheda { flex: 999 1 420px; min-width: 0; border-radius: 28px; padding: clamp(24px, 5vw, 56px); display: flex; flex-direction: column; gap: 24px; }
-  .dati { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; font-size: 0.9375rem; }
-  .dati dt { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
+  .scheda { flex: 999 1 420px; min-width: 0; border-radius: var(--raggio); padding: var(--spazio-riquadro); display: flex; flex-direction: column; gap: 24px; }
+  .dati { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; font-size: var(--testo-s); }
+  .dati dt { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
   .dati dd { margin: 4px 0 0; font-weight: 600; }
-  .desc { display: flex; flex-direction: column; gap: 14px; }
-  .desc :global(p) { margin: 0; max-width: 36em; font-size: 1.0625rem; line-height: 1.65; color: var(--on-cream); }
-  .info { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 1rem; line-height: 1.5; color: var(--on-cream); }
+  .desc { display: flex; flex-direction: column; gap: 16px; }
+  .desc :global(p) { margin: 0; max-width: 36em; font-size: var(--testo-l); line-height: 1.65; color: var(--on-cream); }
+  .info { margin: 0; padding-left: 24px; display: flex; flex-direction: column; gap: 8px; font-size: var(--testo-m); line-height: 1.5; color: var(--on-cream); }
   .info li::marker { color: var(--red); }
   .concluso { margin: 0; font-weight: 600; color: var(--red-dark); }
   .scheda .btn-line { color: var(--ink); }
-  .condividi { display: flex; flex-direction: column; gap: 12px; padding-top: 22px; border-top: 1px solid rgba(20, 13, 15, 0.15); }
-  .condividi-label { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
-  .condividi-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .condividi { display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid rgba(20, 13, 15, 0.15); }
+  .condividi-label { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
+  .condividi-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .share { width: 48px; height: 48px; padding: 0; justify-content: center; border-radius: 50%; }
-  .share img, .share svg { width: 22px; height: 22px; flex: none; }
+  .share img, .share svg { width: 24px; height: 24px; flex: none; }
   .share[hidden], .share svg[hidden] { display: none; }
-  .esito { font-size: 0.9375rem; font-weight: 600; color: var(--red-dark); }
+  .esito { font-size: var(--testo-s); font-weight: 600; color: var(--red-dark); }
 
-  .altri { padding-bottom: 110px; }
-  .altri-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 32px; }
-  .tutti { color: var(--cream); font-weight: 700; font-size: 1.0625rem; }
-  .griglia { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
+  .altri { padding-bottom: var(--spazio-sezione); }
+  .altri-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: var(--spazio-titolo); }
+  .tutti { color: var(--cream); font-weight: 700; font-size: var(--testo-m); }
+  .griglia { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: var(--spazio-griglia); }
 </style>
