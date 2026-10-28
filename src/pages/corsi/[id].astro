@@ -5,7 +5,7 @@
 import { render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Testo from '../../components/Testo.astro';
-import CorsiEtichette from '../../components/CorsiEtichette.astro';
+import CorsiSchede from '../../components/CorsiSchede.astro';
 import { corsiInOrdine, insegnantiDel } from '../../lib/corsi';
 import { u } from '../../lib/url';
 import { sito } from '../../data/sito';
@@ -95,7 +95,7 @@ const scheda = {
 
   <section class="wrap altri" aria-labelledby="altri-corsi">
     <h2 id="altri-corsi" class="display display-m">Altri corsi</h2>
-    <CorsiEtichette corsi={altri} />
+    <CorsiSchede corsi={altri} />
   </section>
 </Base>
 

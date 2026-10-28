@@ -1,0 +1,55 @@
+---
+// I corsi come schede piccole in griglia (numero, nome, età), ognuna con il
+// link alla pagina del corso. Usate in home e, con gli altri corsi, in fondo
+// alla pagina di ogni corso. Il numero è la posizione del corso tra tutti (`ordine`).
+import type { CollectionEntry } from 'astro:content';
+import Testo from './Testo.astro';
+import { corsiInOrdine, linkCorso } from '../lib/corsi';
+
+interface Props { corsi: CollectionEntry<'corsi'>[] }
+const { corsi } = Astro.props;
+const posizione = new Map((await corsiInOrdine()).map((c, i) => [c.id, i + 1]));
+const nn = (c: CollectionEntry<'corsi'>) => String(posizione.get(c.id)).padStart(2, '0');
+---
+<ul class="schede">
+  {corsi.map((c) => (
+    <li>
+      <a href={linkCorso(c)} class="scheda">
+        <span class="scheda-top">
+          <span class="scheda-n" aria-hidden="true">{nn(c)}</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+        </span>
+        <span class="scheda-txt">
+          <span class="scheda-nome"><Testo t={c.data.nome} /></span>
+          <span class="scheda-eta">{c.data.eta}</span>
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  /* 2 colonne sul telefono, 3 sul tablet, 5 sugli schermi larghi */
+  .schede { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  @media (min-width: 720px) { .schede { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spazio-griglia); } }
+  @media (min-width: 1200px) { .schede { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  .schede li { display: flex; }
+  .scheda {
+    flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 16px;
+    min-height: 152px; padding: 16px; background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio);
+    text-decoration: none; transition: transform 0.3s, border-color 0.3s;
+  }
+  .scheda:hover { transform: translateY(-8px); border-color: var(--red); color: #fff; }
+  .scheda-top { display: flex; justify-content: space-between; align-items: center; }
+  .scheda-n { font-family: var(--display); font-size: 1.5rem; line-height: 1; color: var(--red-light); }
+  .scheda-txt { display: flex; flex-direction: column; gap: 4px; }
+  /* Sul telefono il nome si adatta alla larghezza: "FUNZIONALE" deve stare in una scheda anche a 320px */
+  .scheda-nome { font-family: var(--display); font-size: clamp(1.25rem, 7.2vw - 3px, 1.5rem); line-height: 1; text-transform: uppercase; overflow-wrap: break-word; }
+  .scheda-eta { font-size: var(--testo-xs); line-height: 1.4; color: var(--muted); }
+  @media (min-width: 720px) {
+    .scheda { min-height: 200px; padding: 24px; }
+    .scheda-n, .scheda-nome { font-size: var(--titolo-5); }
+    .scheda-txt { gap: 8px; }
+    .scheda-eta { font-size: var(--testo-s); }
+  }
+</style>
