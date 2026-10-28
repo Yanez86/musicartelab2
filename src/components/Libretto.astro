@@ -5,6 +5,8 @@ import { getCollection, render } from 'astro:content';
 import { u } from '../lib/url';
 import { sito } from '../data/sito';
 import Nome from './Nome.astro';
+import Testo from './Testo.astro';
+import { corsiInOrdine, linkCorso } from '../lib/corsi';
 
 // `livello`: h3 quando il libretto sta sotto un titolo di sezione (in home).
 interface Props { aggiornaIndirizzo?: boolean; livello?: 'h2' | 'h3' }
@@ -14,6 +16,9 @@ const insegnanti = await Promise.all(lista.map(async (d) => ({ d, Bio: (await re
 const n = insegnanti.length;
 const nn = (i: number) => String(i + 1).padStart(2, '0');
 const anno = sito.annoCorsi.replace(/[\[\]]/g, '');
+// "Insegna": i corsi che nominano l'insegnante nel campo `insegnanti`, con il link alla loro pagina.
+const corsi = await corsiInOrdine();
+const corsiDi = (id: string) => corsi.filter((c) => c.data.insegnanti.some((r) => r.id === id));
 ---
 <section class="lettore" aria-label="Libretto degli insegnanti" data-libretto data-hash={aggiornaIndirizzo ? "1" : undefined}>
   <div class="comandi">
@@ -47,7 +52,8 @@ const anno = sito.annoCorsi.replace(/[\[\]]/g, '');
           {d.data.ruolo && <span class="ruolo script">{d.data.ruolo}</span>}
           <div class="bio"><Bio /></div>
           <dl class="crediti">
-            <dt>Insegna</dt><dd>{d.data.insegna ?? d.data.strumento}</dd>
+            <dt>Insegna</dt>
+            <dd>{corsiDi(d.id).length ? corsiDi(d.id).map((c, k) => <>{k > 0 && ', '}<a href={linkCorso(c)}><Testo t={c.data.nome} /></a></>) : (d.data.insegna ?? d.data.strumento)}</dd>
             <dt>Sede</dt><dd>{sito.indirizzo}, {sito.citta}</dd>
             <dt>Ascolta</dt><dd>{d.data.ascolta}</dd>
           </dl>

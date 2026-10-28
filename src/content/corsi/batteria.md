@@ -3,6 +3,7 @@ nome: Batteria
 ordine: 6
 eta: Dagli 8 anni · adulti
 fasce: [bambini, ragazzi, adulti]
+insegnanti: [batteria]
 formula: Individuale · 45 min
 breve: Coordinazione, groove e lettura ritmica, dal rock al funk.
 ---

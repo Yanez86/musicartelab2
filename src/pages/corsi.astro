@@ -1,12 +1,14 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { u } from '../lib/url';
 import { sito } from '../data/sito';
 import Nome from '../components/Nome.astro';
 import Testo from '../components/Testo.astro';
+import { corsiInOrdine, insegnantiDel, linkCorso } from '../lib/corsi';
 
-const corsi = (await getCollection('corsi')).sort((a, b) => a.data.ordine - b.data.ordine);
+const corsi = await Promise.all((await corsiInOrdine()).map(async (c) => ({ c, insegnanti: await insegnantiDel(c) })));
+// encodeURIComponent: senza, la "&" di "Writing & Producing" taglia l'oggetto dell'email
+const prova = (nome: string) => `mailto:${sito.email}?subject=${encodeURIComponent(`Lezione di prova: ${nome}`)}`;
 const altre = ['Workshop', 'Seminari', 'Conferenze', 'Lezioni concerto', 'Teatro', 'Sonorizzazione di spettacoli teatrali'];
 const fuoriSede = [
   { t: 'Corsi per le scuole', d: 'Nelle loro sedi: infanzia, primaria, secondaria di primo e secondo grado.' },
@@ -39,22 +41,26 @@ const filtri = [
   </div>
 
   <section class="wrap griglia">
-    {corsi.map((c, i) => (
+    {corsi.map(({ c, insegnanti }, i) => (
       <article class="corso" data-fasce={c.data.fasce.join(' ')}>
         <div class="corso-top">
           <span class="corso-n">{String(i + 1).padStart(2, '0')}</span>
           <span class="corso-eta">{c.data.eta}</span>
         </div>
-        <h2 class="display corso-nome"><Testo t={c.data.nome} /></h2>
+        <h2 class="display corso-nome"><a href={linkCorso(c)}><Testo t={c.data.nome} /></a></h2>
         <p class="corso-desc">{c.data.breve}</p>
         <dl class="corso-dati">
           <div><dt>Formula</dt><dd>{c.data.formula}</dd></div>
           <div><dt>Giorni</dt><dd>{c.data.giorni}</dd></div>
-          <div><dt>Insegnante</dt><dd><a href={u('insegnanti/')}>{c.data.insegnante}</a></dd></div>
+          <div>
+            <dt>{insegnanti.length > 1 ? 'Insegnanti' : 'Insegnante'}</dt>
+            <dd>{insegnanti.length ? insegnanti.map((ins, k) => <>{k > 0 && ', '}<a href={u(`insegnanti/#${ins.id}`)}>{ins.data.nome}</a></>) : 'Da definire'}</dd>
+          </div>
           <div><dt>Quota</dt><dd>{c.data.quota}</dd></div>
         </dl>
         <div class="btn-row">
-          <a href={`mailto:${sito.email}?subject=Lezione di prova: ${c.data.nome}`} class="btn btn-red">Prenota la prova</a>
+          <a href={prova(c.data.nome)} class="btn btn-red">Prenota la prova</a>
+          <a href={linkCorso(c)} class="btn btn-line">Scopri il corso</a>
         </div>
       </article>
     ))}
@@ -94,7 +100,7 @@ const filtri = [
     </div>
   </section>
 
-  <section class="cream iscrizione">
+  <section id="iscrizione" class="cream iscrizione">
     <div class="wrap">
       <h2 class="display display-l">Come iscriversi</h2>
       <ol class="passi">
@@ -134,6 +140,7 @@ const filtri = [
   .corso-n { font-family: var(--display); font-size: var(--titolo-5); color: var(--red-light); }
   .corso-eta { font-size: var(--testo-xs); font-weight: 700; color: var(--ink); background: var(--cream); padding: 8px 16px; border-radius: 999px; white-space: nowrap; }
   .corso-nome { font-size: var(--titolo-4); line-height: 0.95; }
+  .corso-nome a { text-decoration: none; }
   .corso-desc { margin: 0; font-size: var(--testo-m); line-height: 1.6; color: #d9cfc9; }
   .corso-dati { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; font-size: var(--testo-s); border-top: 1px solid var(--line); padding-top: 16px; }
   .corso-dati dt { color: var(--muted); }

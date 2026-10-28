@@ -1,0 +1,142 @@
+---
+// Pagina di un corso: una per ogni file in src/content/corsi/, all'indirizzo
+// /corsi/<nome del file>/. Mostra i dettagli del corso, chi lo insegna
+// (campo `insegnanti`) e in fondo gli altri corsi.
+import { render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Testo from '../../components/Testo.astro';
+import CorsiEtichette from '../../components/CorsiEtichette.astro';
+import { corsiInOrdine, insegnantiDel } from '../../lib/corsi';
+import { u } from '../../lib/url';
+import { sito } from '../../data/sito';
+
+export async function getStaticPaths() {
+  const corsi = await corsiInOrdine();
+  return corsi.map((corso) => ({ params: { id: corso.id }, props: { corso, altri: corsi.filter((c) => c.id !== corso.id) } }));
+}
+
+interface Props { corso: CollectionEntry<'corsi'>; altri: CollectionEntry<'corsi'>[] }
+const { corso, altri } = Astro.props;
+const d = corso.data;
+const { Content } = await render(corso);
+const descrizione = Boolean(corso.body?.trim());
+const insegnanti = await Promise.all(
+  (await insegnantiDel(corso)).map(async (ins) => ({ ins, Bio: (await render(ins)).Content })),
+);
+// encodeURIComponent: senza, la "&" di "Writing & Producing" taglia l'oggetto dell'email
+const prova = `mailto:${sito.email}?subject=${encodeURIComponent(`Lezione di prova: ${d.nome}`)}`;
+
+// Dati strutturati schema.org: Google riconosce la pagina come quella di un corso.
+const assoluto = (path = '') => new URL(u(path), Astro.site).href;
+const scheda = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: d.nome,
+  description: d.breve,
+  url: assoluto(`corsi/${corso.id}/`),
+  inLanguage: 'it',
+  provider: { '@type': 'EducationalOrganization', name: `${sito.nome} ${sito.forma}`, url: assoluto() },
+};
+---
+<Base title={`${d.nome} · corso di musica a ${sito.citta}`} description={d.breve} current="corsi/">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(scheda)} />
+
+  <div class="wrap page-head">
+    <a href={u('corsi/')} class="indietro">← Tutti i corsi</a>
+    <span class="eta">{d.eta}</span>
+    <h1 class="display titolo"><Testo t={d.nome} /></h1>
+    <p class="lead intro"><Testo t={d.breve} /></p>
+  </div>
+
+  <section class="wrap corpo">
+    <div class="scheda cream">
+      <dl class="dati">
+        <div><dt>Età</dt><dd>{d.eta}</dd></div>
+        <div><dt>Formula</dt><dd>{d.formula}</dd></div>
+        <div><dt>Giorni e orari</dt><dd>{d.giorni}</dd></div>
+        <div><dt>Quota</dt><dd>{d.quota}</dd></div>
+      </dl>
+      {descrizione && <div class="desc"><Content /></div>}
+      <div class="btn-row">
+        <a href={prova} class="btn btn-red">Prenota la lezione di prova</a>
+        <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
+      </div>
+      <p class="nota">La prima lezione è gratis. <a href={u('corsi/#iscrizione')}>Come iscriversi →</a></p>
+    </div>
+  </section>
+
+  <section class="wrap docenti" aria-labelledby="chi-insegna">
+    <h2 id="chi-insegna" class="display display-m">Chi insegna</h2>
+    {insegnanti.length > 0 ? (
+      <div class="docenti-lista">
+        {insegnanti.map(({ ins, Bio }) => (
+          <article class="docente">
+            <div class="docente-foto">
+              {ins.data.foto ? (
+                <img src={u(`img/insegnanti/${ins.data.foto}`)} alt={`Foto di ${ins.data.nome}, insegnante di ${ins.data.strumento.toLowerCase()}`} loading="lazy" />
+              ) : (
+                <div class="senza-foto"><span class="script">foto in arrivo</span></div>
+              )}
+            </div>
+            <div class="docente-testo">
+              <h3 class="display docente-nome">{ins.data.nome}</h3>
+              {ins.data.ruolo && <span class="ruolo script">{ins.data.ruolo}</span>}
+              <div class="bio"><Bio /></div>
+              <dl class="ascolta"><dt>Ascolta</dt><dd>{ins.data.ascolta}</dd></dl>
+              <a href={u(`insegnanti/#${ins.id}`)} class="libretto-link">Sfoglia il libretto degli insegnanti →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p class="vuoto">Stiamo definendo chi terrà il corso. <a href={`mailto:${sito.email}`}>Scrivici</a> per saperne di più.</p>
+    )}
+  </section>
+
+  <section class="wrap altri" aria-labelledby="altri-corsi">
+    <h2 id="altri-corsi" class="display display-m">Altri corsi</h2>
+    <CorsiEtichette corsi={altri} />
+  </section>
+</Base>
+
+<style>
+  .page-head { gap: 24px; padding-bottom: 48px; }
+  .indietro { font-size: var(--testo-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+  .eta { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; background: var(--red); color: #fff; padding: 8px 16px; border-radius: 999px; }
+  .titolo { font-size: var(--titolo-2); line-height: 0.9; }
+
+  .corpo { padding-bottom: var(--spazio-sezione); }
+  .scheda { border-radius: var(--raggio); padding: var(--spazio-riquadro); display: flex; flex-direction: column; gap: 24px; }
+  .dati { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; font-size: var(--testo-s); }
+  .dati dt { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
+  .dati dd { margin: 4px 0 0; font-weight: 600; }
+  .desc { display: flex; flex-direction: column; gap: 16px; }
+  .desc :global(p) { margin: 0; max-width: 36em; font-size: var(--testo-l); line-height: 1.65; color: var(--on-cream); }
+  .scheda .btn-line { color: var(--ink); }
+  .nota { margin: 0; font-size: var(--testo-m); color: var(--on-cream); }
+  .nota a { font-weight: 700; color: var(--red); }
+
+  .docenti { padding-bottom: var(--spazio-sezione); }
+  .docenti h2 { margin-bottom: var(--spazio-titolo); }
+  .docenti-lista { display: grid; gap: var(--spazio-griglia); }
+  /* Sul telefono la foto sta sopra il testo, dal tablet in su a sinistra */
+  .docente { display: grid; grid-template-columns: minmax(0, 1fr); background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio); overflow: hidden; }
+  @media (min-width: 760px) { .docente { grid-template-columns: 360px minmax(0, 1fr); } }
+  .docente-foto { position: relative; aspect-ratio: 4 / 5; background: var(--card-hover); }
+  .docente-foto img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+  .senza-foto { position: absolute; inset: 0; display: grid; place-items: center; background: var(--red); }
+  .senza-foto .script { font-size: var(--titolo-5); color: var(--cream); }
+  .docente-testo { padding: var(--spazio-riquadro); display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .docente-nome { font-size: var(--titolo-4); line-height: 0.95; }
+  .ruolo { margin-top: -8px; font-size: var(--titolo-5); color: var(--red-light); }
+  .bio :global(p) { margin: 0; max-width: 36em; font-size: var(--testo-m); line-height: 1.6; color: #d9cfc9; }
+  .ascolta { margin: 0; font-size: var(--testo-s); }
+  .ascolta dt { font-size: var(--testo-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); }
+  .ascolta dd { margin: 4px 0 0; color: var(--text-2); }
+  .libretto-link { margin-top: auto; font-weight: 700; color: var(--cream); }
+  .vuoto { margin: 0; font-size: var(--testo-l); color: var(--muted); }
+  .vuoto a { color: var(--cream); font-weight: 700; }
+
+  .altri { padding-bottom: var(--spazio-sezione); }
+  .altri h2 { margin-bottom: var(--spazio-titolo); }
+</style>
