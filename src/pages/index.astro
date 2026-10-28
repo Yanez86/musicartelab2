@@ -60,7 +60,7 @@ const scheda = {
         <p class="hero-lead"><strong>Corsi, eventi e tanto rock.</strong><br />Siamo un’associazione di Merate che insegna musica pop e rock e la porta dal vivo.</p>
         <div class="btn-row">
           <a href={u('corsi/')} class="btn btn-red">Scopri i corsi</a>
-          <a href={u('eventi/')} class="btn btn-line">Prossimi eventi</a>
+          <a href={u('attivita/')} class="btn btn-line">Prossime attività</a>
         </div>
       </div>
     </div>
@@ -81,8 +81,8 @@ const scheda = {
   {principale && (
     <section class="wrap eventi-home">
       <div class="sec-head">
-        <h2 class="display display-l">Eventi</h2>
-        <a href={u('eventi/')} class="cream-text strong">Tutti gli eventi →</a>
+        <h2 class="display display-l">Attività</h2>
+        <a href={u('attivita/')} class="cream-text strong">Tutte le attività →</a>
       </div>
       {principale && <EventoTop evento={principale} futuro={principaleFuturo} breve livello="h3" />}
       <div class="ev-grid">
@@ -140,7 +140,7 @@ const scheda = {
         </dl>
         <div class="btn-row">
           <a href={`mailto:${sito.email}?subject=MusicarteBand`} class="btn btn-cream">Suona con la band</a>
-          <a href={u('eventi/')} class="btn btn-line">Dove ascoltarla</a>
+          <a href={u('attivita/')} class="btn btn-line">Dove ascoltarla</a>
         </div>
       </div>
       <div class="band-foto">

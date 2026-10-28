@@ -20,7 +20,7 @@ Ogni notte, **poco dopo mezzanotte** (alle 00:05, all’01:05 con l’ora legale
 da solo anche se nessuno ha toccato nulla. È questo che tiene il sito in ordine senza interventi:
 
 - l’evento in evidenza passa al successivo il giorno dopo la sua data;
-- gli eventi conclusi scendono tra gli **Eventi passati**;
+- gli eventi conclusi scendono tra le **Attività passate**;
 - quelli di oltre 12 mesi finiscono in **Archivio**;
 - il pulsante di prenotazione di un evento concluso sparisce.
 
@@ -47,6 +47,8 @@ Poi controllate la pagina [Actions](https://github.com/Yanez86/musicartelab2/act
 | ❌ X rossa | errore: il sito **resta com’era**, vedete [Se qualcosa va storto](#se-qualcosa-va-storto) |
 
 ## Eventi
+
+Gli eventi compaiono nella pagina **Attività** del sito.
 
 Cartella: [`src/content/eventi/`](src/content/eventi) · locandine: [`public/img/eventi/`](public/img/eventi)
 
@@ -81,7 +83,7 @@ Lasciate una riga vuota tra un paragrafo e l’altro.
 |---|---|---|
 | `titolo` | sì | Nome dell’evento |
 | `sottotitolo` | no | Riga sotto il titolo |
-| `tipo` | sì | Concerto, Masterclass, Festa, Jam session… Diventa il filtro nella pagina Eventi: usate sempre le stesse parole |
+| `tipo` | sì | Concerto, Masterclass, Festa, Jam session… Diventa il filtro nella pagina Attività: usate sempre le stesse parole |
 | `data` | sì | Il giorno, nel formato **AAAA-MM-GG**. Decide l’ordine e quando l’evento diventa “passato”. Se dura più giorni, il primo |
 | `quando` | sì | Testo libero che si legge sul sito: giorno, ora, più date |
 | `luogo` | sì | Dove |
@@ -101,7 +103,8 @@ Parole come rock, band, jam session, masterclass o open day non servono.
 Ogni evento ha una pagina sua, con locandina intera, descrizione, prenotazione e le icone per
 condividerla: WhatsApp, Facebook, copia link e, sul telefono, altre app (Instagram, Telegram…).
 L’indirizzo è il nome del file senza `.md`:
-`https://yanez86.github.io/musicartelab2/eventi/rock-christmas-2026/`
+`https://yanez86.github.io/musicartelab2/attivita/rock-christmas-2026/`
+(i vecchi link con `/eventi/` al posto di `/attivita/` funzionano ancora e portano qui)
 
 - **È il link da condividere** su WhatsApp, Instagram e Facebook: l’anteprima mostra locandina, titolo e data.
 - Google la usa per mostrare l’evento nei risultati di ricerca, con data e luogo.
@@ -115,8 +118,8 @@ L’indirizzo è il nome del file senza `.md`:
 2. Nel file dell’evento aggiungete `prenotazione: https://tally.so/r/abc123`.
 3. Se volete un testo diverso da “Prenota”, aggiungete per esempio `bottone: Iscriviti`.
 
-Il pulsante compare sull’evento in evidenza (in home e nella pagina Eventi), sulla sua scheda tra gli
-eventi futuri e nella pagina dell’evento. Il modulo si apre in una nuova scheda del browser. **Il giorno dopo l’evento il pulsante
+Il pulsante compare sull’evento in evidenza (in home e nella pagina Attività), sulla sua scheda tra le
+prossime attività e nella pagina dell’evento. Il modulo si apre in una nuova scheda del browser. **Il giorno dopo l’evento il pulsante
 sparisce da solo.**
 
 - **Posti esauriti prima della data:** togliete la riga `prenotazione`, oppure chiudete il modulo dalle

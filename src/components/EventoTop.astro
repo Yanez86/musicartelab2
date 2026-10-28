@@ -1,5 +1,5 @@
 ---
-// Riquadro grande dell'evento principale: usato in home e nella pagina Eventi.
+// Riquadro grande dell'evento principale: usato in home e nella pagina Attività.
 // In home (breve) mostra solo le informazioni principali, la prenotazione e il link alla pagina dell'evento.
 import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
@@ -18,7 +18,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 <article class="top" id={top.id}>
   <a href={linkEvento(top)} class="top-img" tabindex="-1" aria-hidden="true"><img src={img(top.data.locandina)} alt="" loading="lazy" /></a>
   <div class="top-txt">
-    <span class="top-tag">{topFuturo ? 'Prossimo evento' : 'Il più recente'} · {top.data.tipo}</span>
+    <span class="top-tag">{topFuturo ? 'Prossima attività' : 'La più recente'} · {top.data.tipo}</span>
     <Titolo class="display top-title"><a href={linkEvento(top)}><Testo t={top.data.titolo} />{top.data.sottotitolo && <><br /><span><Testo t={top.data.sottotitolo} /></span></>}</a></Titolo>
     <dl class="top-dati">
       <div><dt>Quando</dt><dd>{top.data.quando}</dd></div>
@@ -28,7 +28,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
     {breve ? (
       <div class="btn-row">
         {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{top.data.bottone}<NuovaScheda /></a>}
-        <a href={linkEvento(top)} class="btn btn-dark">Vai alla pagina dell’evento</a>
+        <a href={linkEvento(top)} class="btn btn-dark">Vai alla pagina dell’attività</a>
       </div>
     ) : (
       <>
