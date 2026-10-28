@@ -11,6 +11,7 @@ export default defineConfig({
   site: 'https://yanez86.github.io',
   base: '/musicartelab2',
   // Mappa del sito per Google (sitemap-index.xml), aggiornata a ogni build.
-  integrations: [sitemap()],
+  // Senza i vecchi indirizzi /eventi/, che rimandano alle pagine Attività.
+  integrations: [sitemap({ filter: (pagina) => !pagina.includes('/eventi/') })],
   markdown: { rehypePlugins: [rehypeNome] },
 });
