@@ -24,6 +24,21 @@ export const sito = {
   googleVerifica: '',
 };
 
+// Espressioni in inglese che compaiono nei testi (titoli e descrizioni di eventi
+// e corsi, pagine): sul sito vengono marcate come inglesi, così gli screen reader
+// le pronunciano in inglese. Scrivetele come nei testi, con maiuscole e minuscole.
+// Non servono le parole ormai d'uso comune in italiano (rock, band, jam session,
+// masterclass, open day, workshop…).
+export const paroleInglesi = [
+  'Rock Christmas',
+  'Open Jam',
+  'Talk and Play',
+  'Talk & Play',
+  'Freestyle rap battle',
+  'Christmas carol',
+  'Writing & Producing',
+];
+
 export const menu = [
   { href: 'corsi/', label: 'Corsi' },
   { href: 'eventi/', label: 'Eventi' },

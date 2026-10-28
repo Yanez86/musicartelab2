@@ -15,7 +15,7 @@ const futuro = inArrivo(e);
   <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
   <span class="ev-mini-txt">
     <span class="tag">{futuro ? `In arrivo · ${e.data.tipo}` : e.data.tipo}</span>
-    <span class="ev-mini-title">{e.data.titolo}{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</span>
+    <span class="ev-mini-title"><Testo t={e.data.titolo} />{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</span>
     <span class="ev-mini-luogo"><Testo t={e.data.luogo} /></span>
   </span>
 </a>

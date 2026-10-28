@@ -1,7 +1,7 @@
 ---
 import { sito, social } from '../data/sito';
 import Nome from './Nome.astro';
-import { u } from '../lib/url';
+import { u, nuovaScheda } from '../lib/url';
 ---
 <footer class="site-footer">
   <div class="wrap">
@@ -10,7 +10,7 @@ import { u } from '../lib/url';
       <ul>
         {social.map((s) => (
           <li>
-            <a href={s.href} rel="noopener" target="_blank" aria-label={`${s.label}: ${s.handle}`} title={s.label}>
+            <a href={s.href} rel="noopener" target="_blank" aria-label={`${s.label}: ${s.handle} (${nuovaScheda})`} title={s.label}>
               <img src={u(s.icon)} alt="" width="34" height="34" loading="lazy" />
             </a>
           </li>

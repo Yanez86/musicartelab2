@@ -7,6 +7,7 @@ import { eventiDivisi, inArrivo, linkEvento } from '../lib/eventi';
 import { u, giorno, meseBreve } from '../lib/url';
 import { sito } from '../data/sito';
 import Nome from '../components/Nome.astro';
+import Testo from '../components/Testo.astro';
 import EventoTop from '../components/EventoTop.astro';
 import EventoMini from '../components/EventoMini.astro';
 
@@ -99,7 +100,7 @@ const scheda = {
       {corsi.map((c, i) => (
         <a href={u('corsi/')} class="row">
           <span class="row-n">{String(i + 1).padStart(2, '0')}</span>
-          <span class="row-nome">{c.data.nome}</span>
+          <span class="row-nome"><Testo t={c.data.nome} /></span>
           <span class="row-eta">{c.data.eta}</span>
           <svg class="row-arr" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
         </a>
@@ -134,7 +135,7 @@ const scheda = {
         <p class="band-lead">Il gruppo ufficiale dell’associazione: allievi e docenti sullo stesso palco per un viaggio nella musica pop rock. La MusicarteBand si esibisce a feste, sagre ed eventi della zona e dal vivo ospita spesso altri “colleghi”.</p>
         <dl class="band-info">
           <div><dt>Formazione</dt><dd>Chitarre, basso, batteria, tastiera e voci</dd></div>
-          {prossimo && <div><dt>Prossima data</dt><dd><a href={linkEvento(prossimo)}>{prossimo.data.titolo} · {giorno(prossimo.data.data)} {meseBreve(prossimo.data.data)}</a></dd></div>}
+          {prossimo && <div><dt>Prossima data</dt><dd><a href={linkEvento(prossimo)}><Testo t={prossimo.data.titolo} /> · {giorno(prossimo.data.data)} {meseBreve(prossimo.data.data)}</a></dd></div>}
           <div><dt>Chi suona</dt><dd>Allievi e docenti, con ospiti dal vivo</dd></div>
         </dl>
         <div class="btn-row">
@@ -144,7 +145,7 @@ const scheda = {
       </div>
       <div class="band-foto">
         <img src={u('img/band.jpg')} alt="La band sul palco durante un concerto all’aperto" loading="lazy" />
-        <span class="script">live in Merate</span>
+        <span class="script" lang="en">live in Merate</span>
       </div>
     </div>
   </section>
@@ -153,7 +154,7 @@ const scheda = {
     <div class="wrap">
       <div class="sec-head">
         <h2 class="display display-l">Insegnanti</h2>
-        <p class="lead">Sfoglia il booklet: ogni insegnante è una traccia.</p>
+        <p class="lead">Sfoglia il <span lang="en">booklet</span>: ogni insegnante è una traccia.</p>
       </div>
       <Libretto livello="h3" />
     </div>

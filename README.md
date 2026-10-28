@@ -8,7 +8,7 @@ Sito dell’associazione Musicarte-lab di Merate: corsi ed eventi di musica pop 
 
 | Voglio cambiare… | File |
 |---|---|
-| Email, WhatsApp, indirizzo, codice fiscale, anno dei corsi, quota della tessera | `src/data/sito.ts` |
+| Email, WhatsApp, indirizzo, codice fiscale, anno dei corsi, quota della tessera, espressioni in inglese | `src/data/sito.ts` |
 | Un evento | `src/content/eventi/*.md` |
 | Un corso | `src/content/corsi/*.md` |
 | Un insegnante | `src/content/insegnanti/*.md` |

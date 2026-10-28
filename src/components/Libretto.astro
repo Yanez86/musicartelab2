@@ -17,7 +17,7 @@ const anno = sito.annoCorsi.replace(/[\[\]]/g, '');
 ---
 <section class="lettore" aria-label="Libretto degli insegnanti" data-libretto data-hash={aggiornaIndirizzo ? "1" : undefined}>
   <div class="comandi">
-    <span class="kicker">Liner notes</span>
+    <span class="kicker" lang="en">Liner notes</span>
     <div class="tasti">
       <button type="button" class="tasto" data-prev aria-label="Insegnante precedente"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6z"></path><path d="M20 5v14L9 12z"></path></svg></button>
       <button type="button" class="tasto" data-next aria-label="Insegnante successivo"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2z"></path><path d="M4 5v14l11-7z"></path></svg></button>
@@ -39,7 +39,7 @@ const anno = sito.annoCorsi.replace(/[\[\]]/g, '');
           ) : (
             <div class="senza-foto"><span class="grande">{nn(i)}</span><span class="script">foto in arrivo</span></div>
           )}
-          <span class="track">Track {nn(i)}</span>
+          <span class="track" lang="en">Track {nn(i)}</span>
         </div>
         <div class="note">
           <div class="note-top"><span>{nn(i)} · {d.data.strumento}</span><span><Nome /> · {anno}</span></div>
@@ -60,7 +60,7 @@ const anno = sito.annoCorsi.replace(/[\[\]]/g, '');
   <p class="sr-only" aria-live="polite" data-annuncio></p>
 
   <div class="tracklist">
-    <div class="tl-head"><span>Tracklist</span><span>{n} insegnanti</span></div>
+    <div class="tl-head"><span lang="en">Tracklist</span><span>{n} insegnanti</span></div>
     <ol>
       {insegnanti.map(({ d }, i) => (
         <li>

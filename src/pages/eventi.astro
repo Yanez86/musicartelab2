@@ -4,6 +4,7 @@ import { eventiDivisi, inArrivo, linkEvento } from '../lib/eventi';
 import { u, giorno, meseBreve, dataBreve } from '../lib/url';
 import { sito } from '../data/sito';
 import Testo from '../components/Testo.astro';
+import NuovaScheda from '../components/NuovaScheda.astro';
 import Nome from '../components/Nome.astro';
 import EventoTop from '../components/EventoTop.astro';
 
@@ -57,22 +58,22 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
             </div>
             <div class="ev-txt">
               <span class="tag">{e.data.tipo}</span>
-              <h3 class="display"><a href={linkEvento(e)} class="ev-link">{e.data.titolo}{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</a></h3>
+              <h3 class="display"><a href={linkEvento(e)} class="ev-link"><Testo t={e.data.titolo} />{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</a></h3>
               <span class="ev-quando">{e.data.quando}</span>
               <span class="ev-luogo"><Testo t={e.data.luogo} /></span>
               {e.data.info.length > 0 && <ul>{e.data.info.map((r) => <li><Testo t={r} /></li>)}</ul>}
-              {g.id === 'futuri' && e.data.prenotazione && <a href={e.data.prenotazione} class="btn btn-red ev-btn" target="_blank" rel="noopener">{e.data.bottone}</a>}
+              {g.id === 'futuri' && e.data.prenotazione && <a href={e.data.prenotazione} class="btn btn-red ev-btn" target="_blank" rel="noopener">{e.data.bottone}<NuovaScheda /></a>}
             </div>
           </article>
         ))}
         {g.id === 'futuri' && (
           <a href={sito.instagram} rel="noopener" target="_blank" class="ev sorprese">
-            <div class="sorprese-top" aria-hidden="true"><span>stay<br />tuned</span></div>
+            <div class="sorprese-top" aria-hidden="true"><span lang="en">stay<br />tuned</span></div>
             <div class="ev-txt">
               <span class="tag">In arrivo</span>
               <h3 class="display">Altre sorprese</h3>
               <p>{sito.sorprese}</p>
-              <span class="sorprese-cta">Seguici su Instagram →</span>
+              <span class="sorprese-cta">Seguici su Instagram →</span><NuovaScheda />
             </div>
           </a>
         )}
@@ -91,7 +92,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
         <div class="arch-row" data-tipo={e.data.tipo}>
           <img src={img(e.data.locandina)} alt="" loading="lazy" />
           <span class="arch-data">{dataBreve(e.data.data)}</span>
-          <span class="arch-txt"><span class="tag">{e.data.tipo}</span><a href={linkEvento(e)} class="display ev-link">{e.data.titolo}</a></span>
+          <span class="arch-txt"><span class="tag">{e.data.tipo}</span><a href={linkEvento(e)} class="display ev-link"><Testo t={e.data.titolo} /></a></span>
           <span class="arch-luogo"><Testo t={e.data.luogo} /></span>
         </div>
       ))}

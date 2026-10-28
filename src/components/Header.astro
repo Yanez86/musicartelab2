@@ -1,6 +1,6 @@
 ---
 import { menu, sito, social } from '../data/sito';
-import { u } from '../lib/url';
+import { u, nuovaScheda } from '../lib/url';
 
 interface Props { current?: string; overlay?: boolean }
 const { current = '', overlay = false } = Astro.props;
@@ -48,7 +48,7 @@ const { current = '', overlay = false } = Astro.props;
     </div>
     <ul class="menu-social">
       {social.map((s) => (
-        <li><a href={s.href} rel="noopener" target="_blank" aria-label={s.label}><img src={u(s.icon)} alt="" width="30" height="30" /></a></li>
+        <li><a href={s.href} rel="noopener" target="_blank" aria-label={`${s.label} (${nuovaScheda})`}><img src={u(s.icon)} alt="" width="30" height="30" /></a></li>
       ))}
     </ul>
   </div>

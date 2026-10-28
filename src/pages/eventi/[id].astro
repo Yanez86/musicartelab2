@@ -5,9 +5,10 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Testo from '../../components/Testo.astro';
+import NuovaScheda from '../../components/NuovaScheda.astro';
 import EventoMini from '../../components/EventoMini.astro';
 import { eventiDivisi, inArrivo, inizioIso, inizioOggi, testoBreve } from '../../lib/eventi';
-import { u } from '../../lib/url';
+import { u, nuovaScheda } from '../../lib/url';
 import { sito } from '../../data/sito';
 
 export async function getStaticPaths() {
@@ -78,13 +79,14 @@ const scheda = {
   <div class="wrap page-head">
     <a href={u('eventi/')} class="indietro">← Tutti gli eventi</a>
     <span class:list={['stato', { 'stato--passato': !futuro }]}>{stato} · {d.tipo}</span>
-    <h1 class="display titolo">{d.titolo}{d.sottotitolo && <><br /><span><Testo t={d.sottotitolo} /></span></>}</h1>
+    <h1 class="display titolo"><Testo t={d.titolo} />{d.sottotitolo && <><br /><span><Testo t={d.sottotitolo} /></span></>}</h1>
   </div>
 
   <section class="wrap corpo">
     {locandina ? (
       <a href={u(locandina)} class="locandina" target="_blank" rel="noopener" title="Apri la locandina">
         <img src={u(locandina)} alt={`Locandina: ${d.titolo}`} />
+        <NuovaScheda />
       </a>
     ) : (
       <div class="locandina"><img src={u('img/concerto.jpg')} alt="" /></div>
@@ -99,16 +101,16 @@ const scheda = {
       {d.info.length > 0 && <ul class="info">{d.info.map((r) => <li><Testo t={r} /></li>)}</ul>}
       {!futuro && <p class="concluso">Questo evento si è già svolto. Qui sotto trovi i prossimi.</p>}
       <div class="btn-row">
-        {futuro && d.prenotazione && <a href={d.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{d.bottone}</a>}
+        {futuro && d.prenotazione && <a href={d.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{d.bottone}<NuovaScheda /></a>}
         <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
       </div>
       <div class="condividi" data-condividi data-link={indirizzo} data-titolo={titolo}>
         <span class="condividi-label">Condividi l’evento</span>
         <div class="condividi-row">
-          <a href={condividi.whatsapp} class="btn btn-line share" target="_blank" rel="noopener" aria-label="Condividi su WhatsApp" title="WhatsApp">
+          <a href={condividi.whatsapp} class="btn btn-line share" target="_blank" rel="noopener" aria-label={`Condividi su WhatsApp (${nuovaScheda})`} title="WhatsApp">
             <img src={u('img/social/whatsapp.svg')} alt="" width="24" height="24" />
           </a>
-          <a href={condividi.facebook} class="btn btn-line share" target="_blank" rel="noopener" aria-label="Condividi su Facebook" title="Facebook">
+          <a href={condividi.facebook} class="btn btn-line share" target="_blank" rel="noopener" aria-label={`Condividi su Facebook (${nuovaScheda})`} title="Facebook">
             <img src={u('img/social/facebook.png')} alt="" width="24" height="24" />
           </a>
           <button type="button" class="btn btn-line share" data-copia aria-label="Copia il link" title="Copia il link">

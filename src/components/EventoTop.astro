@@ -4,6 +4,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
 import Testo from './Testo.astro';
+import NuovaScheda from './NuovaScheda.astro';
 import { u } from '../lib/url';
 import { linkEvento } from '../lib/eventi';
 import { sito } from '../data/sito';
@@ -18,7 +19,7 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
   <a href={linkEvento(top)} class="top-img" tabindex="-1" aria-hidden="true"><img src={img(top.data.locandina)} alt="" loading="lazy" /></a>
   <div class="top-txt">
     <span class="top-tag">{topFuturo ? 'Prossimo evento' : 'Il più recente'} · {top.data.tipo}</span>
-    <Titolo class="display top-title"><a href={linkEvento(top)}>{top.data.titolo}{top.data.sottotitolo && <><br /><span><Testo t={top.data.sottotitolo} /></span></>}</a></Titolo>
+    <Titolo class="display top-title"><a href={linkEvento(top)}><Testo t={top.data.titolo} />{top.data.sottotitolo && <><br /><span><Testo t={top.data.sottotitolo} /></span></>}</a></Titolo>
     <dl class="top-dati">
       <div><dt>Quando</dt><dd>{top.data.quando}</dd></div>
       <div><dt>Dove</dt><dd><Testo t={top.data.luogo} /></dd></div>
@@ -26,14 +27,14 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
     </dl>
     {breve ? (
       <div class="btn-row">
-        {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{top.data.bottone}</a>}
+        {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{top.data.bottone}<NuovaScheda /></a>}
         <a href={linkEvento(top)} class="btn btn-dark">Vai alla pagina dell’evento</a>
       </div>
     ) : (
       <>
         <div class="top-desc"><TopDesc /></div>
         <div class="btn-row">
-          {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-dark" target="_blank" rel="noopener">{top.data.bottone}</a>}
+          {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-dark" target="_blank" rel="noopener">{top.data.bottone}<NuovaScheda /></a>}
           <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
         </div>
       </>
