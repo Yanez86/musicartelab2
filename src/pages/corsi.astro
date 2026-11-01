@@ -4,12 +4,13 @@ import { u } from '../lib/url';
 import { sito } from '../data/sito';
 import Nome from '../components/Nome.astro';
 import Testo from '../components/Testo.astro';
-import { corsiInOrdine, insegnantiDel, linkCorso } from '../lib/corsi';
+import { corsiInOrdine, insegnantiDel } from '../lib/corsi';
+import IconaMail from '../components/IconaMail.astro';
 
 const corsi = await Promise.all((await corsiInOrdine()).map(async (c) => ({ c, insegnanti: await insegnantiDel(c) })));
 // encodeURIComponent: senza, la "&" di "Writing & Producing" taglia l'oggetto dell'email
 const prova = (nome: string) => `mailto:${sito.email}?subject=${encodeURIComponent(`Lezione di prova: ${nome}`)}`;
-const altre = ['Workshop', 'Seminari', 'Conferenze', 'Lezioni concerto', 'Teatro', 'Sonorizzazione di spettacoli teatrali'];
+const altre = ['Workshop', 'Seminari', 'Lezioni concerto', 'Teatro', 'Sala prove'];
 const fuoriSede = [
   { t: 'Corsi per le scuole', d: 'Nelle loro sedi: infanzia, primaria, secondaria di primo e secondo grado.' },
   { t: 'Sala di registrazione', d: 'Assistenza a strumentisti e cantanti.' },
@@ -18,49 +19,40 @@ const fuoriSede = [
   { t: 'Concerti e spettacoli', d: 'Concerti, lezioni concerto, spettacoli teatrali e la loro sonorizzazione.' },
   { t: 'Seminari e conferenze', d: 'Incontri di approfondimento su musica e strumenti.' },
 ];
-const filtri = [
-  { id: 'tutti', label: 'Tutti' },
-  { id: 'bambini', label: 'Bambini' },
-  { id: 'ragazzi', label: 'Ragazzi' },
-  { id: 'adulti', label: 'Adulti' },
-];
 ---
-<Base title={`Corsi di musica a ${sito.citta}`} current="corsi/" description={`Corsi di canto, chitarra, basso, batteria, pianoforte, ukulele e coro rock a ${sito.citta} per bambini, ragazzi e adulti. Lezioni individuali e di gruppo ${sito.periodoCorsi}.`}>
+<Base title={`Corsi di musica a ${sito.citta}`} current="corsi/" description={`Corsi di canto, chitarra, basso, batteria, pianoforte e ukulele a ${sito.citta} per bambini, ragazzi e adulti. Lezioni individuali e di gruppo ${sito.periodoCorsi}.`}>
   <section class="corsi-hero" style={`background-image: url(${u('img/concerto.jpg')})`}>
     <div class="shade"></div>
     <div class="wrap page-head">
       <h1 class="display display-xl">Corsi<span class="dot">.</span></h1>
-      <p class="lead intro">Impara a suonare il rock che ami. Dai 4 anni in su, da solo o in gruppo.</p>
+      <p class="lead intro">Impara a suonare e cantare la musica che ami.</p>
     </div>
   </section>
 
-  <div class="wrap">
-    <div class="filters" role="group" aria-label="Filtra i corsi per età" data-filtri="corsi">
-      {filtri.map((f, i) => <button type="button" class="filter" data-filtro={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>{f.label}</button>)}
+  <section class="wrap">
+    <div class="info-corsi cream">
+      <h2 class="display">Info utili</h2>
+      <p>I corsi annuali sono di 30 lezioni.<br />Le lezioni individuali durano 45 minuti o 1 ora, quelle di coppia 1 ora o 1 ora e 30 minuti, quelle in trio 1 ora e 30 minuti. Ci sono anche lezioni di gruppo e pacchetti specifici.<br />Possiamo concordare soluzioni comode per esigenze specifiche.</p>
     </div>
-  </div>
+  </section>
 
   <section class="wrap griglia">
     {corsi.map(({ c, insegnanti }, i) => (
-      <article class="corso" data-fasce={c.data.fasce.join(' ')}>
+      <article id={c.id} class="corso">
         <div class="corso-top">
           <span class="corso-n">{String(i + 1).padStart(2, '0')}</span>
           <span class="corso-eta">{c.data.eta}</span>
         </div>
-        <h2 class="display corso-nome"><a href={linkCorso(c)}><Testo t={c.data.nome} /></a></h2>
+        <h2 class="display corso-nome"><Testo t={c.data.nome} /></h2>
         <p class="corso-desc">{c.data.breve}</p>
         <dl class="corso-dati">
-          <div><dt>Formula</dt><dd>{c.data.formula}</dd></div>
-          <div><dt>Giorni</dt><dd>{c.data.giorni}</dd></div>
           <div>
             <dt>{insegnanti.length > 1 ? 'Insegnanti' : 'Insegnante'}</dt>
             <dd>{insegnanti.length ? insegnanti.map((ins, k) => <>{k > 0 && ', '}<a href={u(`insegnanti/#${ins.id}`)}>{ins.data.nome}</a></>) : 'Da definire'}</dd>
           </div>
-          <div><dt>Quota</dt><dd>{c.data.quota}</dd></div>
         </dl>
         <div class="btn-row">
-          <a href={prova(c.data.nome)} class="btn btn-red">Prenota la prova</a>
-          <a href={linkCorso(c)} class="btn btn-line">Scopri il corso</a>
+          <a href={prova(c.data.nome)} class="btn btn-red"><IconaMail />Prenota la prova</a>
         </div>
       </article>
     ))}
@@ -75,7 +67,7 @@ const filtri = [
     <div class="novita">
       <span class="novita-tag script">Novità!</span>
       <h2 class="display">Hai un testo?<br /><span>Ti aiutiamo a farlo diventare una canzone.</span></h2>
-      <a href={`mailto:${sito.email}?subject=Ho un testo`} class="btn btn-cream">Scrivici</a>
+      <a href={`mailto:${sito.email}?subject=Ho un testo`} class="btn btn-red"><IconaMail />Scrivici</a>
     </div>
   </section>
 
@@ -89,68 +81,40 @@ const filtri = [
     </div>
   </section>
 
-  <section class="wrap">
-    <div class="band-box">
-      <div>
-        <p class="kicker">Dopo le lezioni, il palco</p>
-        <h2 class="display band-box-title">Suona nella Musicarte<wbr /><span class="script cream">Band</span></h2>
-        <p>Il gruppo ufficiale dell’associazione, con allievi e docenti, porta dal vivo il repertorio pop rock studiato nei corsi. Il nostro obiettivo: imparare a stare in una band e davanti al pubblico.</p>
-      </div>
-      <a href={u('#band')} class="btn btn-cream">Scopri la band</a>
-    </div>
-  </section>
-
   <section id="iscrizione" class="cream iscrizione">
     <div class="wrap">
       <h2 class="display display-l">Come iscriversi</h2>
       <ol class="passi">
         <li><span>01</span><strong>Lezione di prova</strong><p>Prenota scrivendo a {sito.email} o su WhatsApp e conosci l’insegnante.</p></li>
         <li><span>02</span><strong>Tessera associativa</strong><p>Quota annuale {sito.quotaTessera}, come previsto dallo <a href={u('statuto/')}>statuto</a>.</p></li>
-        <li><span>03</span><strong>Giorno e orario</strong><p>Al mattino, al pomeriggio o la sera, concordati con l’insegnante, in sede a {sito.citta} o online.</p></li>
+        <li><span>03</span><strong>Giorno e orario</strong><p>Al mattino, al pomeriggio o la sera, concordati con l’insegnante.</p></li>
       </ol>
     </div>
   </section>
 </Base>
 
-<script>
-  document.querySelectorAll<HTMLElement>('[data-filtri="corsi"]').forEach((gruppo) => {
-    const bottoni = gruppo.querySelectorAll<HTMLButtonElement>('[data-filtro]');
-    const corsi = document.querySelectorAll<HTMLElement>('[data-fasce]');
-    bottoni.forEach((b) =>
-      b.addEventListener('click', () => {
-        const f = b.dataset.filtro!;
-        bottoni.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-        corsi.forEach((c) => {
-          c.hidden = f !== 'tutti' && !c.dataset.fasce!.split(' ').includes(f);
-        });
-      }),
-    );
-  });
-</script>
-
 <style>
   .corsi-hero { position: relative; background-size: cover; background-position: center 60%; margin-top: -112px; padding-top: 112px; }
   .shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(20, 13, 15, 0.82), var(--ink)); }
   .page-head { position: relative; }
-  .filters { padding-top: 8px; padding-bottom: 32px; }
-  .griglia { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: var(--spazio-griglia); padding-bottom: var(--spazio-sezione); }
-  .corso { background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio); padding: var(--spazio-scheda); display: flex; flex-direction: column; gap: 16px; transition: transform 0.3s, background 0.3s; }
+  .info-corsi { border-radius: var(--raggio); padding: var(--spazio-riquadro); margin-bottom: var(--spazio-titolo); display: flex; flex-direction: column; gap: 16px; }
+  .info-corsi h2 { font-size: var(--titolo-4); line-height: 0.95; }
+  .info-corsi p { margin: 0; font-size: var(--testo-l); line-height: 1.65; color: var(--on-cream); }
+  /* 1 colonna sul telefono, 2 sul tablet, 4 da 1280px: sotto, "MUSICHELLO" non sta in una scheda */
+  .griglia { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--spazio-griglia); padding-bottom: var(--spazio-sezione); }
+  @media (min-width: 720px) { .griglia { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1280px) { .griglia { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .corso { background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio); padding: var(--spazio-scheda); display: flex; flex-direction: column; gap: 16px; transition: transform 0.3s, background 0.3s; scroll-margin-top: 24px; }
   .corso:hover { transform: translateY(-8px); background: var(--card-hover); }
   .corso-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
   .corso-n { font-family: var(--display); font-size: var(--titolo-5); color: var(--red-light); }
   .corso-eta { font-size: var(--testo-xs); font-weight: 700; color: var(--ink); background: var(--cream); padding: 8px 16px; border-radius: 999px; white-space: nowrap; }
   .corso-nome { font-size: var(--titolo-4); line-height: 0.95; }
-  .corso-nome a { text-decoration: none; }
   .corso-desc { margin: 0; font-size: var(--testo-m); line-height: 1.6; color: #d9cfc9; }
-  .corso-dati { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; font-size: var(--testo-s); border-top: 1px solid var(--line); padding-top: 16px; }
+  .corso-dati { margin: 0; font-size: var(--testo-s); border-top: 1px solid var(--line); padding-top: 16px; }
   .corso-dati dt { color: var(--muted); }
   .corso-dati dd { margin: 4px 0 0; font-weight: 600; }
-  .band-box { background: var(--red); border-radius: var(--raggio); padding: var(--spazio-riquadro); display: flex; flex-wrap: wrap; gap: 24px 40px; align-items: center; justify-content: space-between; margin-bottom: var(--spazio-sezione); }
-  .band-box > div { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
-  .band-box p:last-child { margin: 0; font-size: var(--testo-l); line-height: 1.6; color: #fbeff1; }
-  /* balance: righe di lunghezza simile, così "Band" non resta da sola */
-  .band-box-title { font-size: var(--titolo-3); line-height: 0.92; text-wrap: balance; }
-  .band-box .cream { background: none; color: var(--cream); }
+  .corso .btn-row { margin-top: auto; }
   .altre { padding-bottom: var(--spazio-sezione); display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px 32px; }
   .altre h2 { font-size: var(--titolo-4); }
   .altre ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px 32px; }
@@ -161,7 +125,6 @@ const filtri = [
   .novita { padding-top: clamp(64px, 8vw, 80px); }
   .novita h2 { font-size: var(--titolo-3); line-height: 0.95; }
   .novita h2 span { color: var(--red); font-size: 0.6em; }
-  .novita .btn-cream { background: var(--ink); color: #fff; }
   .fuori { padding-bottom: var(--spazio-sezione); }
   .fuori-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: var(--spazio-titolo); }
   .fuori-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: var(--spazio-griglia); }

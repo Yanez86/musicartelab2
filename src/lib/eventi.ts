@@ -32,7 +32,7 @@ export async function eventiDivisi() {
   const futuri = tutti.filter(inArrivo).sort((a, b) => a.data.data.getTime() - b.data.data.getTime());
   const principale = futuri[0] ?? recenti[0];
   const principaleFuturo = Boolean(futuri[0]);
-  return { tutti, recenti, archivio, futuri, principale, principaleFuturo };
+  return { recenti, archivio, futuri, principale, principaleFuturo };
 }
 
 // Inizio dell'evento per Google, nel formato ISO: il giorno da `data` e, se

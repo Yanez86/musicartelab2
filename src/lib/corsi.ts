@@ -1,10 +1,6 @@
 import { getCollection, getEntries, type CollectionEntry } from 'astro:content';
-import { u } from './url';
 
 type Corso = CollectionEntry<'corsi'>;
-
-// Indirizzo della pagina del corso: /corsi/<nome del file>/
-export const linkCorso = (c: Corso) => u(`corsi/${c.id}/`);
 
 // I corsi nell'ordine deciso dal campo `ordine`.
 export async function corsiInOrdine() {

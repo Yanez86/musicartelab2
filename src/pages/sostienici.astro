@@ -10,11 +10,13 @@ const passi = [
   { t: 'Trova il riquadro del 5x1000', d: 'Scegli quello dedicato al sostegno degli enti del Terzo settore e metti la tua firma.' },
   { t: 'Scrivi il nostro codice fiscale', d: `${sito.codiceFiscale}: ecco fatto, il tuo 5x1000 va a ${sito.nome}.` },
 ];
+// A gruppi di quattro si legge meglio; il pulsante copia l'IBAN senza spazi.
+const ibanLeggibile = sito.iban.replace(/.{4}/g, '$& ').trim();
 ---
-<Base title="Sostienici" current="sostienici/" description={`Dona il 5x1000 a ${sito.nome}: codice fiscale ${sito.codiceFiscale}.`}>
+<Base title="Sostienici" current="sostienici/" description={`Sostieni ${sito.nome}: dona il 5x1000 con il codice fiscale ${sito.codiceFiscale} o fai una donazione liberale.`}>
   <div class="wrap page-head">
     <h1 class="display display-xl">Sostienici<span class="dot">.</span></h1>
-    <p class="lead intro">Corsi, concerti, feste e masterclass di <Nome /> esistono grazie a chi crede nella musica dal vivo. Darci una mano non costa nulla.</p>
+    <p class="lead intro">Corsi, concerti e progetti di <Nome /> esistono grazie a chi crede nella musica dal vivo. Puoi darci una mano in tanti modi, anche senza spendere nulla.</p>
   </div>
 
   <section class="wrap cinque">
@@ -24,7 +26,7 @@ const passi = [
     <div class="cinque-testo">
       <p class="kicker">Dona il 5x1000</p>
       <h2 class="display display-m">Sostieni la musica<br /><span class="dot">e la cultura</span></h2>
-      <p>Con la tua firma una piccola parte delle tasse che paghi comunque arriva a <Nome />: per te non cambia nulla, per noi significa strumenti, eventi e nuovi progetti.</p>
+      <p>Con la tua firma una piccola parte delle tasse che paghi arriva a <Nome />: per te non cambia nulla, per noi significa strumenti, eventi e nuovi progetti.</p>
       <div class="cf">
         <span class="cf-label">Codice fiscale</span>
         <span class="cf-num" id="cf">{sito.codiceFiscale}</span>
@@ -50,17 +52,37 @@ const passi = [
     <figcaption>Sostieni la <strong>musica</strong>.</figcaption>
   </figure>
 
+  <section id="donazione" class="wrap dono">
+    <div class="dono-testo">
+      <p class="kicker">Donazione liberale</p>
+      <h2 class="display display-m">Una mano in più<br /><span class="dot">alla musica</span></h2>
+      <p>Una donazione, piccola o grande, per noi significa strumenti, eventi e nuovi progetti. L’importo lo scegli tu.</p>
+      <p class="dono-nota">Siamo iscritti al RUNTS: puoi detrarre il 30% della donazione, fino a 30.000 € l’anno, oppure dedurla nel limite del 10% del reddito dichiarato. Le due agevolazioni sono alternative.</p>
+      <p class="dono-nota">Ti serve la ricevuta? Scrivici a <a href={`mailto:${sito.email}?subject=Ricevuta donazione liberale`}>{sito.email}</a> con nome, codice fiscale e data del bonifico.</p>
+    </div>
+    <div class="cf">
+      <span class="cf-label">IBAN</span>
+      <span class="cf-num iban">{ibanLeggibile}</span>
+      <button type="button" class="btn btn-cream cf-copia" data-copia={sito.iban}>Copia</button>
+      <dl class="conto">
+        <div><dt class="cf-label">Intestato a</dt><dd>{sito.contoIntestatario}</dd></div>
+        <div><dt class="cf-label">Banca</dt><dd>{sito.contoBanca}</dd></div>
+        <div><dt class="cf-label">Causale</dt><dd>Erogazione liberale</dd></div>
+      </dl>
+    </div>
+  </section>
+
   <section class="wrap altri">
     <h2 class="display display-m">Altri modi<br /><span class="dot">per darci una mano</span></h2>
     <div class="cards">
       <div class="card">
         <strong class="display">Diventa socio</strong>
-        <p>Con la tessera annuale fai parte dell’associazione e paghi una quota ridotta per le masterclass.</p>
+        <p>Con la tessera annuale fai parte dell’associazione e paghi una quota ridotta per alcune attività.</p>
         <a href={u('associazione/#soci')}>Come diventare socio →</a>
       </div>
       <div class="card">
         <strong class="display">Partecipa alle attività</strong>
-        <p>Concerti, feste e masterclass sono il modo più bello per sostenerci: porta amici e famiglia.</p>
+        <p>Concerti, eventi e masterclass sono il modo più bello per sostenerci: porta amici e famiglia.</p>
         <a href={u('attivita/')}>Vedi le attività →</a>
       </div>
       <div class="card">
@@ -101,11 +123,19 @@ const passi = [
   .passi span { font-family: var(--display); font-size: 4.5rem; line-height: 1; color: var(--red); }
   .passi strong { font-size: var(--testo-xl); }
   .passi p, .nota { margin: 0; font-size: var(--testo-m); line-height: 1.6; color: var(--on-cream); }
-  .nota { margin-top: 40px; max-width: 760px; }
+  .nota { margin-top: 40px; }
   .foto-larga { margin-top: var(--spazio-sezione); margin-bottom: 0; }
   .foto-larga img { width: 100%; max-height: 640px; object-fit: cover; border-radius: var(--raggio); }
   .foto-larga figcaption { margin-top: 16px; font-family: var(--script); font-size: var(--titolo-5); color: var(--cream); }
   .foto-larga figcaption strong { color: var(--red-light); font-weight: 700; }
+  .dono { padding-top: var(--spazio-sezione); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: var(--spazio-colonne); align-items: center; }
+  .dono-testo { display: flex; flex-direction: column; gap: 24px; }
+  .dono-testo > p:not(.kicker) { margin: 0; font-size: var(--testo-l); line-height: 1.65; color: var(--text-2); }
+  .dono-testo > .dono-nota { font-size: var(--testo-m); line-height: 1.6; }
+  .dono-nota a { color: var(--cream); font-weight: 700; overflow-wrap: anywhere; }
+  .iban { font-size: clamp(1.75rem, 3vw, 2.25rem); }
+  .conto { margin: 0; width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 16px; border-top: 1px solid rgba(255, 255, 255, 0.3); padding-top: 24px; }
+  .conto dd { margin: 8px 0 0; font-size: var(--testo-m); font-weight: 600; }
   .altri { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); }
   .cards { margin-top: var(--spazio-titolo); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: var(--spazio-griglia); }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio); padding: var(--spazio-scheda); display: flex; flex-direction: column; gap: 16px; }

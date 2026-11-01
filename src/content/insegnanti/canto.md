@@ -1,9 +1,9 @@
 ---
-nome: Simona
+nome: Simona Russi
 foto: simona.jpg
-strumento: Canto
-ruolo: "voce"
-ascolta: Tony Effe, Ligabue, Mario Merola
+strumento: Canto e Coro
+ruolo: "canto e direzione del coro"
+ascolta: Tony Effe, Ligabue, Mario Merola, Anna Pepe, Angelina Mango
 ordine: 1
 ritratto: 2
 ---

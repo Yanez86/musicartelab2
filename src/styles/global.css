@@ -68,7 +68,8 @@ body {
 main, .site-footer { overflow-x: clip; }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
-a:hover { color: var(--cream); }
+/* I pulsanti gestiscono da soli il colore in hover (vedi "Pulsanti") */
+a:where(:not(.btn)):hover { color: var(--cream); }
 button { font: inherit; }
 
 .wrap { max-width: var(--wrap); margin: 0 auto; padding-left: 24px; padding-right: 24px; }
@@ -144,26 +145,37 @@ button { font: inherit; }
   text-transform: uppercase;
   color: var(--red-light);
 }
+/* Data a calendario degli eventi: giorno grande e mese abbreviato */
+.ev-date { display: flex; flex-direction: column; align-items: center; background: var(--red); color: #fff; border-radius: var(--raggio-s); padding: 12px 16px; min-width: 56px; }
+.ev-date b { font-family: var(--display); font-weight: 400; font-size: 2.5rem; line-height: 1; }
+.ev-date small { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
 
 /* ---------- Pulsanti ---------- */
+/* Tre tipi, con la stessa regola in tutto il sito:
+   .btn-red    azione principale, su fondo scuro o crema
+   .btn-cream  azione principale, su fondo rosso
+   .btn-line   azione secondaria o di navigazione: prende il colore del testo intorno */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   min-height: 48px;
-  padding: 12px 24px;
+  /* Con il bordo e un'icona da 24px fa 48px: alti uguali con o senza icona */
+  padding: 10px 24px;
   border-radius: 999px;
+  font-size: var(--testo-m);
   font-weight: 700;
   text-decoration: none;
   border: 2px solid transparent;
   cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 .btn-red { background: var(--red); color: #fff; }
+.btn-red:hover { background: var(--red-dark); }
 .btn-cream { background: var(--cream); color: var(--ink); }
-.btn-dark { background: var(--ink); color: #fff; }
-.btn-line { border-color: currentColor; background: transparent; }
-.btn:hover { filter: brightness(1.08); }
-.btn-cream:hover, .btn-line:hover { color: inherit; }
+.btn-cream:hover { background: var(--ink); color: #fff; }
+.btn-line { border-color: currentColor; background: transparent; color: inherit; }
+.btn-line:hover { background: color-mix(in srgb, currentColor 15%, transparent); }
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
 
 /* ---------- Intestazione ---------- */
@@ -186,13 +198,16 @@ button { font: inherit; }
   object-fit: cover;
   box-shadow: 0 0 0 3px rgba(237, 227, 209, 0.35);
 }
-.brand-name { font-family: var(--display); font-size: 1.625rem; letter-spacing: 0.02em; text-transform: uppercase; }
-.brand-name .script { color: var(--red-light); font-size: 1.05em; margin-left: 4px; }
+.brand-name { display: flex; align-items: center; font-family: var(--display); font-size: 1.625rem; line-height: 1; letter-spacing: 0.02em; text-transform: uppercase; }
+.brand-musicarte { font-size: 1.3em; }
+.brand-name .script { color: var(--red-light); font-size: 1.05em; }
+/* "a.p.s." sta in alto a destra di "lab", come un apice */
+.brand-lab { display: flex; align-items: flex-start; margin-left: 4px; }
+.brand-forma { color: #fff; font-size: 0.45em; font-weight: 400; margin-left: 5px; }
 .nav { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; font-size: var(--testo-s); font-weight: 600; }
 /* Il padding allarga l'area cliccabile dei link (circa 44px di altezza) */
 .nav a { padding: 12px 0; text-decoration: none; }
 .nav a[aria-current='page'] { color: var(--cream); text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 2px; }
-.nav .btn { min-height: 44px; padding: 12px 24px; }
 
 /* ---------- Intestazione di pagina ---------- */
 .page-head {
@@ -206,7 +221,7 @@ button { font: inherit; }
 
 /* ---------- Sezioni chiare ---------- */
 .cream { background: var(--cream); color: var(--ink); }
-.cream a:hover { color: var(--red); }
+.cream a:where(:not(.btn)):hover { color: var(--red); }
 
 /* ---------- Filtri ---------- */
 .filters { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -214,14 +229,15 @@ button { font: inherit; }
   min-height: 48px;
   padding: 12px 24px;
   border-radius: 999px;
-  font-size: var(--testo-s);
+  font-size: var(--testo-m);
   font-weight: 700;
   cursor: pointer;
   background: transparent;
   color: #fff;
   border: 2px solid var(--line-strong);
 }
-.filter[aria-pressed='true'] { background: var(--cream); color: var(--ink); border-color: var(--cream); }
+.filter:hover { border-color: var(--cream); }
+.filter:has(:checked) { background: var(--cream); color: var(--ink); border-color: var(--cream); }
 [hidden] { display: none !important; }
 
 /* ---------- Piè di pagina ---------- */
@@ -259,5 +275,5 @@ button { font: inherit; }
 /* Modalità a contrasto elevato di Windows: i colori di fondo spariscono,
    quindi il filtro scelto viene sottolineato. */
 @media (forced-colors: active) {
-  .filter[aria-pressed='true'] { text-decoration: underline 2px; text-underline-offset: 4px; }
+  .filter:has(:checked) { text-decoration: underline 2px; text-underline-offset: 4px; }
 }

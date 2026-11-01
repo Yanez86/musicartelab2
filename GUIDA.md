@@ -83,7 +83,7 @@ Lasciate una riga vuota tra un paragrafo e l’altro.
 |---|---|---|
 | `titolo` | sì | Nome dell’evento |
 | `sottotitolo` | no | Riga sotto il titolo |
-| `tipo` | sì | Concerto, Masterclass, Festa, Jam session… Diventa il filtro nella pagina Attività: usate sempre le stesse parole |
+| `tipo` | sì | Concerto, Masterclass, Festa, Jam session… Compare come etichetta sulla scheda: usate sempre le stesse parole |
 | `data` | sì | Il giorno, nel formato **AAAA-MM-GG**. Decide l’ordine e quando l’evento diventa “passato”. Se dura più giorni, il primo |
 | `quando` | sì | Testo libero che si legge sul sito: giorno, ora, più date |
 | `luogo` | sì | Dove |
@@ -139,24 +139,23 @@ sparisce da solo.**
 
 | Cosa | Dove | Note |
 |---|---|---|
-| Corsi | [`src/content/corsi/`](src/content/corsi) | `ordine` decide la posizione; `fasce` può contenere `bambini`, `ragazzi`, `adulti`; `insegnanti` collega il corso ai suoi insegnanti (vedi sotto) |
+| Corsi | [`src/content/corsi/`](src/content/corsi) | `ordine` decide la posizione; `insegnanti` collega il corso ai suoi insegnanti (vedi sotto) |
+| Composizione e durata di corsi e lezioni | [`src/pages/corsi.astro`](src/pages/corsi.astro) | Il riquadro «Info utili», prima delle schede |
 | Insegnanti | [`src/content/insegnanti/`](src/content/insegnanti) | Foto verticali (circa 800×1000 px) in `public/img/insegnanti/`, poi `foto: nome-file.jpg` |
-| Email, WhatsApp, indirizzo, anno dei corsi, quota della tessera, espressioni in inglese | [`src/data/sito.ts`](src/data/sito.ts) | Cambiate solo il testo tra apici `'…'` |
+| Email, WhatsApp, numero della sala prove, indirizzo, anno dei corsi, quota della tessera, consiglio direttivo, IBAN per le donazioni, espressioni in inglese | [`src/data/sito.ts`](src/data/sito.ts) | Cambiate solo il testo tra apici `'…'` |
+| Foto della sala prove | `public/img/sala-prove.jpg` | È una foto stock provvisoria: sostituite il file tenendo lo stesso nome |
 | Associazione | [`src/pages/associazione.astro`](src/pages/associazione.astro) | Chi siamo, cosa facciamo, come diventare soci |
 | Statuto | [`src/data/statuto.ts`](src/data/statuto.ts) | |
 | Privacy | [`src/pages/privacy.astro`](src/pages/privacy.astro) | |
 
 - **Aggiungere** un corso o un insegnante: aprite un file esistente, copiatene il contenuto, create un
   file nuovo nella stessa cartella e cambiate i testi.
-- **La pagina del corso**: ogni corso ha la sua pagina, all’indirizzo `/corsi/<nome del file>/`
-  (per esempio `/corsi/chitarra/`), con età, formula, giorni, quota e chi lo insegna.
-  Sotto i trattini del file potete scrivere una descrizione più lunga, anche su più paragrafi:
-  compare nella pagina del corso. Se manca, resta solo la frase di `breve`.
+- **La scheda del corso**: ogni corso ha la sua scheda nella pagina Corsi, all’indirizzo
+  `/corsi/#<nome del file>` (per esempio `/corsi/#canto`), con età, la frase di `breve` e chi lo insegna.
 - **Chi insegna**: nel file del corso, `insegnanti` elenca i nomi dei file degli insegnanti, senza `.md`.
   Per esempio nel corso di canto `insegnanti: [canto]` collega `src/content/insegnanti/canto.md`;
-  con due insegnanti `insegnanti: [chitarra, basso]`. Il corso compare anche nel libretto degli
-  insegnanti, alla voce “Insegna”. Se il nome non corrisponde a nessun file, la build si ferma
-  e il messaggio d’errore dice quale corso controllare.
+  con due insegnanti `insegnanti: [chitarra, batteria]`. Se il nome non corrisponde a nessun file,
+  la build si ferma e il messaggio d’errore dice quale corso controllare.
 - **Togliere** un corso o un insegnante: cancellate il suo file. Sparisce dal sito alla build successiva.
 
 ## Foto e locandine

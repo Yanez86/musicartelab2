@@ -1,8 +1,8 @@
 ---
 nome: Writing & Producing
 ordine: 10
-eta: 11–16 anni
-fasce: [ragazzi]
+eta: Dagli 11 anni in su
+fasce: [ragazzi, adulti]
 formula: Piccoli gruppi
 breve: Scrivere le proprie canzoni e dar loro forma, dal testo alla produzione del brano.
 ---

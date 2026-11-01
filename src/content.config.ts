@@ -21,8 +21,8 @@ const eventi = defineCollection({
   }),
 });
 
-// CORSI — un file .md per corso in src/content/corsi/; ognuno ha la sua pagina,
-// /corsi/<nome del file>/. Sotto i trattini si può scrivere una descrizione lunga.
+// CORSI — un file .md per corso in src/content/corsi/; ognuno ha la sua scheda
+// nella pagina Corsi, /corsi/#<nome del file>.
 const corsi = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/corsi' }),
   schema: z.object({
@@ -31,8 +31,6 @@ const corsi = defineCollection({
     eta: z.string(),
     fasce: z.array(z.enum(['bambini', 'ragazzi', 'adulti'])),
     formula: z.string(),
-    giorni: z.string().default('[giorno e orario]'),
-    quota: z.string().default('[€ — / mese]'),
     // File degli insegnanti del corso (senza .md), es. [canto]: compaiono nella
     // pagina del corso. Un nome sbagliato blocca la build con un messaggio d'errore.
     insegnanti: z.array(reference('insegnanti')).default([]),
@@ -50,7 +48,6 @@ const insegnanti = defineCollection({
     foto: z.string().optional(), // nome file in public/img/insegnanti/
     ritratto: z.number().default(0), // illustrazione segnaposto se manca la foto
     ruolo: z.string().optional(), // riga in corsivo sotto il nome, es. "voce"
-    insegna: z.string().optional(), // corsi tenuti; se manca si usa lo strumento
     ascolta: z.string().default('[brani o band preferite]'),
   }),
 });

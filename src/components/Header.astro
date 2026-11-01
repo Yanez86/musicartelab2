@@ -9,7 +9,7 @@ const { current = '', overlay = false } = Astro.props;
   <div class="wrap">
     <a href={u()} class="brand">
       <img src={u('img/logo.jpg')} alt={`Logo ${sito.nome}`} width="64" height="64" />
-      <span class="brand-name">Musicarte<span class="script">lab</span></span>
+      <span class="brand-name"><span class="brand-musicarte">Musicarte</span><span class="brand-lab"><span class="script">lab</span> <span class="brand-forma">a.p.s.</span></span></span>
     </a>
     <nav class="nav nav-desktop" aria-label="Principale">
       {menu.map((m) => (
@@ -27,7 +27,7 @@ const { current = '', overlay = false } = Astro.props;
   <div class="menu-top">
     <a href={u()} class="brand">
       <img src={u('img/logo.jpg')} alt={`Logo ${sito.nome}`} width="46" height="46" />
-      <span class="brand-name">Musicarte<span class="script">lab</span></span>
+      <span class="brand-name"><span class="brand-musicarte">Musicarte</span><span class="brand-lab"><span class="script">lab</span> <span class="brand-forma">a.p.s.</span></span></span>
     </a>
     <button type="button" class="menu-chiudi" aria-label="Chiudi il menu">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
@@ -75,7 +75,7 @@ const { current = '', overlay = false } = Astro.props;
       if (e.key === 'Escape' && !menu.hidden) imposta(false);
     });
     // Se si allarga la finestra oltre il breakpoint, il menu si richiude.
-    matchMedia('(min-width: 861px)').addEventListener('change', (e) => {
+    matchMedia('(min-width: 981px)').addEventListener('change', (e) => {
       if (e.matches && !menu.hidden) imposta(false);
     });
   }
@@ -90,16 +90,26 @@ const { current = '', overlay = false } = Astro.props;
     display: none;
     place-items: center;
     cursor: pointer;
+    transition: background 0.2s, color 0.2s;
   }
   .hamburger { background: var(--cream); color: var(--ink); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); }
+  .hamburger:hover { background: var(--red); color: #fff; }
   .menu-chiudi { display: grid; background: var(--red); color: #fff; }
+  .menu-chiudi:hover { background: var(--red-dark); }
 
-  @media (max-width: 860px) {
+  @media (max-width: 980px) {
     .nav-desktop { display: none; }
     .hamburger { display: grid; }
     .site-header .wrap { flex-wrap: nowrap; padding-top: 16px; padding-bottom: 16px; }
     .site-header .brand img { width: 46px; height: 46px; }
     .site-header .brand-name { font-size: 1.375rem; }
+  }
+  @media (max-width: 355px) {
+    .brand { gap: 8px; }
+    .brand-musicarte { font-size: 1.1em; }
+  }
+  @media (max-width: 340px) {
+    .brand-musicarte { font-size: 1em; }
   }
 
   .menu-tel {

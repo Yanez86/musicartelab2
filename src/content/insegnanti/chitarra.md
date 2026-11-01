@@ -1,8 +1,9 @@
 ---
-nome: Tobias
+nome: Tobias Winter
 foto: tobias.jpg
-strumento: Chitarra
-ruolo: "chitarra"
+strumento: Chitarra e basso
+ruolo: "chitarra e basso"
+ascolta: Pinguini Tattici Nucleari. Solo e soltanto loro.
 ordine: 2
 ritratto: 1
 ---

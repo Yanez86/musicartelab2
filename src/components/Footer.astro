@@ -6,7 +6,7 @@ import { u, nuovaScheda } from '../lib/url';
 <footer class="site-footer">
   <div class="wrap">
     <section class="social" aria-labelledby="social-title">
-      <h2 id="social-title" class="display">I nostri social</h2>
+      <h2 id="social-title" class="display">Seguici</h2>
       <ul>
         {social.map((s) => (
           <li>
@@ -38,9 +38,12 @@ import { u, nuovaScheda } from '../lib/url';
     </div>
     <div class="bigname" aria-hidden="true">Musicarte<span class="script">lab</span></div>
   </div>
+  <img class="calamaro" src={u('img/calamaro.svg')} alt="" width="16" height="16" loading="lazy" />
 </footer>
 
 <style>
+  .site-footer { position: relative; }
+  .calamaro { position: absolute; right: 12px; bottom: 12px; }
   .social { padding-top: 64px; padding-bottom: 8px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 40px; }
   .social h2 { font-size: var(--titolo-3); }
   .social ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 16px; }

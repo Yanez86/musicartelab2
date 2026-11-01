@@ -1,21 +1,20 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { sito } from '../data/sito';
-import { u } from '../lib/url';
+import { eventiDivisi, linkEvento } from '../lib/eventi';
+import { u, giorno, meseBreve } from '../lib/url';
 import Nome from '../components/Nome.astro';
 import Testo from '../components/Testo.astro';
+import IconaMail from '../components/IconaMail.astro';
+import IconaWhatsapp from '../components/IconaWhatsapp.astro';
+import IconaPin from '../components/IconaPin.astro';
 
-const corsi = await getCollection('corsi');
-const numeri = [
-  { n: String(sito.fondazione), d: 'L’anno in cui siamo nati' },
-  { n: String(corsi.length), d: 'Corsi, individuali e di gruppo' },
-  { n: '4+', d: 'Gli anni per cominciare, con Musichello' },
-];
+const { futuri } = await eventiDivisi();
+const prossimo = futuri[0];
 const attivita = [
   { t: 'Corsi', d: `Canto, chitarra, basso, batteria, pianoforte, ukulele e molto altro, per bambini, ragazzi e adulti, ${sito.periodoCorsi}.`, href: u('corsi/') },
-  { t: 'MusicarteBand', d: 'Allievi e docenti sullo stesso palco, con una formazione tipicamente rock: chitarre, basso, batteria, tastiera e voci.', href: u('#band') },
-  { t: 'Coro Rock', d: 'Nato nel 2022 come coro polifonico misto per adolescenti e adulti, punta ai classici del rock e alle ballad. E a Natale, i Christmas carol.', href: u('corsi/') },
+  { t: 'MusicarteBand', d: 'Allievi e docenti sullo stesso palco, con una formazione tipicamente rock: chitarre, basso, batteria e voci.', href: '#band' },
+  { t: 'Coro', d: 'Nato nel 2022 come coro polifonico misto per adolescenti e adulti, punta ai classici del rock e alle ballad. E a Natale, i Christmas carol.', href: u('insegnanti/#canto') },
   { t: 'Laboratori', d: 'Workshop musicali e creativi, conferenze, lezioni concerto e seminari: cerchiamo sempre proposte nuove da fare insieme ai soci.', href: u('attivita/') },
   { t: 'Fuori sede', d: 'Corsi nelle scuole, sala di registrazione, lezioni a domicilio, team building per aziende, concerti e spettacoli teatrali.', href: u('corsi/#fuori-sede') },
 ];
@@ -36,16 +35,29 @@ const attivita = [
       <h2 class="display display-m">Uno spazio<br /><span class="dot">da condividere</span></h2>
       <p>Fondata nel {sito.fondazione}, ma con molta strada già percorsa nel mondo dell’insegnamento musicale, <Nome /> nasce dal desiderio di creare uno spazio dove imparare a suonare e cantare, ma anche un luogo da condividere: un posto dove le diverse sensibilità musicali possano crescere, svilupparsi e incontrarsi.</p>
       <p>Durante l’anno, {sito.periodoCorsi}, gli allievi vengono preparati da insegnanti attenti, che colgono i punti di forza e le debolezze di ognuno e li aiutano a dare voce al proprio strumento e alla propria personalità.</p>
-      <dl class="numeri">
-        {numeri.map((x) => <div><dt>{x.d}</dt><dd>{x.n}</dd></div>)}
-      </dl>
     </div>
   </section>
 
-  <section class="motto">
-    <div class="wrap">
-      <p class="display motto-titolo">Noi miriamo sempre<br />al <span class="script">palco!</span></p>
-      <p class="motto-testo">Il nostro obiettivo è che i nostri giovani (o diversamente giovani) musicisti imparino a stare in una band e a confrontarsi con il pubblico. Così è nato il progetto MusicarteBand.</p>
+  <section id="band" class="band" aria-labelledby="band-title">
+    <div class="band-bg" aria-hidden="true">Band</div>
+    <div class="wrap band-grid">
+      <div class="band-testo">
+        <h2 id="band-title" class="display band-title">Noi miriamo sempre al <span class="script">palco!</span></h2>
+        <p class="band-lead">Il nostro obiettivo è che i nostri giovani (o diversamente giovani) musicisti imparino a stare in una band e a confrontarsi con il pubblico. Così è nato il progetto MusicarteBand.</p>
+        <p class="band-lead">Il gruppo ufficiale dell’associazione: allievi e docenti sullo stesso palco per un viaggio nella musica pop rock. La MusicarteBand si esibisce a feste, sagre ed eventi della zona e dal vivo ospita spesso altri “colleghi”.</p>
+        <dl class="band-info">
+          <div><dt>Formazione</dt><dd>Chitarre, basso, batteria e voci</dd></div>
+          {prossimo && <div><dt>Prossima data</dt><dd><a href={linkEvento(prossimo)}><Testo t={prossimo.data.titolo} /> · {giorno(prossimo.data.data)} {meseBreve(prossimo.data.data)}</a></dd></div>}
+          <div><dt>Chi suona</dt><dd>Allievi e docenti, con ospiti dal vivo</dd></div>
+        </dl>
+        <div class="btn-row">
+          <a href={u('attivita/')} class="btn btn-line">Seguici</a>
+        </div>
+      </div>
+      <div class="band-foto">
+        <img src={u('img/band.jpg')} alt="La band sul palco durante un concerto all’aperto" loading="lazy" />
+        <span class="script" lang="en">live in Merate</span>
+      </div>
     </div>
   </section>
 
@@ -71,11 +83,11 @@ const attivita = [
       <ol class="passi">
         <li><span>01</span><strong>Chiedi la tessera</strong><p>Scrivi a {sito.email}, su WhatsApp al {sito.whatsapp} o passa in sede, in {sito.indirizzo} a {sito.citta}.</p></li>
         <li><span>02</span><strong>Quota annuale</strong><p>La tessera costa {sito.quotaTessera} all’anno e serve anche per iscriversi ai corsi.</p></li>
-        <li><span>03</span><strong>Sei dei nostri</strong><p>Partecipi all’assemblea dei soci e alla vita dell’associazione, e paghi una quota ridotta per le masterclass.</p></li>
+        <li><span>03</span><strong>Sei dei nostri</strong><p>Partecipi all’assemblea dei soci e alla vita dell’associazione, e paghi una quota ridotta per alcune attività.</p></li>
       </ol>
       <div class="btn-row soci-btn">
-        <a href={`mailto:${sito.email}?subject=Tessera associativa`} class="btn btn-red">Chiedi la tessera</a>
-        <a href={u('statuto/')} class="btn btn-dark">Leggi lo statuto</a>
+        <a href={`mailto:${sito.email}?subject=Tessera associativa`} class="btn btn-red"><IconaMail />Chiedi la tessera</a>
+        <a href={u('statuto/')} class="btn btn-line">Leggi lo statuto</a>
       </div>
     </div>
   </section>
@@ -85,15 +97,18 @@ const attivita = [
       <h2 class="display display-m">Vieni a<br /><span class="dot">trovarci</span></h2>
       <p>La nostra sede è a {sito.citta}, in {sito.indirizzo}. Per conoscerci, chiedere la tessera o fissare una lezione di prova, scrivici.</p>
       <div class="btn-row">
-        <a href={`mailto:${sito.email}`} class="btn btn-cream">Scrivici</a>
-        <a href={sito.whatsappLink} class="btn btn-line">WhatsApp</a>
+        <a href={`mailto:${sito.email}`} class="btn btn-red"><IconaMail />Scrivici</a>
+        <a href={sito.whatsappLink} class="btn btn-line"><IconaWhatsapp />WhatsApp</a>
+        <a href={sito.mapsLink} class="btn btn-line"><IconaPin />Maps</a>
       </div>
     </div>
     <div class="scheda">
       <dl>
         <div><dt>Denominazione</dt><dd><Nome /> {sito.forma}, associazione di promozione sociale</dd></div>
+        <div><dt>Iscrizione</dt><dd>{sito.iscrizione}</dd></div>
         <div><dt>Sede</dt><dd>{sito.indirizzo}, {sito.cap} {sito.citta} ({sito.provincia})</dd></div>
         <div><dt>Codice fiscale</dt><dd>{sito.codiceFiscale}</dd></div>
+        <div><dt>Consiglio direttivo</dt>{sito.consiglioDirettivo.map((c) => <dd>{c.nome}, {c.ruolo}</dd>)}</div>
         <div><dt>Email</dt><dd><a href={`mailto:${sito.email}`}>{sito.email}</a></dd></div>
       </dl>
       <ul class="documenti">
@@ -113,17 +128,21 @@ const attivita = [
   .chi-foto span { position: absolute; right: -12px; bottom: -18px; background: var(--cream); color: var(--ink); padding: 12px 24px; border-radius: var(--raggio-s); transform: rotate(3deg); font-size: var(--titolo-5); box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
   .chi-testo { display: flex; flex-direction: column; gap: 24px; }
   .chi-testo > p:not(.kicker) { margin: 0; font-size: var(--testo-l); line-height: 1.65; color: var(--text-2); }
-  .numeri { margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; border-top: 1px solid var(--line); padding-top: 24px; }
-  .numeri div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 8px; }
-  .numeri dt { font-size: var(--testo-s); line-height: 1.4; color: var(--muted); }
-  .numeri dd { margin: 0; font-family: var(--display); font-size: 3.5rem; line-height: 1; color: var(--red-light); }
 
-  /* Motto */
-  .motto { background: var(--red); padding: var(--spazio-sezione) 0; }
-  .motto .wrap { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px 56px; }
-  .motto-titolo { font-size: var(--titolo-3); text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.35); }
-  .motto-titolo .script { color: var(--cream); }
-  .motto-testo { margin: 0; max-width: 460px; font-size: var(--testo-l); line-height: 1.6; color: #fbeff1; }
+  /* Band */
+  .band { background: var(--red); position: relative; overflow: hidden; }
+  .band-bg { position: absolute; right: -40px; top: -30px; font-family: var(--display); font-size: 21.25rem; line-height: 0.8; color: rgba(0, 0, 0, 0.12); text-transform: uppercase; white-space: nowrap; }
+  .band-grid { position: relative; padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: var(--spazio-colonne); align-items: center; }
+  .band-testo { display: flex; flex-direction: column; gap: 24px; }
+  .band-title { font-size: var(--titolo-3); line-height: 0.88; text-wrap: balance; text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.35); }
+  .band-title .script { color: var(--cream); }
+  .band-lead { margin: 0; font-size: var(--testo-l); line-height: 1.6; color: #fbeff1; }
+  .band-info { margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; border-top: 1px solid rgba(255, 255, 255, 0.3); padding-top: 24px; }
+  .band-info dt { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
+  .band-info dd { margin: 8px 0 0; font-size: var(--testo-s); font-weight: 600; }
+  .band-foto { position: relative; }
+  .band-foto img { width: 100%; height: 520px; object-fit: cover; object-position: center 75%; border-radius: var(--raggio); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); transform: rotate(2deg); }
+  .band-foto span { position: absolute; left: -12px; bottom: 32px; background: var(--ink); color: var(--cream); padding: 12px 24px; border-radius: var(--raggio-s); transform: rotate(-3deg); font-size: var(--titolo-5); box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
 
   /* Cosa facciamo */
   .cosa { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); }
@@ -158,4 +177,8 @@ const attivita = [
   .scheda dd { margin: 4px 0 0; font-size: var(--testo-m); line-height: 1.5; overflow-wrap: anywhere; }
   .documenti { margin: 0; padding: 24px 0 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px 32px; border-top: 1px solid var(--line); }
   .documenti a { font-weight: 700; color: var(--cream); }
+
+  @media (max-width: 760px) {
+    .band-foto img { height: 380px; }
+  }
 </style>
