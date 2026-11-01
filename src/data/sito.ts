@@ -7,19 +7,35 @@ export const sito = {
   indirizzo: 'Via Statale 5/7',
   cap: '23807',
   provincia: 'LC',
+  mapsLink: 'https://maps.app.goo.gl/4R9XFkPVUf9h8hcD9',
   codiceFiscale: '03855330134',
+  iscrizione: 'Iscritta al RUNTS e al Registro Provinciale APS L. 388/2000 con numero LC147 sez. prev. B',
   email: 'info@musicartelab.it',
   whatsapp: '340 9595064',
   whatsappLink: 'https://wa.me/393409595064',
+  salaProve: '339 6968261', // numero per prenotare la sala prove
+  salaProveLink: 'https://wa.me/393396968261',
   facebook: 'https://www.facebook.com/share/1FeQCNyUnE/',
   instagram: 'https://www.instagram.com/musicartelab/',
   annoCorsi: '[2026/27]',
   periodoCorsi: 'da settembre a giugno',
   fondazione: 2019,
-  quotaTessera: '[€ —]', // quota annuale della tessera associativa
+  quotaTessera: '€ 20', // quota annuale della tessera associativa
+  // Consiglio direttivo (pagina Associazione)
+  consiglioDirettivo: [
+    { nome: 'Simona Russi', ruolo: 'presidente' },
+    { nome: 'Giada Barzago', ruolo: 'vicepresidente' },
+    { nome: 'Fabio Mazzoli', ruolo: 'tesoriere' },
+    { nome: 'Alessandra Paganini', ruolo: 'consigliera' },
+    { nome: 'Silvana Visioli', ruolo: 'consigliera' },
+  ],
+  // Conto per le donazioni liberali (pagina Sostienici)
+  iban: 'IT82F0623051530000015191502',
+  contoIntestatario: 'MUSICARTE LAB A.P.S.',
+  contoBanca: 'Credit Agricole, Agenzia di Merate',
   // Riquadro "sorprese" che chiude le prossime attività
   sorprese: 'Un sacco di nuove ed emozionanti sorprese vi attendono: concerti, masterclass e serate da non perdere. Seguici sui social per scoprirle per primo.',
-  statutoPdf: '', // es. '/statuto.pdf' dopo averlo messo in public/
+  statutoPdf: '/statuto.pdf', // file in public/: solo lo statuto, senza l'atto costitutivo (ha i dati personali dei fondatori)
   // Codice di verifica di Google Search Console (solo la parte dentro content="…").
   googleVerifica: '',
 };
@@ -31,6 +47,7 @@ export const sito = {
 // masterclass, open day, workshop…).
 export const paroleInglesi = [
   'Rock Christmas',
+  'Rock Experience',
   'Open Jam',
   'Talk and Play',
   'Talk & Play',
@@ -38,6 +55,10 @@ export const paroleInglesi = [
   'Christmas carol',
   'Xmas carol',
   'Writing & Producing',
+  'Writing & Production',
+  'The Bridge Festival',
+  'Circle Song',
+  'black music',
 ];
 
 export const menu = [
@@ -46,6 +67,7 @@ export const menu = [
   { href: 'insegnanti/', label: 'Insegnanti' },
   { href: 'associazione/', label: 'Associazione' },
   { href: 'sostienici/', label: 'Sostienici' },
+  { href: 'contattaci/', label: 'Contattaci' },
 ];
 
 // Social: icone ufficiali dai kit brand di Meta in public/img/social/,

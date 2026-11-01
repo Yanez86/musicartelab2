@@ -10,6 +10,7 @@ import EventoMini from '../../components/EventoMini.astro';
 import { eventiDivisi, inArrivo, inizioIso, inizioOggi, testoBreve } from '../../lib/eventi';
 import { u, nuovaScheda } from '../../lib/url';
 import { sito } from '../../data/sito';
+import IconaWhatsapp from '../../components/IconaWhatsapp.astro';
 
 export async function getStaticPaths() {
   const eventi = await getCollection('eventi');
@@ -102,7 +103,7 @@ const scheda = {
       {!futuro && <p class="concluso">Questa attività si è già svolta. Qui sotto trovi le prossime.</p>}
       <div class="btn-row">
         {futuro && d.prenotazione && <a href={d.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{d.bottone}<NuovaScheda /></a>}
-        <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
+        <a href={sito.whatsappLink} class="btn btn-line"><IconaWhatsapp />Info su WhatsApp</a>
       </div>
       <div class="condividi" data-condividi data-link={indirizzo} data-titolo={titolo}>
         <span class="condividi-label">Condividi l’attività</span>
@@ -191,7 +192,6 @@ const scheda = {
   .info { margin: 0; padding-left: 24px; display: flex; flex-direction: column; gap: 8px; font-size: var(--testo-m); line-height: 1.5; color: var(--on-cream); }
   .info li::marker { color: var(--red); }
   .concluso { margin: 0; font-weight: 600; color: var(--red-dark); }
-  .scheda .btn-line { color: var(--ink); }
   .condividi { display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid rgba(20, 13, 15, 0.15); }
   .condividi-label { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
   .condividi-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }

@@ -9,16 +9,16 @@ const nn = (i: number) => String(i + 1).padStart(2, '0');
 ---
 <Base title="Statuto" current="statuto/" description={`Lo statuto di ${sito.nome} ${sito.forma}, associazione di promozione sociale di ${sito.citta}: chi siamo, cosa facciamo e come funziona l’associazione.`}>
   <div class="wrap page-head">
-    <div class="head-txt">
+    <div class="head-riga">
       <h1 class="display display-xl">Statuto<span class="dot">.</span></h1>
-      <p class="lead intro">Chi siamo, nero su bianco. {approvazione}</p>
+      {sito.statutoPdf && (
+        <a href={u(sito.statutoPdf)} class="btn btn-red" download>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v11"></path><path d="M7 10l5 5 5-5"></path><path d="M5 20h14"></path></svg>
+          Scarica statuto
+        </a>
+      )}
     </div>
-    {sito.statutoPdf && (
-      <a href={u(sito.statutoPdf)} class="btn btn-red" download>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v11"></path><path d="M7 10l5 5 5-5"></path><path d="M5 20h14"></path></svg>
-        Scarica PDF
-      </a>
-    )}
+    <p class="lead intro">Chi siamo, nero su bianco. {approvazione}</p>
   </div>
 
   <section class="cream corpo">
@@ -34,16 +34,23 @@ const nn = (i: number) => String(i + 1).padStart(2, '0');
           <section id={`art-${i + 1}`}>
             <span class="art-n">{nn(i)}</span>
             <h2 class="display">{a.titolo}</h2>
-            {a.testo.split(/\n\n+/).map((p) => <p>{p}</p>)}
+            {a.testo.split(/\n\n+/).map((p) => p.startsWith('- ')
+              ? <ul>{p.split('\n').map((r) => <li>{r.slice(2)}</li>)}</ul>
+              : <p>{p}</p>)}
           </section>
         ))}
       </article>
     </div>
   </section>
+
+  <a href="#top" class="btn btn-red su">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20V6"></path><path d="M6 12l6-6 6 6"></path></svg>
+    Torna su
+  </a>
 </Base>
 
 <style>
-  .head-txt { display: flex; flex-direction: column; gap: 32px; width: 100%; }
+  .head-riga { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; width: 100%; }
   .corpo { padding: var(--spazio-sezione) 0; }
   .layout { display: flex; flex-wrap: wrap; gap: var(--spazio-colonne); align-items: flex-start; }
   .indice { flex: 1 1 280px; background: var(--ink); color: #fff; border-radius: var(--raggio); padding: var(--spazio-scheda); }
@@ -58,5 +65,12 @@ const nn = (i: number) => String(i + 1).padStart(2, '0');
   .art-n { font-family: var(--display); font-size: 3.5rem; line-height: 1; color: var(--red); }
   .articoli h2 { font-size: var(--titolo-4); }
   /* max-width: righe di circa 75 caratteri, più facili da leggere */
-  .articoli p { margin: 0; max-width: 36em; font-size: var(--testo-l); line-height: 1.75; color: var(--on-cream); }
+  .articoli p, .articoli ul { margin: 0; max-width: 36em; font-size: var(--testo-l); line-height: 1.75; color: var(--on-cream); }
+  .articoli ul { padding-left: 1.25em; }
+  .su { position: fixed; left: 24px; bottom: 24px; z-index: 5; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
+  /* Compare dopo il primo scroll; dove il browser non lo supporta resta sempre visibile */
+  @supports (animation-timeline: scroll()) {
+    .su { animation: compari linear both; animation-timeline: scroll(); animation-range: 0 480px; }
+    @keyframes compari { from { opacity: 0; visibility: hidden; } }
+  }
 </style>

@@ -1,9 +1,9 @@
 ---
 nome: Canto
 ordine: 5
-eta: Dai 12 anni · adulti
-fasce: [ragazzi, adulti]
+eta: Dagli 8 anni in su
+fasce: [bambini, ragazzi, adulti]
 insegnanti: [canto]
-formula: Individuale · 60 min
+formula: Individuale (45 min), di coppia (60 min)
 breve: Respirazione, tecnica vocale e interpretazione applicate al canto pop rock.
 ---

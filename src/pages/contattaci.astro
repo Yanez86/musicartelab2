@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import { sito } from '../data/sito';
+import { u } from '../lib/url';
+import IconaMail from '../components/IconaMail.astro';
+
+const motivi = ['Informazioni sui corsi', 'Hai un progetto da proporci?', 'Sei un insegnante', 'Vuoi organizzare un evento'];
+---
+<Base title="Contattaci" current="contattaci/" description={`Scrivi a ${sito.nome}: informazioni sui corsi, progetti da proporci, insegnanti ed eventi da organizzare.`}>
+  <div class="wrap page-head">
+    <h1 class="display display-xl">Contattaci<span class="dot">.</span></h1>
+    <p class="lead intro">Dicci cosa cerchi e raccontaci qualcosa di te. Siamo sempre aperti a collaborazioni, non solo con persone, enti e comuni, ma anche con scuole e altre associazioni, di musica o altro.</p>
+  </div>
+
+  <section class="wrap contatti">
+    <form class="modulo" action={`mailto:${sito.email}`} data-contatto>
+      <fieldset>
+        <legend>Di cosa si tratta?</legend>
+        <div class="filters">
+          {motivi.map((m) => <label class="filter"><input type="radio" name="motivo" value={m} required />{m}</label>)}
+        </div>
+      </fieldset>
+      <label class="campo">Nome<input type="text" name="nome" autocomplete="name" required /></label>
+      <label class="campo">Messaggio<textarea name="messaggio" rows="6" maxlength="1500" required></textarea></label>
+      <button type="submit" class="btn btn-red"><IconaMail />Prepara l’email</button>
+      <p class="nota">Si apre la tua app di posta con il messaggio già pronto: a te basta premere invia. <a href={u('privacy/')}>Privacy</a></p>
+    </form>
+
+    <dl class="recapiti">
+      <div><dt>Email</dt><dd><a href={`mailto:${sito.email}`}>{sito.email}</a></dd></div>
+      <div><dt>WhatsApp</dt><dd><a href={sito.whatsappLink}>{sito.whatsapp}</a></dd></div>
+      <div><dt>Sede</dt><dd>{sito.indirizzo}, {sito.cap} {sito.citta} ({sito.provincia})</dd></div>
+    </dl>
+  </section>
+</Base>
+
+<script>
+  // Il sito non ha un server: il modulo prepara un'email nell'app di posta di chi scrive.
+  const modulo = document.querySelector<HTMLFormElement>('[data-contatto]');
+  modulo?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const dati = new FormData(modulo);
+    const oggetto = encodeURIComponent(`Dal sito: ${dati.get('motivo')}`);
+    const testo = encodeURIComponent(`${dati.get('messaggio')}\n\n${dati.get('nome')}`);
+    location.href = `${modulo.action}?subject=${oggetto}&body=${testo}`;
+  });
+</script>
+
+<style>
+  .contatti { padding-bottom: var(--spazio-sezione); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: var(--spazio-colonne); align-items: start; }
+  .modulo { background: var(--card); border: 1px solid var(--line); border-radius: var(--raggio); padding: var(--spazio-riquadro); display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+  fieldset { margin: 0; padding: 0; border: 0; }
+  legend, .campo { font-size: var(--testo-s); font-weight: 700; }
+  legend { padding: 0; margin-bottom: 12px; }
+  .filter { position: relative; }
+  .filter input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .filter:has(:focus-visible) { outline: 3px solid var(--cream); outline-offset: 3px; }
+  .campo { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+  .campo input, .campo textarea { font: inherit; font-size: var(--testo-m); font-weight: 400; color: var(--text); background: var(--ink); border: 1px solid var(--muted); border-radius: var(--raggio-s); padding: 12px 16px; min-height: 48px; resize: vertical; }
+  .nota { margin: 0; font-size: var(--testo-s); line-height: 1.5; color: var(--muted); }
+  .nota a { color: var(--cream); font-weight: 700; }
+  .recapiti { margin: 0; display: flex; flex-direction: column; gap: 24px; }
+  .recapiti dt { font-size: var(--testo-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); }
+  .recapiti dd { margin: 4px 0 0; font-size: var(--testo-l); line-height: 1.5; overflow-wrap: anywhere; }
+</style>

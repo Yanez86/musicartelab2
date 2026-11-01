@@ -2,17 +2,22 @@
 import Base from '../layouts/Base.astro';
 import Camino from '../components/Camino.astro';
 import Libretto from '../components/Libretto.astro';
-import { eventiDivisi, inArrivo, linkEvento } from '../lib/eventi';
-import { u, giorno, meseBreve } from '../lib/url';
+import { eventiDivisi, inArrivo } from '../lib/eventi';
+import { u } from '../lib/url';
 import { sito } from '../data/sito';
 import Nome from '../components/Nome.astro';
-import Testo from '../components/Testo.astro';
 import EventoTop from '../components/EventoTop.astro';
 import EventoMini from '../components/EventoMini.astro';
 import CorsiSchede from '../components/CorsiSchede.astro';
-import { corsiInOrdine } from '../lib/corsi';
+import IconaWhatsapp from '../components/IconaWhatsapp.astro';
 
-const corsi = await corsiInOrdine();
+// In home i corsi sono divisi in quattro aree, con le età scritte qui.
+const aree = [
+  { nome: 'Strumento', corpo: 'Chitarra, basso, batteria, pianoforte, ukulele', eta: 'Dagli 8 anni in su', href: u('corsi/#strumenti-musicali') },
+  { nome: 'Canto', eta: 'Dagli 8 anni in su', href: u('corsi/#canto') },
+  { nome: 'Writing & Production', eta: 'Dagli 11 anni in su', href: u('corsi/#writing-producing') },
+  { nome: 'Musichello', corpo: 'Propedeutica musicale per bambini', eta: '4–8 anni', href: u('corsi/#musichello') },
+];
 const { recenti, futuri, principale, principaleFuturo } = await eventiDivisi();
 // In home: in grande l'evento principale (il più vicino a oggi), sotto i
 // successivi in arrivo e poi i più recenti già passati.
@@ -21,9 +26,18 @@ const prossimiAltri = futuri.filter((e) => e.id !== principale?.id);
 const recentiPassati = passati.filter((e) => e.id !== principale?.id);
 // Schede sotto l'evento principale: prima quelle in arrivo, poi i passati più recenti.
 const ultimi = [...prossimiAltri.slice(0, 2), ...recentiPassati].slice(0, 3);
-const strumenti = ['Canto', 'Chitarra', 'Basso', 'Batteria', 'Pianoforte', 'Ukulele', 'Coro Rock', 'Musichello'];
+// Fascia che scorre: ogni voce porta al suo corso.
+const corsoStrumenti = u('corsi/#strumenti-musicali');
+const strumenti = [
+  { nome: 'Canto', href: u('corsi/#canto') },
+  { nome: 'Chitarra', href: corsoStrumenti },
+  { nome: 'Basso', href: corsoStrumenti },
+  { nome: 'Batteria', href: corsoStrumenti },
+  { nome: 'Pianoforte', href: corsoStrumenti },
+  { nome: 'Ukulele', href: corsoStrumenti },
+  { nome: 'Musichello', href: u('corsi/#musichello') },
+];
 const giro = [...strumenti, ...strumenti];
-const prossimo = futuri[0];
 // Scheda dell'associazione per Google (dati strutturati schema.org).
 const assoluto = (path = '') => new URL(u(path), Astro.site).href;
 const scheda = {
@@ -55,10 +69,10 @@ const scheda = {
     <div class="hero-fade"></div>
     <Camino />
     <div class="wrap hero-body">
-      <p class="kicker rise">{sito.forma} · {sito.sottotitolo} · {sito.citta}</p>
+      <p class="kicker rise">{sito.sottotitolo} · {sito.citta}</p>
       <h1 class="display hero-title rise" style="animation-delay: 0.15s">Fare musica<br /><span class="cream-text">insieme</span><span class="dot">.</span></h1>
       <div class="hero-cta rise" style="animation-delay: 0.3s">
-        <p class="hero-lead"><strong>Corsi, eventi e tanto rock.</strong><br />Siamo un’associazione di Merate che insegna musica pop e rock e la porta dal vivo.</p>
+        <p class="hero-lead"><strong>Corsi, eventi e tanto altro!</strong><br />Vogliamo portare sul territorio la <b>Musica</b> in tanti modi diversi, vieni a scoprire come.</p>
         <div class="btn-row">
           <a href={u('corsi/')} class="btn btn-red">Scopri i corsi</a>
           <a href={u('attivita/')} class="btn btn-line">Prossime attività</a>
@@ -70,7 +84,7 @@ const scheda = {
   <section class="marquee-band" aria-label="Strumenti">
     <div class="marquee">
       {giro.map((s, i) => (
-        <span aria-hidden={i >= strumenti.length ? 'true' : undefined}>{s}<span class="nota-m" aria-hidden="true">♪</span></span>
+        <span aria-hidden={i >= strumenti.length ? 'true' : undefined}><a href={s.href} tabindex={i >= strumenti.length ? -1 : undefined}>{s.nome}</a><span class="nota-m" aria-hidden="true">♪</span></span>
       ))}
     </div>
     <button type="button" class="pausa" aria-pressed="false" aria-label="Ferma le animazioni">
@@ -87,7 +101,7 @@ const scheda = {
       </div>
       {principale && <EventoTop evento={principale} futuro={principaleFuturo} breve livello="h3" />}
       <div class="ev-grid">
-        {ultimi.map((e) => <EventoMini evento={e} />)}
+        {ultimi.map((e) => <EventoMini evento={e} breve />)}
       </div>
     </section>
   )}
@@ -95,9 +109,9 @@ const scheda = {
   <section class="wrap corsi-home">
     <div class="sec-head">
       <h2 class="display display-l">Corsi</h2>
-      <p class="lead">Lezioni individuali e di gruppo sul repertorio pop rock, {sito.periodoCorsi}.</p>
+      <p class="lead">Lezioni individuali e di gruppo, {sito.periodoCorsi}.</p>
     </div>
-    <CorsiSchede corsi={corsi} />
+    <CorsiSchede aree={aree} />
   </section>
 
   <section class="wrap sede">
@@ -113,31 +127,26 @@ const scheda = {
       <p>Fondata nel {sito.fondazione}, ma con molta strada già percorsa nel mondo dell’insegnamento musicale, <Nome /> nasce dal desiderio di creare uno spazio dove imparare a suonare e cantare, ma anche un luogo da condividere, dove le diverse sensibilità musicali possano crescere e incontrarsi.</p>
       <p>Da settembre a giugno gli allievi vengono seguiti da insegnanti attenti ai punti di forza di ognuno. E l’obiettivo è sempre lo stesso: <strong class="cream-text">il palco.</strong></p>
       <div class="btn-row">
-        <a href={u('associazione/')} class="btn btn-line cream-text">Chi siamo</a>
+        <a href={u('associazione/')} class="btn btn-line">Chi siamo</a>
       </div>
     </div>
   </section>
 
-  <section id="band" class="band" aria-labelledby="band-title">
-    <div class="band-bg" aria-hidden="true">Band</div>
+  <section class="band" aria-labelledby="sala-title">
+    <div class="band-bg" aria-hidden="true">Prove</div>
     <div class="wrap band-grid">
-      <div class="band-testo">
-        <p class="kicker">Noi miriamo sempre al palco</p>
-        <h2 id="band-title" class="display band-title">Musicarte<wbr /><span class="script cream-text">Band</span></h2>
-        <p class="band-lead">Il gruppo ufficiale dell’associazione: allievi e docenti sullo stesso palco per un viaggio nella musica pop rock. La MusicarteBand si esibisce a feste, sagre ed eventi della zona e dal vivo ospita spesso altri “colleghi”.</p>
-        <dl class="band-info">
-          <div><dt>Formazione</dt><dd>Chitarre, basso, batteria, tastiera e voci</dd></div>
-          {prossimo && <div><dt>Prossima data</dt><dd><a href={linkEvento(prossimo)}><Testo t={prossimo.data.titolo} /> · {giorno(prossimo.data.data)} {meseBreve(prossimo.data.data)}</a></dd></div>}
-          <div><dt>Chi suona</dt><dd>Allievi e docenti, con ospiti dal vivo</dd></div>
-        </dl>
-        <div class="btn-row">
-          <a href={`mailto:${sito.email}?subject=MusicarteBand`} class="btn btn-cream">Suona con la band</a>
-          <a href={u('attivita/')} class="btn btn-line">Dove ascoltarla</a>
-        </div>
-      </div>
       <div class="band-foto">
-        <img src={u('img/band.jpg')} alt="La band sul palco durante un concerto all’aperto" loading="lazy" />
-        <span class="script" lang="en">live in Merate</span>
+        <img src={u('img/sala-prove.jpg')} alt="Sala prove con amplificatori, casse e aste per microfono" loading="lazy" />
+      </div>
+      <div class="band-testo">
+        <h2 id="sala-title" class="display band-title">Hai bisogno di uno <span class="cream-text">spazio</span> dove suonare con gli <span class="cream-text">amici</span>?</h2>
+        <p class="band-lead">La nostra sala prove si trova in sede <strong>Musicarte</strong> a {sito.citta}</p>
+        <div class="btn-row contatto">
+          <a href={sito.salaProveLink} class="btn btn-cream">
+            <IconaWhatsapp />
+            Prenota<span class="sr-only"> su WhatsApp</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -150,11 +159,6 @@ const scheda = {
       </div>
       <Libretto livello="h3" />
     </div>
-  </section>
-
-  <section class="wrap cta-finale">
-    <h2 class="display display-l">La prima lezione<br /><span class="dot">è gratis.</span></h2>
-    <a href={`mailto:${sito.email}?subject=Lezione di prova`} class="btn btn-cream">Prenota ora</a>
   </section>
 </Base>
 
@@ -188,6 +192,7 @@ const scheda = {
   .hero-cta { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
   .hero-lead { margin: 0; max-width: 460px; font-size: var(--testo-l); line-height: 1.55; color: var(--text-2); }
   .hero-lead strong { color: #fff; font-size: var(--testo-xl); }
+  .hero-lead b { color: #fff; }
   .rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
   @keyframes rise { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
 
@@ -199,12 +204,15 @@ const scheda = {
   }
   .marquee { display: flex; width: max-content; animation: scorri 32s linear infinite; font-family: var(--display); font-size: 2.875rem; line-height: 1; text-transform: uppercase; white-space: nowrap; }
   .marquee > span { display: flex; align-items: center; gap: 32px; padding-right: 32px; }
+  .marquee a { text-decoration: none; }
+  .marquee:hover, .marquee:focus-within { animation-play-state: paused; }
   .nota-m { color: var(--cream); }
   .pausa {
     position: absolute; z-index: 1; top: 50%; right: max(44px, calc(50% - var(--wrap) / 2 + 24px)); transform: translateY(-50%);
     width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--cream); background: var(--ink); color: var(--cream);
-    display: grid; place-items: center; cursor: pointer;
+    display: grid; place-items: center; cursor: pointer; transition: background 0.2s, color 0.2s;
   }
+  .pausa:hover { background: var(--cream); color: var(--ink); }
   @media (prefers-reduced-motion: reduce) { .pausa { display: none; } }
   @keyframes scorri { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
@@ -213,6 +221,8 @@ const scheda = {
 
   /* Corsi */
   .corsi-home { padding-top: var(--spazio-sezione); }
+  .corsi-home .sec-head { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .corsi-home .lead { max-width: none; }
 
   /* Sede */
   .sede { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: var(--spazio-colonne); align-items: center; }
@@ -231,12 +241,9 @@ const scheda = {
   .band-testo { display: flex; flex-direction: column; gap: 24px; }
   .band-title { font-size: var(--titolo-3); line-height: 0.88; text-wrap: balance; text-shadow: 0.035em 0.035em 0 rgba(0, 0, 0, 0.35); }
   .band-lead { margin: 0; font-size: var(--testo-l); line-height: 1.6; color: #fbeff1; }
-  .band-info { margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; border-top: 1px solid rgba(255, 255, 255, 0.3); padding-top: 24px; }
-  .band-info dt { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
-  .band-info dd { margin: 8px 0 0; font-size: var(--testo-s); font-weight: 600; }
+  .contatto { border-top: 1px solid rgba(255, 255, 255, 0.3); padding-top: 24px; }
   .band-foto { position: relative; }
-  .band-foto img { width: 100%; height: 520px; object-fit: cover; object-position: 30% 60%; border-radius: var(--raggio); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); transform: rotate(2deg); }
-  .band-foto span { position: absolute; left: -12px; bottom: 32px; background: var(--ink); color: var(--cream); padding: 12px 24px; border-radius: var(--raggio-s); transform: rotate(-3deg); font-size: var(--titolo-5); box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45); }
+  .band-foto img { width: 100%; height: 520px; object-fit: cover; object-position: center 75%; border-radius: var(--raggio); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); transform: rotate(2deg); }
 
   /* Insegnanti */
   .insegnanti-home { padding: var(--spazio-sezione) 0; background: radial-gradient(ellipse at 50% 45%, #3a2328 0%, var(--ink) 65%); }
@@ -244,9 +251,6 @@ const scheda = {
   /* Eventi */
   .eventi-home { padding-top: var(--spazio-sezione); }
   .ev-grid { margin-top: var(--spazio-griglia); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: var(--spazio-griglia); }
-
-  /* Chiusura */
-  .cta-finale { padding-top: var(--spazio-sezione); padding-bottom: var(--spazio-sezione); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 32px; }
 
   @media (max-width: 760px) {
     .sede-foto img { height: 380px; }

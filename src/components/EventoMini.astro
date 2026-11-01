@@ -2,21 +2,27 @@
 // Scheda piccola di un evento, con il link alla sua pagina: usata in home
 // e in fondo alla pagina di ogni evento. Gli eventi in arrivo hanno il fondo
 // bordeaux e il bordo rosso, per distinguerli dai passati.
+// In home (breve) l'etichetta dice solo se l'evento è in arrivo o passato.
 import type { CollectionEntry } from 'astro:content';
 import Testo from './Testo.astro';
 import { giorno, meseBreve } from '../lib/url';
 import { inArrivo, linkEvento } from '../lib/eventi';
 
-interface Props { evento: CollectionEntry<'eventi'> }
-const { evento: e } = Astro.props;
+interface Props { evento: CollectionEntry<'eventi'>; breve?: boolean }
+const { evento: e, breve = false } = Astro.props;
 const futuro = inArrivo(e);
 ---
 <a href={linkEvento(e)} class:list={['ev-mini', { 'ev-mini--futuro': futuro }]}>
   <span class="ev-date"><b>{giorno(e.data.data)}</b><small>{meseBreve(e.data.data)}</small></span>
   <span class="ev-mini-txt">
-    <span class="tag">{futuro ? `In arrivo · ${e.data.tipo}` : e.data.tipo}</span>
+    {breve
+      ? <span class="tag" lang="en">{futuro ? 'Coming next' : 'Past event'}</span>
+      : <span class="tag">{futuro ? `In arrivo · ${e.data.tipo}` : e.data.tipo}</span>}
     <span class="ev-mini-title"><Testo t={e.data.titolo} />{e.data.sottotitolo && <> · <Testo t={e.data.sottotitolo} /></>}</span>
-    <span class="ev-mini-luogo"><Testo t={e.data.luogo} /></span>
+    <span class="ev-mini-luogo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"></path></svg>
+      <span><Testo t={e.data.luogo} /></span>
+    </span>
   </span>
 </a>
 
@@ -25,10 +31,8 @@ const futuro = inArrivo(e);
   .ev-mini:hover { transform: translateY(-8px); color: #fff; }
   .ev-mini--futuro { background: #2e1419; border-color: var(--red); }
   .ev-mini--futuro .tag { color: var(--cream); }
-  .ev-date { display: flex; flex-direction: column; align-items: center; background: var(--red); border-radius: var(--raggio-s); padding: 12px 16px; min-width: 56px; }
-  .ev-date b { font-family: var(--display); font-weight: 400; font-size: 2.5rem; line-height: 1; }
-  .ev-date small { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cream); }
   .ev-mini-txt { display: flex; flex-direction: column; gap: 8px; }
   .ev-mini-title { font-family: var(--display); font-size: var(--titolo-5); line-height: 1.02; text-transform: uppercase; }
-  .ev-mini-luogo { font-size: var(--testo-s); color: var(--muted); }
+  .ev-mini-luogo { display: flex; align-items: center; gap: 8px; font-size: var(--testo-s); color: var(--muted); }
+  .ev-mini-luogo svg { flex: none; color: var(--red-light); }
 </style>

@@ -5,9 +5,10 @@ import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
 import Testo from './Testo.astro';
 import NuovaScheda from './NuovaScheda.astro';
-import { u } from '../lib/url';
+import { u, giorno, meseBreve } from '../lib/url';
 import { linkEvento } from '../lib/eventi';
 import { sito } from '../data/sito';
+import IconaWhatsapp from './IconaWhatsapp.astro';
 
 // `livello`: h3 quando il riquadro sta sotto un titolo di sezione (in home).
 interface Props { evento: CollectionEntry<'eventi'>; futuro: boolean; breve?: boolean; livello?: 'h2' | 'h3' }
@@ -15,27 +16,38 @@ const { evento: top, futuro: topFuturo, breve = false, livello: Titolo = 'h2' } 
 const { Content: TopDesc } = await render(top);
 const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 ---
-<article class="top" id={top.id}>
+<article class:list={['top', { 'top--breve': breve }]} id={top.id}>
   <a href={linkEvento(top)} class="top-img" tabindex="-1" aria-hidden="true"><img src={img(top.data.locandina)} alt="" loading="lazy" /></a>
+  {breve && <span class="ev-date top-date"><b>{giorno(top.data.data)}</b><small>{meseBreve(top.data.data)}</small></span>}
   <div class="top-txt">
-    <span class="top-tag">{topFuturo ? 'Prossima attività' : 'La più recente'} · {top.data.tipo}</span>
+    <span class="top-tag">
+      {breve
+        ? <span lang="en">{topFuturo ? 'Coming next' : 'Past event'}</span>
+        : <>{topFuturo ? 'Prossima attività' : 'La più recente'} · {top.data.tipo}</>}
+    </span>
     <Titolo class="display top-title"><a href={linkEvento(top)}><Testo t={top.data.titolo} />{top.data.sottotitolo && <><br /><span><Testo t={top.data.sottotitolo} /></span></>}</a></Titolo>
-    <dl class="top-dati">
-      <div><dt>Quando</dt><dd>{top.data.quando}</dd></div>
-      <div><dt>Dove</dt><dd><Testo t={top.data.luogo} /></dd></div>
-      {top.data.quota && <div><dt>Quota</dt><dd><Testo t={top.data.quota} /></dd></div>}
-    </dl>
     {breve ? (
-      <div class="btn-row">
-        {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{top.data.bottone}<NuovaScheda /></a>}
-        <a href={linkEvento(top)} class="btn btn-dark">Vai alla pagina dell’attività</a>
+      <div class="top-riga">
+        <p class="top-luogo">
+          <svg width="29" height="29" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"></path></svg>
+          <span><span class="sr-only">Dove: </span><Testo t={top.data.luogo} /></span>
+        </p>
+        <div class="btn-row">
+          {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{top.data.bottone}<NuovaScheda /></a>}
+          <a href={linkEvento(top)} class="btn btn-line" aria-label={`Scopri di più su ${top.data.titolo}`}>Scopri di più</a>
+        </div>
       </div>
     ) : (
       <>
+        <dl class="top-dati">
+          <div><dt>Quando</dt><dd>{top.data.quando}</dd></div>
+          <div><dt>Dove</dt><dd><Testo t={top.data.luogo} /></dd></div>
+          {top.data.quota && <div><dt>Quota</dt><dd><Testo t={top.data.quota} /></dd></div>}
+        </dl>
         <div class="top-desc"><TopDesc /></div>
         <div class="btn-row">
-          {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-dark" target="_blank" rel="noopener">{top.data.bottone}<NuovaScheda /></a>}
-          <a href={sito.whatsappLink} class="btn btn-line">Info su WhatsApp</a>
+          {topFuturo && top.data.prenotazione && <a href={top.data.prenotazione} class="btn btn-red" target="_blank" rel="noopener">{top.data.bottone}<NuovaScheda /></a>}
+          <a href={sito.whatsappLink} class="btn btn-line"><IconaWhatsapp />Info su WhatsApp</a>
         </div>
       </>
     )}
@@ -43,18 +55,27 @@ const img = (f?: string) => (f ? u(`img/eventi/${f}`) : u('img/concerto.jpg'));
 </article>
 
 <style>
-  .top { background: var(--cream); color: var(--ink); border-radius: var(--raggio); overflow: hidden; display: flex; flex-wrap: wrap; scroll-margin-top: 24px; }
+  .top { position: relative; background: var(--cream); color: var(--ink); border-radius: var(--raggio); overflow: hidden; display: flex; flex-wrap: wrap; scroll-margin-top: 24px; }
+  .top-date { position: absolute; right: 16px; top: 16px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
   .top-img { flex: 1 1 340px; min-height: 420px; background: var(--card); display: flex; }
-  .top-img img { width: 100%; height: 100%; max-height: 640px; object-fit: cover; object-position: center top; }
+  /* La locandina si vede sempre intera: contain, mai ritagliata */
+  .top-img img { width: 100%; height: 100%; max-height: 640px; object-fit: contain; }
+  /* In home la locandina decide l'altezza del riquadro, il testo le sta centrato accanto */
+  .top--breve .top-img { min-height: 0; }
+  .top--breve .top-txt { padding-top: 32px; padding-bottom: 32px; gap: 16px; justify-content: center; }
+  /* Con foto e testo affiancati il badge sta sopra il testo: il titolo gli lascia spazio */
+  @media (min-width: 808px) { .top--breve .top-title { padding-right: 72px; } }
   .top-txt { flex: 999 1 420px; min-width: 0; padding: var(--spazio-riquadro); display: flex; flex-direction: column; gap: 24px; }
   .top-tag { align-self: flex-start; font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; background: var(--red); color: #fff; padding: 8px 16px; border-radius: 999px; }
   .top-title { font-size: var(--titolo-3); line-height: 0.92; }
   .top-title a { text-decoration: none; }
   .top-title a:hover { color: var(--red-dark); }
   .top-title span { color: var(--red); }
+  .top-riga { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; }
+  .top-luogo { flex: 1 1 200px; margin: 0; display: flex; align-items: center; gap: 8px; font-size: var(--testo-xl); line-height: 1.3; font-weight: 600; }
+  .top-luogo svg { flex: none; color: var(--red); }
   .top-dati { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; font-size: var(--testo-s); }
   .top-dati dt { font-size: var(--testo-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red-dark); }
   .top-dati dd { margin: 4px 0 0; font-weight: 600; }
   .top-desc :global(p) { margin: 0; max-width: 36em; font-size: var(--testo-l); line-height: 1.65; color: var(--on-cream); }
-  .top .btn-line { color: var(--ink); }
 </style>

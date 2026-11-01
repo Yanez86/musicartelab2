@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { sito } from '../data/sito';
+import { u } from '../lib/url';
+---
+<Base title="Pagina non trovata" description={`Questa pagina non esiste sul sito di ${sito.nome}.`}>
+  <div class="wrap page-head">
+    <h1 class="display display-xl">404<span class="dot">.</span></h1>
+    <p class="lead intro">Accordo sbagliato, mica esiste! Stavi cercando corsi trap?</p>
+    <div class="btn-row">
+      <a href={u()} class="btn btn-red">Torna alla home</a>
+      <a href={u('corsi/')} class="btn btn-line">Corsi</a>
+      <a href={u('attivita/')} class="btn btn-line">Attività</a>
+    </div>
+  </div>
+</Base>
